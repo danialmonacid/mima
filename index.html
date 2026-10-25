@@ -133,6 +133,9 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 .alerta{background:var(--rojo-bg);border-radius:28px;padding:16px 20px;display:flex;flex-direction:column;gap:8px}
 .grow{flex:1}
 .bottom{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:8px}
+#app.flow{padding-bottom:0}
+#app.flow .bottom{position:sticky;bottom:0;z-index:4;margin-inline:calc(-1 * max(20px,env(safe-area-inset-left,0px)));padding:12px max(20px,env(safe-area-inset-left,0px)) calc(16px + env(safe-area-inset-bottom,0px));background:var(--bg,#F9F7F4);border-top:1px solid transparent;transition:background-color .2s,box-shadow .2s,border-color .2s}
+#app.flow .bottom.flota{background:rgba(249,247,244,.78);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-top-color:rgba(31,31,31,.06);box-shadow:0 -8px 20px rgba(31,31,31,.05)}
 :focus-visible{outline:3px solid var(--lila-b);outline-offset:2px}
 @media (prefers-reduced-motion:no-preference){.toast{animation:sube .2s ease-out}@keyframes sube{from{transform:translate(-50%,12px);opacity:0}to{transform:translate(-50%,0);opacity:1}}}
 </style>
@@ -566,7 +569,10 @@ function render(){
   layer.innerHTML = hoja;
   renderToast();
   const f = app.querySelector("[autofocus]"); if(f) f.focus();
+  ajustarBottom();
 }
+function ajustarBottom(){ const b=document.querySelector("#app.flow .bottom"); if(!b) return; const fin = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; b.classList.toggle("flota", !fin); }
+window.addEventListener("scroll", ajustarBottom, {passive:true}); window.addEventListener("resize", ajustarBottom);
 
 /* ---------- acciones ---------- */
 const A = {};
