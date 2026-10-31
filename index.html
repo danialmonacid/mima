@@ -657,9 +657,9 @@ V.paso1 = () => { const D=S.draft; const tot = D.ingresos.reduce((s,i)=>s+i.valo
   <section style="background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:20px 22px;display:flex;flex-direction:column;gap:16px"><span class="num cifra">${money(tot)}</span>${D.ingresos.map((i,ix)=>{ const pe = i.variable && !i.verificado; return `<button class="row" data-act="p1valor" data-ix="${ix}" style="border-top:1.5px solid var(--line);padding-top:14px${pe?";background:var(--ver-bg);border-radius:16px;padding:12px 10px;border-top-color:transparent":""}">${pe?`<span class="sq" style="background:var(--ver-sq);color:var(--ver-i)">${ic("recibo")}</span>`:`<span class="sq">${ic("persona")}</span>`}<span class="mid"><span class="t">${esc(i.nombre)}</span>${pe?`<span class="s warn">Verifica cuánto te llegó</span>`:`<span class="s">${i.variable?"Todos los meses · el valor cambia":"Todos los meses"}</span>`}</span><span class="num v">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`; }).join("")}${D.extra.map(i=>`<div class="row" style="border-top:1.5px solid var(--line);padding-top:14px;cursor:default"><span class="sq">${ic("billete")}</span><span class="mid"><span class="t">${esc(i.nombre||"Otro ingreso")}</span><span class="s">Solo este mes</span></span><span class="num v">${money(i.valor)}</span></div>`).join("")}</section>
   <button class="link" data-act="p1extra" style="align-self:flex-start">${ic("mas",'style="stroke-width:2.4"')}Agregar otro ingreso</button>
   <div class="bottom">${pend.length?`<span class="small" style="text-align:center">Toca ${esc(pend[0].nombre)} para escribir cuánto te llegó este mes. El mes pasado fue ${money(pend[0].valor)}.</span>`:""}<button class="btn" data-act="p2" ${pend.length?"disabled":""}>Es correcto</button><button class="btn2" data-act="p1valor" data-ix="0">Cambiar el valor</button></div>`; };
-V.p1valor = () => `<div class="top">${backBtn()}</div><div><h1 class="h1">${esc(S.p.titulo)}</h1><span class="txt">${esc(S.p.sub||"")}</span></div><span class="q" style="margin-top:4px">${esc(S.p.pregunta)}</span>
+V.p1valor = () => `<div class="top">${backBtn()}</div><div><h1 class="h1">${esc(S.p.titulo)}</h1><span class="txt">${esc(S.p.sub||"")}</span></div>${S.p.tipo==="ingFijo"?`<div style="display:flex;flex-direction:column;gap:8px"><label for="ingNom" class="q">¿Cómo se llama?</label><input id="ingNom" class="inp" type="text" autocomplete="off" maxlength="30" value="${esc(S.p.nombreIng ?? S.p.titulo)}" placeholder="Ej.: Mi trabajo" data-field="nombreIng"></div>`:""}<span class="q" style="margin-top:4px">${esc(S.p.pregunta)}</span>
   <section class="valor"><span class="num cifra">${money(S.p.monto)}</span>${S.p.antes!=null?`<span class="num small">El mes pasado fue ${money(S.p.antes)}</span>`:""}</section>${S.p.tipo==="ingFijo"?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada mes?</span><div class="seg" role="radiogroup">${[[false,"No, es igual"],[true,"Sí, cambia"]].map(([v,t])=>`<button class="opt ${!!S.p.variable===v?"on":""}" role="radio" aria-checked="${!!S.p.variable===v}" data-act="ingVar" data-v="${v}"><span class="radio"></span>${t}</button>`).join("")}</div><span class="small">Si cambia, al empezar cada mes te pedimos que revises cuánto te llegó.</span></div>`:""}${teclado()}
-  <div class="bottom">${S.p.nota?`<span class="small" style="text-align:center">${esc(S.p.nota)}</span>`:""}<button class="btn" data-act="p1valorOk" ${S.p.monto>0||S.p.permitir0?"":"disabled"}>Guardar</button></div>`;
+  <div class="bottom">${S.p.nota?`<span class="small" style="text-align:center">${esc(S.p.nota)}</span>`:""}<button class="btn" data-act="p1valorOk" ${S.p.monto>0||S.p.permitir0?"":"disabled"}>Guardar</button>${S.p.tipo==="ingFijo"?`<button class="btn3 rojo" data-act="borrarIngFijo">Ya no recibo este ingreso</button>`:""}</div>`;
 V.paso2 = () => { const D=S.draft; const cs = cuentasCfg().map(c=>({...c, valor: D.cuentas[c.id].valor, toca:D.cuentas[c.id].toca})); const ap = c => c.cada===2?Math.round(c.valor/2):c.valor; const tot = cs.reduce((s,c)=>s+ap(c),0);
   return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn()}${pasos(2)}</div><h1 class="mes" style="margin-top:6px">Aparta para tus cuentas</h1>
   <section class="hero amb" style="gap:6px;padding:16px 22px"><span class="q">Pásala a tu bolsillo del banco</span><span class="num cifra">${money(tot)}</span><span style="font-size:16px;color:var(--amb-t)">Solo para facturas.</span></section>
@@ -727,7 +727,10 @@ function render(){
   if(!S.ok || S.cargar){ return; }
   if(S.mesKey && !S.mesListo){ return; }
   if(!S.mes){ app.className=""; app.innerHTML = `${HEADER}<div class="empty"><p class="q">Todavía no hay un mes cargado</p><p class="small">Daniela está preparando tus cuentas y bolsillos. Cuando estén listos, aquí vas a ver tus cuentas y tus bolsillos.</p></div>`; layer.innerHTML=""; return; }
-  const fixL = bs => (bs||[]).forEach(b=>{ if(b && b.otros) b.nombre="Libre"; }); fixL(S.mes.bolsillos); (S.meses||[]).forEach(m=>fixL(m.bolsillos)); if(S.draft) fixL(S.draft.bolsillos);
+  const needL = bs => (bs||[]).some(b=>b && b.otros && b.nombre!=="Libre"); const fixL = bs => (bs||[]).forEach(b=>{ if(b && b.otros) b.nombre="Libre"; });
+  if(needL(S.mes.bolsillos)){ S.mes = clone(S.mes); fixL(S.mes.bolsillos); }
+  if(S.meses && S.meses.some(m=>needL(m.bolsillos))) S.meses = S.meses.map(m=>{ if(!needL(m.bolsillos)) return m; const c = clone(m); fixL(c.bolsillos); return c; });
+  if(S.draft && needL(S.draft.bolsillos)){ S.draft.bolsillos = clone(S.draft.bolsillos); fixL(S.draft.bolsillos); }
   let v = S.view; let hoja = "";
   if(v==="menu"){ hoja = hojaMenu(); v = S.p.base||"inicio"; }
   if(v==="noAlcanza"){ hoja = hojaNoAlcanza(); v="gasto"; }
@@ -775,11 +778,12 @@ A.guardarGasto = () => { const p=S.p; const b=bolsillos().find(x=>x.id===p.bolsi
 };
 A.naOrigen = el => { S.p.origen = el.dataset.id; render(); };
 A.naConfirmar = () => { S.p.cubierto = S.p.origen; S.view="gasto"; A.guardarGasto(); };
-A.borrarGasto = () => { const id=S.p.editId; cambioMes(m=>{ m.gastos=(m.gastos||[]).filter(g=>g.id!==id); }, "Gasto borrado"); volver(); };
+A.borrarGasto = () => { const id=S.p.editId; volver(); cambioMes(m=>{ m.gastos=(m.gastos||[]).filter(g=>g.id!==id); }, "Gasto borrado"); };
 A.editarGasto = el => { const g=gastos().find(x=>x.id===el.dataset.id); ir("gasto",{bolsillo:g.bolsillo, monto:g.valor, nota:g.nota||"", editId:g.id}); };
 A.gastoEn = () => ir("gasto",{bolsillo:S.p.id, monto:0});
 A.ing2 = () => ir("ingreso2",{monto:S.p.monto, tipo:S.p.setup?"fijo":"una", quien:"", volverA:S.p.volverA});
 A.ingTipo = el => { S.p.tipo = el.dataset.v; render(); };
+A.borrarIngFijo = () => { const id=S.p.id; volver(); const prevC=clone(S.cfg), c=clone(S.cfg); const n=(c.ingresosFijos.find(x=>x.id===id)||{}).nombre||"el ingreso"; c.ingresosFijos=c.ingresosFijos.filter(x=>x.id!==id); S.cfg=c; render(); guardar([{path:"config/main",data:c,prev:prevC}], "Borraste "+n+". Lo de este mes no cambia."); };
 A.ingVar = el => { S.p.variable = el.dataset.v==="true"; render(); };
 A.guardarIngreso = async () => { const p=S.p; const nombre=(p.quien||"").trim();
   if(p.tipo==="fijo"){ const prevC=clone(S.cfg); const c=clone(S.cfg); c.ingresosFijos=[...(c.ingresosFijos||[]),{id:uid(),nombre:nombre||"Ingreso de cada mes",valor:p.monto, ...(p.variable?{variable:true}:{})}]; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}]); }
@@ -814,7 +818,8 @@ A.guardarCrear0 = () => crearB(0);
 A.guardarNombre = () => { const n=(S.p.nombre||"").trim(); if(!n) return; const id=S.p.renombrar; cambioMes(m=>{ const b=m.bolsillos.find(x=>x.id===id); b.nombre=n; b.icono=iconoPara(n); }, "Nombre cambiado"); volver(); };
 A.borrarB = () => { S.view="borrar"; render(); };
 A.confirmarBorrar = () => { const id=S.p.id; const b=bolsillos().find(x=>x.id===id); const g=gastado(id);
-  cambioMes(m=>{ const x=m.bolsillos.find(y=>y.id===id); if(g>0){ x.asignado=g; x.borrado=true; } else m.bolsillos=m.bolsillos.filter(y=>y.id!==id); }, "Borraste "+b.nombre+". Lo que quedaba pasó a tu plata libre."); S.stack=[]; S.view="bolsillos"; S.p={}; render(); };
+  S.stack=[]; S.view="bolsillos"; S.p={};
+  cambioMes(m=>{ const x=m.bolsillos.find(y=>y.id===id); if(g>0){ x.asignado=g; x.borrado=true; } else m.bolsillos=m.bolsillos.filter(y=>y.id!==id); }, "Borraste "+b.nombre+". Lo que quedaba pasó a tu plata libre."); };
 
 /* próximo mes */
 const enProximo = () => S.view==="proximo" || S.stack.some(x=>x.view==="proximo");
@@ -846,7 +851,7 @@ A.p1valorOk = () => { const p=S.p, D=S.draft;
   if(p.tipo==="bfijo"){ cambioBorr(b=>{ b.fijos[p.id]=p.monto; }, "Valor guardado para "+mesNombre(sigKey())); return volver(); }
   if(p.tipo==="bextra"){ cambioBorr(b=>{ b.extra.push({id:uid(), nombre:"Otro ingreso", valor:p.monto}); }, "Ingreso agregado a "+mesNombre(sigKey())); return volver(); }
   if(p.tipo==="bextraEdit"){ cambioBorr(b=>{ if(p.monto>0){ const i=b.extra.find(x=>x.id===p.id); if(i) i.valor=p.monto; } else b.extra=b.extra.filter(x=>x.id!==p.id); }, p.monto>0?"Valor guardado":"Ingreso quitado"); return volver(); }
-  if(p.tipo==="ing"){ D.ingresos[p.ix].valor=p.monto; D.ingresos[p.ix].verificado=true; } else if(p.tipo==="extra") D.extra.push({nombre:"Otro ingreso",valor:p.monto}); else if(p.tipo==="bol"){ const b=D.bolsillos.find(x=>x.id===p.id); if(b) b.asignado=p.monto; } else if(p.tipo==="cuenta"){ D.cuentas[p.id].valor=p.monto; D.cuentas[p.id].cambiada=true; } else if(p.tipo==="ingFijo"){ const prevC=clone(S.cfg), c=clone(S.cfg); const xi=c.ingresosFijos.find(x=>x.id===p.id); xi.valor=p.monto; if(p.variable) xi.variable=true; else delete xi.variable; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Valor guardado"); } volver(); };
+  if(p.tipo==="ing"){ D.ingresos[p.ix].valor=p.monto; D.ingresos[p.ix].verificado=true; } else if(p.tipo==="extra") D.extra.push({nombre:"Otro ingreso",valor:p.monto}); else if(p.tipo==="bol"){ const b=D.bolsillos.find(x=>x.id===p.id); if(b) b.asignado=p.monto; } else if(p.tipo==="cuenta"){ D.cuentas[p.id].valor=p.monto; D.cuentas[p.id].cambiada=true; } else if(p.tipo==="ingFijo"){ const prevC=clone(S.cfg), c=clone(S.cfg); const xi=c.ingresosFijos.find(x=>x.id===p.id); xi.valor=p.monto; if(p.variable) xi.variable=true; else delete xi.variable; const nn=String(p.nombreIng ?? "").trim(); if(nn) xi.nombre=nn; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Valor guardado"); } volver(); };
 A.p3valor = el => { const b=S.draft.bolsillos.find(x=>x.id===el.dataset.id); if(!b) return; ir("p1valor",{tipo:"bol",id:b.id,titulo:b.nombre,sub:"Solo para "+mesNombre(S.draft.mes),pregunta:"¿Cuánto le pones a este bolsillo?",monto:b.asignado}); };
 A.p2 = () => ir("paso2"); A.p3 = () => ir("paso3"); A.p3cambiar = () => ir("paso3cambiar");
 A.step = el => { const b=S.draft.bolsillos.find(x=>x.id===el.dataset.id); b.asignado=Math.max(0,b.asignado + (+el.dataset.d)*10000); render(); };
