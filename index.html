@@ -785,7 +785,7 @@ A.gastoEn = () => ir("gasto",{bolsillo:S.p.id, monto:0});
 A.ing2 = () => ir("ingreso2",{monto:S.p.monto, tipo:S.p.setup?"fijo":"una", quien:"", volverA:S.p.volverA});
 A.ingTipo = el => { S.p.tipo = el.dataset.v; render(); };
 const ingDelMes = (m, f) => (m.ingresos||[]).find(x=>x.fijoId===f.id) || (m.ingresos||[]).find(x=>x.fijo && !x.fijoId && x.nombre===f.nombre);
-const ingresosUna = () => (S.mes?.ingresos||[]).filter(i=>!i.fijo);
+const ingresosUna = () => { const fs=(S.cfg?.ingresosFijos||[]); return (S.mes?.ingresos||[]).filter(i=>!i.fijo || !fs.some(f=> i.fijoId ? i.fijoId===f.id : i.nombre===f.nombre)); };
 A.borrarIngFijo = () => { const id=S.p.id; volver(); const prevC=clone(S.cfg), c=clone(S.cfg); const f=c.ingresosFijos.find(x=>x.id===id)||{}; const n=f.nombre||"el ingreso"; c.ingresosFijos=c.ingresosFijos.filter(x=>x.id!==id);
   const prevM=clone(S.mes), m=clone(S.mes); const e=ingDelMes(m,f); if(e) m.ingresos=m.ingresos.filter(x=>x!==e);
   S.cfg=c; S.mes=m; render(); guardar([{path:"config/main",data:c,prev:prevC},{path:"meses/"+S.mesKey,data:m,prev:prevM}], "Borraste "+n); };
