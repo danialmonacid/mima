@@ -97,6 +97,20 @@ h1,h2,p{margin:0}
 .chip .pt{width:13px;height:13px}
 .chip.on{border:2.5px solid var(--ink);padding:9px 2px;font-weight:800}
 .valor{background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.resumen{display:flex;flex-direction:column;gap:6px;padding:2px 0;margin-top:6px}
+.r-lbl{font-size:16px;font-weight:700;color:var(--ink2)}
+.r-cifra{font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.5px}
+.r-bar{height:8px;border-radius:4px;background:#E9E4DE;overflow:hidden;margin-top:6px}
+.r-bar i{display:block;height:100%;border-radius:4px;background:var(--ink)}
+.r-filas{margin:8px 0 0;display:flex;flex-direction:column}
+.r-filas>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-top:1.5px solid #E9E4DE}
+.r-filas>div:last-child{border-bottom:1.5px solid #E9E4DE}
+.r-filas dt{font-size:16px;font-weight:500;color:var(--ink2)}
+.r-filas dd{margin:0;font-size:18px;font-weight:700;color:var(--ink);white-space:nowrap}
+.montoInp{display:block;width:100%;border:0;background:transparent;text-align:center;padding:0;margin:0;font-family:inherit;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none}
+.montoInp::placeholder{color:#C9C2BA}
+.valor:focus-within{border-color:var(--ink)!important}
+.montoInp:focus-visible{outline:none}
 .valor .cifra{font-size:44px;line-height:1.1}
 .keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .key{min-height:58px;border-radius:18px;border:1.5px solid var(--line);background:var(--card);font-size:28px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -484,8 +498,10 @@ V.cuentas = () => {
   const falta = cs.filter(c=>c.toca && !c.pagada).reduce((s,c)=>s+c.valor,0);
   const d = hoy();
   return `<div><h1 class="mes">Cuentas</h1><span class="sub">${cap(mesNombre(S.mesKey))} · hoy, ${DIAS[d.getDay()]} ${d.getDate()}</span></div>
+  <section class="resumen" aria-label="Resumen de cuentas"><span class="r-lbl">Te falta por pagar</span><span class="num r-cifra">${money(falta)}</span>
+    <div class="r-bar" aria-hidden="true"><i style="width:${total?Math.round(pagadas/total*100):0}%"></i></div>
+    <dl class="r-filas"><div><dt>Cuentas pagadas</dt><dd class="num">${pagadas} de ${total}</dd></div><div><dt>Total del mes</dt><dd class="num">${money(cs.filter(c=>c.toca).reduce((s,c)=>s+c.valor,0))}</dd></div></dl></section>
   ${ayuda("<b>Lo que pagas cada mes.</b> Cuando pagues una, toca <b>Marcar pagado</b>.", 1)}
-  <section class="hero amb"><span class="q">Te falta por pagar</span><span class="num cifra" style="font-size:34px">${money(falta)}</span><div class="bar" aria-hidden="true"><i style="width:${total?Math.round(pagadas/total*100):0}%"></i></div><span style="font-size:16px;font-weight:500;color:var(--amb-t)">Llevas ${pagadas} de ${total} cuentas pagadas</span></section>
   ${atender.length?`<div class="sec"><h2 class="h2">Para atender</h2><p class="nota">Rojo: ya venció. Amarillo: revisa el recibo.</p>${atender.map(c=>itemCuenta(c,true)).join("")}</div>`:""}
   ${prox.length?`<div class="sec"><h2 class="h2">Próximas</h2>${prox.map(c=>itemCuenta(c,true)).join("")}</div>`:""}
   ${pag.length?`<div class="sec"><h2 class="h2">Pagadas</h2>${pag.map(c=>itemCuenta(c,false)).join("")}</div>`:""}
@@ -493,7 +509,10 @@ V.cuentas = () => {
 };
 V.bolsillos = () => `<div><h1 class="mes">Bolsillos</h1><span class="sub">${cap(mesNombre(S.mesKey))} · hoy, ${DIAS[hoy().getDay()]} ${hoy().getDate()}</span></div>
   ${(()=>{ const sep = ordenados().filter(b=>!b.otros).reduce((s,b)=>s+asignado(b),0); const o = ordenados().find(b=>b.otros); const L = o ? quedan(o) : 0;
-    return `<section class="hero lila"><span class="q">Total separado para bolsillos</span><span class="num cifra" style="font-size:34px">${money(sep)}</span><span style="font-size:16px;font-weight:500;color:var(--lila-t)">Te queda libre <b class="num" style="font-weight:700;${L<0?"color:var(--rojo-t)":"color:var(--ink)"}">${money(L)}</b></span></section>`; })()}
+    const gas = ordenados().filter(b=>!b.otros).reduce((s,b)=>s+gastado(b.id),0);
+    return `<section class="resumen" aria-label="Resumen de bolsillos"><span class="r-lbl">Total separado para bolsillos</span><span class="num r-cifra">${money(sep)}</span>
+    <div class="r-bar" aria-hidden="true"><i style="width:${sep>0?Math.max(0,Math.min(100,Math.round(gas/sep*100))):0}%"></i></div>
+    <dl class="r-filas"><div><dt>Ya gastaste de tus bolsillos</dt><dd class="num">${money(gas)}</dd></div><div><dt>Te queda libre</dt><dd class="num" ${L<0?'style="color:var(--rojo-t)"':""}>${money(L)}</dd></div></dl></section>`; })()}
   ${ayuda("<b>Plata separada para cada cosa.</b> Cada gasto se resta de su bolsillo.", 2)}
   <div class="sec">${ordenados().map(liBolsillo).join("")}</div>
   <button class="btn2" data-act="crear">${ic("mas",'style="stroke-width:2.4"')}Crear bolsillo</button>
@@ -568,8 +587,8 @@ V.gasto = () => { const p=S.p; const bs=ordenados(); const b = bs.find(x=>x.id==
   <div style="display:flex;flex-direction:column;gap:6px"><span class="q">¿De qué bolsillo?</span><p class="nota" style="margin-top:0">Se resta de lo que separaste ahí. Si no tiene bolsillo, usa Libre.</p></div>
   <div class="chips" role="group" aria-label="Bolsillos">${bs.map(x=>{const e=estadoB(x);return `<button class="chip ${x.id===p.bolsillo?"on":""}" aria-pressed="${x.id===p.bolsillo}" data-act="chipB" data-id="${x.id}">${sqB(x,"",!!e)}<span>${esc(x.nombre)}</span></button>`}).join("")}</div>
   ${b?`<div style="display:flex;flex-direction:column;gap:8px"><label for="nota" class="q">¿En qué fue? <span style="font-weight:500;color:var(--ink2)">(opcional)</span></label><input id="nota" class="inp" type="text" autocomplete="off" placeholder="${ideasGasto(b).length?"Toca una idea o escríbelo aquí":"Escríbelo aquí"}" value="${esc(p.nota||"")}" data-field="nota">${ideasGasto(b).length?`<div class="sugs">${ideasGasto(b).map(s=>`<button class="sug" data-act="sug" data-v="${s}">${s}</button>`).join("")}</div>`:""}</div>`:""}
-  <section class="valor" style="border:1.5px solid var(--line)"><span style="font-size:15px;font-weight:600;color:var(--ink2)">${edit?"¿Cuánto fue?":"¿Cuánto gastaste?"}</span><span class="num cifra">${money(p.monto||0)}</span>${b?`<span class="num small">${edit&&ant?`Antes decía ${money(ant.valor)} · `:""}Te quedarán <b style="color:var(--ink)">${money(q-(p.monto||0))}</b> en ${esc(b.nombre)}</span>`:`<span class="small">Primero escoge el bolsillo</span>`}</section>
-  ${teclado()}
+  <section class="valor" style="border:1.5px solid var(--line)"><span style="font-size:15px;font-weight:600;color:var(--ink2)">${edit?"¿Cuánto fue?":"¿Cuánto gastaste?"}</span><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor">${b?`<span class="num small">${edit&&ant?`Antes decía ${money(ant.valor)} · `:""}Te quedarán <b style="color:var(--ink)">${money(q-(p.monto||0))}</b> en ${esc(b.nombre)}</span>`:`<span class="small">Primero escoge el bolsillo</span>`}</section>
+  
   <div class="bottom"><button class="btn" data-act="guardarGasto" ${!b||!(p.monto>0)?"disabled":""}>${edit?"Guardar":"Agregar"}</button>${edit?`<button class="btn3 rojo" data-act="borrarGasto">Borrar este gasto</button>`:""}</div>`; };
 function hojaNoAlcanza(){ const p=S.p; const b=bolsillos().find(x=>x.id===p.bolsillo); const falta=p.falta; const opciones = ordenados().filter(x=>x.id!==b.id && quedan(x)>=falta).sort((a,c)=>(c.otros?1:0)-(a.otros?1:0)||quedan(c)-quedan(a)); const ah=(S.ahorro?.saldo||0)>=falta; if(p.origen==null) p.origen = opciones[0]?.id || (ah?"ahorro":null);
   const nom = p.origen==="ahorro"?"tu Ahorro":esc(bolsillos().find(x=>x.id===p.origen)?.nombre||"");
@@ -581,7 +600,7 @@ function hojaNoAlcanza(){ const p=S.p; const b=bolsillos().find(x=>x.id===p.bols
 
 /* ingreso */
 V.ingreso1 = () => `<div class="top"><h1 class="h1">Agregar ingreso</h1>${cancelar()}</div><span class="q" style="margin-top:4px">¿Cuánto recibiste?</span>
-  <section class="valor"><span class="num cifra">${money(S.p.monto||0)}</span><span class="small">Se suma a tu plata libre</span></section>${teclado()}
+  <section class="valor"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"><span class="small">Se suma a tu plata libre</span></section>
   <div class="bottom"><button class="btn" data-act="ing2" ${S.p.monto>0?"":"disabled"}>Siguiente${ic("sig",'style="stroke-width:2.4"')}</button></div>`;
 V.ingreso2 = () => { const p=S.p; return `<div class="top">${backBtn()}${cancelar("cancelarFlujo")}</div>
   <div><span class="txt">Recibiste</span><div class="num mes">${money(p.monto)}</div></div>
@@ -596,8 +615,8 @@ V.valorCuenta = () => { const c = cuentaMes(cuentasCfg().find(x=>x.id===S.p.id))
   return `<div class="top">${backBtn()}</div>
   ${k==="verificar"?`<section style="background:var(--ver-bg);border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px"><span class="sq" style="background:var(--ver-sq);color:var(--ver-i)">${ic(iconoCuenta(c.nombre))}</span><span class="mid"><span class="h2">${esc(c.nombre)}</span><span class="s warn">Verifica el recibo · se paga el día ${c.dia}</span></span></section>`:`<div><h1 class="h1">${esc(c.nombre)}</h1><span class="txt">Se paga el día ${c.dia}</span></div>`}
   <span class="q" style="margin-top:4px">¿Cuánto llegó el recibo?</span>
-  <section class="valor"><span class="num cifra">${money(S.p.monto)}</span><span class="num small">${S.p.monto===c.valor?"Es el valor del mes pasado":"El mes pasado fue "+money(c.valor)}</span></section>
-  ${teclado()}
+  <section class="valor"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"><span class="num small">${S.p.monto===c.valor?"Es el valor del mes pasado":"El mes pasado fue "+money(c.valor)}</span></section>
+  
   <div class="bottom"><span class="small" style="text-align:center">El próximo mes te sugerimos este mismo valor.</span><button class="btn" data-act="guardarValorCuenta" ${S.p.monto>0?"":"disabled"}>Guardar</button>
   ${!c.pagada && c.toca?`<button class="btn3" data-act="pagarDesdeValor">Guardar y marcar pagado</button>`:""}</div>`; };
 
@@ -619,9 +638,9 @@ V.pasar = () => { const p=S.p; const d=bolsillos().find(x=>x.id===p.destino); if
   const o = p.origen==="ahorro"?{nombre:"Ahorro",ahorro:true}:bolsillos().find(x=>x.id===p.origen); const disp = o? (o.ahorro?(S.ahorro?.saldo||0):quedan(o)) : 0; const m=p.monto||0;
   return `<div class="top">${backBtn()}${cancelar()}</div><h1 class="h1">Pasar plata a ${esc(d.nombre)}</h1>
   <div style="display:flex;flex-direction:column;gap:8px"><span class="q">Sale de</span>${o?`<button class="item" data-act="escogerOrigen" style="min-height:64px">${o.ahorro?sqAhorro("s"):sqB(o,"s")}<span class="mid"><span class="t" style="font-size:17px">${esc(o.nombre)}</span><span class="num s">${o.ahorro?"Tienes":"Quedan"} ${money(disp)}</span></span><span style="font-size:16px;font-weight:600;text-decoration:underline;text-underline-offset:3px">Cambiar</span></button>`:`<div class="empty"><p class="small">Ningún bolsillo tiene plata para pasar.</p></div>`}</div>
-  <section class="valor" style="gap:12px"><div><span style="font-size:15px;font-weight:600;color:var(--ink2)">¿Cuánto pasas?</span><div class="num cifra">${money(m)}</div></div>${o?`<div style="display:flex;flex-direction:column;gap:8px;border-top:1.5px solid var(--line);padding-top:12px;width:100%;text-align:left">${[[o, disp-m],[d, quedan(d)+m]].map(([x,v])=>`<span style="display:flex;align-items:center;gap:10px;font-size:16px">${x.ahorro?sqAhorro("xs"):sqB(x,"xs")}<span class="grow">${esc(x.nombre)} quedará con</span><b class="num" style="font-weight:600;${v<0?"color:var(--rojo-t)":""}">${money(v)}</b></span>`).join("")}</div>`:""}</section>
+  <section class="valor" style="gap:12px"><div><span style="font-size:15px;font-weight:600;color:var(--ink2)">¿Cuánto pasas?</span><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"></div>${o?`<div style="display:flex;flex-direction:column;gap:8px;border-top:1.5px solid var(--line);padding-top:12px;width:100%;text-align:left">${[[o, disp-m],[d, quedan(d)+m]].map(([x,v])=>`<span style="display:flex;align-items:center;gap:10px;font-size:16px">${x.ahorro?sqAhorro("xs"):sqB(x,"xs")}<span class="grow">${esc(x.nombre)} quedará con</span><b class="num" style="font-weight:600;${v<0?"color:var(--rojo-t)":""}">${money(v)}</b></span>`).join("")}</div>`:""}</section>
   ${m>disp&&o?`<p class="small" style="color:var(--rojo-t);font-weight:600;text-align:center">${esc(o.nombre)} solo tiene ${money(disp)}.</p>`:""}
-  ${teclado()}<div class="bottom"><button class="btn" data-act="confirmarPasar" ${o&&m>0&&m<=disp?"":"disabled"}>Pasar la plata</button></div>`; };
+  <div class="bottom"><button class="btn" data-act="confirmarPasar" ${o&&m>0&&m<=disp?"":"disabled"}>Pasar la plata</button></div>`; };
 V.pasarOrigen = () => { const p=S.p; return `<div class="top">${backBtn()}${cancelar()}</div><h1 class="h1">¿De dónde sacas la plata?</h1>
   <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${origenes(p.destino).map(x=>{const q=quedan(x);return `<button class="opt ${p.origen===x.id?"on":""}" role="radio" aria-checked="${p.origen===x.id}" data-act="setOrigen" data-id="${x.id}" ${q>0?"":"disabled"}><span class="radio"></span>${sqB(x,"s")}<span class="grow">${esc(x.nombre)}</span><span class="rt"><span class="l">${q>0?"Quedan":"No tiene"}</span><span class="num" style="font-size:18px;font-weight:600">${money(Math.max(0,q))}</span></span></button>`}).join("")}
   <button class="opt ${p.origen==="ahorro"?"on":""}" role="radio" aria-checked="${p.origen==="ahorro"}" data-act="setOrigen" data-id="ahorro" ${(S.ahorro?.saldo||0)>0?"":"disabled"}><span class="radio"></span>${sqAhorro("s")}<span class="grow">Ahorro</span><span class="rt"><span class="l">Tienes</span><span class="num" style="font-size:18px;font-weight:600">${money(S.ahorro?.saldo||0)}</span></span></button></div>
@@ -640,8 +659,8 @@ const nextColor = () => { const usados = bolsillos().filter(b=>!b.otros&&!b.borr
 V.crear2 = () => { const p=S.p; const otros = bolsillos().find(b=>b.otros); const disp = otros?quedan(otros):0; const m=p.monto||0; const prev={nombre:p.nombre,icono:iconoPara(p.nombre),color:p.color};
   return `<div class="top">${backBtn()}${cancelar("cancelarFlujo")}</div><div style="display:flex;align-items:center;gap:12px">${sqB(prev)}<h1 class="h1">${esc(p.nombre)}</h1></div>
   <div style="display:flex;flex-direction:column;gap:4px;margin-top:4px"><span class="q">¿Cuánta plata le pones este mes?</span><p class="nota" style="margin-top:0">Tienes <b class="num" style="color:var(--ink)">${money(disp)}</b> libres.</p></div>
-  <section class="valor" style="border:1.5px solid var(--line)"><span class="num cifra">${money(m)}</span><span class="small">${m<=disp?`Esta plata sale de tu plata libre. Te quedarán <b class="num" style="color:var(--ink)">${money(disp-m)}</b> libres.`:`Solo tienes ${money(disp)} libres. Ponle menos, o después pásale plata de otro bolsillo.`}</span></section>
-  ${teclado()}<div class="bottom"><button class="btn" data-act="guardarCrear" ${m<=disp?"":"disabled"}>Crear bolsillo</button><button class="btn3" data-act="guardarCrear0">Dejar en $0 por ahora</button></div>`; };
+  <section class="valor" style="border:1.5px solid var(--line)"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"><span class="small">${m<=disp?`Esta plata sale de tu plata libre. Te quedarán <b class="num" style="color:var(--ink)">${money(disp-m)}</b> libres.`:`Solo tienes ${money(disp)} libres. Ponle menos, o después pásale plata de otro bolsillo.`}</span></section>
+  <div class="bottom"><button class="btn" data-act="guardarCrear" ${m<=disp?"":"disabled"}>Crear bolsillo</button><button class="btn3" data-act="guardarCrear0">Dejar en $0 por ahora</button></div>`; };
 
 /* cierre e inicio de mes */
 function resumenMes(){ const sob = totalQuedan(); return { recibido: recibido(), sobrante: sob }; }
@@ -658,7 +677,7 @@ V.paso1 = () => { const D=S.draft; const tot = D.ingresos.reduce((s,i)=>s+i.valo
   <button class="link" data-act="p1extra" style="align-self:flex-start">${ic("mas",'style="stroke-width:2.4"')}Agregar otro ingreso</button>
   <div class="bottom">${pend.length?`<span class="small" style="text-align:center">Toca ${esc(pend[0].nombre)} para escribir cuánto te llegó este mes. El mes pasado fue ${money(pend[0].valor)}.</span>`:""}<button class="btn" data-act="p2" ${pend.length?"disabled":""}>Es correcto</button><button class="btn2" data-act="p1valor" data-ix="0">Cambiar el valor</button></div>`; };
 V.p1valor = () => `<div class="top">${backBtn()}</div><div><h1 class="h1">${esc(S.p.titulo)}</h1><span class="txt">${esc(S.p.sub||"")}</span></div>${S.p.tipo==="ingFijo"||S.p.tipo==="ingUna"?`<div style="display:flex;flex-direction:column;gap:8px"><label for="ingNom" class="q">¿Cómo se llama?</label><input id="ingNom" class="inp" type="text" autocomplete="off" maxlength="30" value="${esc(S.p.nombreIng ?? S.p.titulo)}" placeholder="Ej.: Mi trabajo" data-field="nombreIng"></div>`:""}<span class="q" style="margin-top:4px">${esc(S.p.pregunta)}</span>
-  <section class="valor"><span class="num cifra">${money(S.p.monto)}</span>${S.p.antes!=null?`<span class="num small">El mes pasado fue ${money(S.p.antes)}</span>`:""}</section>${S.p.tipo==="ingFijo"?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada mes?</span><div class="seg" role="radiogroup">${[[false,"No, es igual"],[true,"Sí, cambia"]].map(([v,t])=>`<button class="opt ${!!S.p.variable===v?"on":""}" role="radio" aria-checked="${!!S.p.variable===v}" data-act="ingVar" data-v="${v}"><span class="radio"></span>${t}</button>`).join("")}</div><span class="small">Si cambia, al empezar cada mes te pedimos que revises cuánto te llegó.</span></div>`:""}${teclado()}
+  <section class="valor"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" autofocus value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor">${S.p.antes!=null?`<span class="num small">El mes pasado fue ${money(S.p.antes)}</span>`:""}</section>${S.p.tipo==="ingFijo"?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada mes?</span><div class="seg" role="radiogroup">${[[false,"No, es igual"],[true,"Sí, cambia"]].map(([v,t])=>`<button class="opt ${!!S.p.variable===v?"on":""}" role="radio" aria-checked="${!!S.p.variable===v}" data-act="ingVar" data-v="${v}"><span class="radio"></span>${t}</button>`).join("")}</div><span class="small">Si cambia, al empezar cada mes te pedimos que revises cuánto te llegó.</span></div>`:""}
   <div class="bottom">${S.p.nota?`<span class="small" style="text-align:center">${esc(S.p.nota)}</span>`:""}<button class="btn" data-act="p1valorOk" ${S.p.monto>0||S.p.permitir0?"":"disabled"}>Guardar</button>${S.p.tipo==="ingFijo"?`<button class="btn3 rojo" data-act="borrarIngFijo">Ya no recibo este ingreso</button>`:S.p.tipo==="ingUna"?`<button class="btn3 rojo" data-act="borrarIngUna">Borrar este ingreso</button>`:""}</div>`;
 V.paso2 = () => { const D=S.draft; const cs = cuentasCfg().map(c=>({...c, valor: D.cuentas[c.id].valor, toca:D.cuentas[c.id].toca})); const ap = c => c.cada===2?Math.round(c.valor/2):c.valor; const tot = cs.reduce((s,c)=>s+ap(c),0);
   return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn()}${pasos(2)}</div><h1 class="mes" style="margin-top:6px">Aparta para tus cuentas</h1>
@@ -723,6 +742,18 @@ V.mes = () => { const m = (S.meses||[]).find(x=>x.key===S.p.id); if(!m) return V
 const IDEAS_GASTO = { mercado:["Mercado de la semana","Tienda","Plaza"], gasolina:["Tanqueada"], transporte:["Bus","Taxi"], gustos:["Un antojo","Un café"], drogueria:["Medicamento"], salidas:["Almuerzo","Cine"], regalos:["Un regalo"], peluqueria:["Corte de pelo","Uñas"], mascotas:["Comida","Veterinario"], ropa:["Ropa","Zapatos"] };
 const ideasGasto = b => b.otros ? ["Un regalo","Una salida","Medicamento"] : (IDEAS_GASTO[b.icono||iconoPara(b.nombre)] || []);
 /* ---------- render ---------- */
+/* ---------- actualizar sin cerrar el teclado ---------- */
+function morph(a,b){
+  if(a.nodeType!==b.nodeType || a.nodeName!==b.nodeName){ a.replaceWith(b); return; }
+  if(a.nodeType===3){ if(a.nodeValue!==b.nodeValue) a.nodeValue=b.nodeValue; return; }
+  if(a.nodeType!==1 || a===document.activeElement) return;
+  for(const at of [...a.attributes]) if(!b.hasAttribute(at.name)) a.removeAttribute(at.name);
+  for(const at of [...b.attributes]) if(a.getAttribute(at.name)!==at.value) a.setAttribute(at.name, at.value);
+  morphKids(a,b);
+}
+function morphKids(a,b){ const ac=[...a.childNodes], bc=[...b.childNodes];
+  bc.forEach((n,i)=>{ if(i<ac.length) morph(ac[i],n); else a.appendChild(n); });
+  for(let i=bc.length;i<ac.length;i++) ac[i].remove(); }
 function render(){
   const app = $("#app"), layer = $("#layer");
   if(!S.ok || S.cargar){ return; }
@@ -739,10 +770,12 @@ function render(){
   if(v==="inicio" && necesitaCierre()) v = "cierre";
   const fn = V[v] || V.inicio;
   app.className = (TABS.includes(v)) ? "" : "flow";
-  app.innerHTML = fn();
+  const act = document.activeElement; const html = fn();
+  if(act && act.tagName==="INPUT" && app.contains(act) && app.dataset.v===v){ const t=document.createElement("div"); t.innerHTML=html; morphKids(app,t); }
+  else { app.innerHTML = html; const f = app.querySelector("[autofocus]"); if(f) f.focus(); }
+  app.dataset.v = v;
   layer.innerHTML = hoja;
   renderToast();
-  const f = app.querySelector("[autofocus]"); if(f) f.focus();
   ajustarBottom();
 }
 function ajustarBottom(){ const b=document.querySelector("#app.flow .bottom"); if(!b) return; const fin = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; b.classList.toggle("flota", !fin); }
@@ -908,8 +941,9 @@ document.addEventListener("click", e => {
   const f = A[el.dataset.act]; if(f) f(el);
 });
 document.addEventListener("input", e => { const el=e.target; const k=el.dataset.field; if(!k) return; let v=el.value;
-  if(el.hasAttribute("data-money")){ const n=+(v.replace(/\D/g,"")||0); v=n; el.value = n?money(n):""; }
+  if(el.hasAttribute("data-money")){ const n=+(v.replace(/\D/g,"").slice(0,10)||0); v=n; el.value = n?money(n):""; }
   if(k.startsWith("f.")) S.p.f[k.slice(2)] = v; else S.p[k]=v;
+  if(k==="monto") render();
   if(k==="nombre"){ const pn=$("#prevN"); if(pn) pn.textContent = v.trim()||"Tu bolsillo"; const pb=$("#prevB .sq"); if(pb){ const ico=iconoPara(v); pb.innerHTML=ic(ico); } const bt=$("#btnNombre"); if(bt) bt.disabled=!v.trim(); document.querySelectorAll('.chip[data-act="idea"]').forEach(c=>{ const on=c.dataset.v===v; c.classList.toggle("on",on); c.setAttribute("aria-pressed",on); }); }
 });
 
