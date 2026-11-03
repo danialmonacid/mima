@@ -227,7 +227,7 @@ const wrap = s => ({ id:s.id, exists:s.exists(), data:()=>s.data() });
 const FDB = {
   doc: p => ({
     get: async () => wrap(await getDoc(fsDoc(fs,p))),
-    set: d => setDoc(fsDoc(fs,p), d),
+    set: d => setDoc(fsDoc(fs,p), JSON.parse(JSON.stringify(d))),
     delete: () => deleteDoc(fsDoc(fs,p)),
     onSnapshot: (ok, err) => fsSnap(fsDoc(fs,p), s=>ok(wrap(s)), err)
   }),
@@ -847,7 +847,7 @@ A.bExtraEdit = el => { const i=(borr()?.extra||[]).find(x=>x.id===el.dataset.id)
 /* inicio de mes */
 A.empezarMes = () => { const sig=mesSig(S.mesKey); const prevVals={}; const B = (S.borr && S.borr.mes===sig) ? S.borr : null;
   const cuentas={}; cuentasCfg().forEach(c=>{ const st=(S.mes.cuentas||{})[c.id]||{}; const bc=((B||{}).cuentas||{})[c.id]||{}; cuentas[c.id]={valor: bc.valor ?? c.valor, toca: c.cada===2 ? !st.toca : true, cambiada: !!bc.cambiada, ...(bc.pagada?{pagada:true, fechaPago:bc.fechaPago||null}:{})}; });
-  const bols = bolsillos().filter(b=>!b.borrado).map(b=>({id:b.id,nombre:b.nombre,icono:b.icono,color:b.color,otros:!!b.otros,asignado:b.otros?0:(+b.asignado||0)}));
+  const bols = bolsillos().filter(b=>!b.borrado).map(b=>({id:b.id,nombre:b.nombre,...(b.icono!=null?{icono:b.icono}:{}),...(b.color!=null?{color:b.color}:{}),otros:!!b.otros,asignado:b.otros?0:(+b.asignado||0)}));
   S.draft = { mes:sig, ingresos:(S.cfg.ingresosFijos||[]).map(i=>{ const bv = ((B||{}).fijos||{})[i.id]; return {...i, valor: bv ?? i.valor, verificado: !i.variable || bv!=null}; }), extra:((B||{}).extra||[]).map(i=>({nombre:i.nombre, valor:i.valor})), cuentas, bolsillos:bols };
   ir("paso1"); };
 A.p1valor = el => { const ix=+(el.dataset.ix||0); const i=S.draft.ingresos[ix]; if(!i) return; ir("p1valor",{tipo:"ing",ix, titulo:i.nombre, sub:i.variable?"El valor cambia cada mes":"Todos los meses", pregunta:"¿Cuánto recibiste este mes?", monto:i.valor, antes:i.valor}); };
