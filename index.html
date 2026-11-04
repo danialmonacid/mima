@@ -33,7 +33,7 @@ button,input{font-family:inherit;color:inherit}
 a{color:var(--ink)}
 .num{font-variant-numeric:tabular-nums}
 .ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-#app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:16px calc(190px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
+#app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:16px calc(120px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
 #app.flow{padding-bottom:28px;min-height:100vh}
 h1,h2,p{margin:0}
 .mes{font-size:34px;font-weight:800;line-height:1.1;text-wrap:balance}
@@ -54,8 +54,8 @@ h1,h2,p{margin:0}
 .hero.lila{background:var(--lila);border-color:var(--lila-b)}
 .hero.amb{background:var(--amb);border-color:var(--amb-b)}
 .bar{height:12px;border-radius:6px;background:rgba(255,255,255,.85);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:6px;background:var(--ink)}
-.bar.gris{background:var(--line)}
+.bar i{display:block;height:100%;border-radius:6px;background:var(--barra)}
+.bar.gris{background:#E6E0F5}
 .sec{display:flex;flex-direction:column;gap:10px}
 .item{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:10px 14px;min-height:72px;text-align:left;width:100%;cursor:pointer;text-decoration:none;color:var(--ink)}
 .sq{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none;position:relative;background:var(--neutro)}
@@ -96,12 +96,12 @@ h1,h2,p{margin:0}
 .chip .sq{width:40px;height:40px;border-radius:12px}.chip .sq .ic{width:22px;height:22px}
 .chip .pt{width:13px;height:13px}
 .chip.on{border:2.5px solid var(--ink);padding:9px 2px;font-weight:800}
-.valor{background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.valor{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
 .resumen{display:flex;flex-direction:column;gap:6px;padding:2px 0;margin-top:6px}
 .r-lbl{font-size:16px;font-weight:700;color:var(--ink2)}
 .r-cifra{font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.5px}
-.r-bar{height:8px;border-radius:4px;background:#E9E4DE;overflow:hidden;margin-top:6px}
-.r-bar i{display:block;height:100%;border-radius:4px;background:var(--ink)}
+.r-bar{height:8px;border-radius:4px;background:#E6E0F5;overflow:hidden;margin-top:6px}
+.r-bar i{display:block;height:100%;border-radius:4px;background:var(--barra)}
 .r-filas{margin:8px 0 0;display:flex;flex-direction:column}
 .r-filas>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-top:1.5px solid #E9E4DE}
 .r-filas>div:last-child{border-bottom:1.5px solid #E9E4DE}
@@ -124,13 +124,15 @@ h1,h2,p{margin:0}
 .seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .seg .opt{min-height:56px}
 .inp{min-height:56px;border-radius:16px;border:1.5px solid #CFC8C0;background:var(--card);padding:0 16px;font-size:18px;font-weight:500;width:100%}
+/* iPhone hace zoom (y la pantalla salta) al tocar un campo con letra de menos de 16px. Con el tamaño de texto reducido, 18px quedaba en 15.8px. */
+.inp{font-size:max(18px, calc(16.5px / var(--z,1)))}
 .inp:focus{outline:none;border:2px solid var(--ink)}
 .sug{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid #E6E1DB;background:var(--card);font-size:15px;font-weight:500;cursor:pointer}
 .sugs{display:flex;flex-wrap:wrap;gap:8px}
 .st{width:44px;height:44px;border-radius:50%;border:1.5px solid #DCD6CF;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer}
 .st .ic{stroke-width:2.4}
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.steps i{display:block;height:8px;border-radius:4px;background:#E6E1DB}.steps i.on{background:var(--lila-b)}
+.steps i{display:block;height:8px;border-radius:4px;background:#E6E1DB}.steps i.on{background:var(--barra)}
 .fab{position:fixed;right:max(20px,calc(50% - 220px));bottom:calc(102px + env(safe-area-inset-bottom,0px));height:56px;padding:0 22px 0 18px;border-radius:28px;background:var(--ink);color:#fff;display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;border:0;box-shadow:0 8px 20px rgba(31,31,31,.25);cursor:pointer;z-index:5}
 nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc(100% - 28px));bottom:calc(14px + env(safe-area-inset-bottom,0px));height:76px;background:#fff;border-radius:38px;box-shadow:var(--sombra);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:6px;z-index:6}
 .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:14px;font-weight:800;color:var(--ink3);border-radius:33px;border:0;background:none;cursor:pointer;position:relative}
@@ -171,8 +173,82 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 :root{--amb:#D9E8F6;--amb-b:#7AA6D1;--amb-t:#1D4466}
 .preview{background:#1F1F1F;color:#fff;text-align:center;font-size:14px;font-weight:700;padding:8px 16px}
 .topder{display:flex;align-items:center;gap:10px}
-.btnAyuda{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px 0 10px;border-radius:22px;border:1.5px solid var(--line);background:var(--card);font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;white-space:nowrap}
-.btnAyuda .ic{width:22px;height:22px;color:var(--ahorro-i)}
+.btnAyuda{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border-radius:20px;border:1.5px solid #F2C879;background:#FBE3B5;font-size:15px;font-weight:800;color:#B45309;cursor:pointer;white-space:nowrap;flex:none}
+.btnAyuda .ic{width:22px;height:22px;color:#B45309;stroke-width:2.4}
+.titulo{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.campo{display:flex;flex-direction:column;gap:8px}
+.campo .opc{font-weight:500;color:var(--ink2)}
+.sug.on{border:2.5px solid var(--ink);font-weight:800}
+.valor .small b{color:var(--ink);font-weight:700}
+.btnGasto{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:26px;border:2px solid var(--ink);background:var(--card);font-size:17px;font-weight:700;color:var(--ink);width:100%;cursor:pointer;padding:0 18px}
+.btnGasto .ic{width:22px;height:22px;stroke-width:2.6}
+.recuerda{font-size:14px;font-weight:500;font-style:italic;color:var(--ink3);line-height:1.35;margin-top:-6px}
+.recuerda b{font-weight:700;color:var(--ink2);letter-spacing:.2px}
+:root{--morado:#7B5BD6;--barra:#5B3FB5}
+#app,#app.flow{min-height:calc(100vh / var(--z,1))}
+.r-lbl b{color:var(--ink);font-weight:800}
+.logoBtn{background:none;border:0;padding:0;margin:0;cursor:pointer;display:flex;align-items:center;min-height:44px}
+.navbar{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc(100% - 28px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px;z-index:6}
+.navbar nav.tabs{position:static;transform:none;width:auto;flex:1;min-width:0;left:auto;bottom:auto}
+.navbar .tab{font-size:13px;letter-spacing:-.1px}
+.navbar .tab.on{background:var(--neutro);color:var(--morado)}
+.navbar .tab.on .ic{stroke-width:2.4}
+.fabNav{flex:none;width:76px;height:76px;border-radius:50%;border:0;background:var(--morado);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(123,91,214,.35)}
+.fabNav .ic{width:28px;height:28px;stroke-width:2.6}
+.cab{justify-content:flex-start;gap:12px}
+.cerrar{width:48px;height:48px;border-radius:50%;border:0;background:var(--neutro);color:var(--ink);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer}
+.cerrar .ic{width:24px;height:24px;stroke-width:2.4}
+.cab .h1{flex:1;min-width:0}
+.hero .bar{height:10px;background:rgba(255,255,255,.8)}
+.hero .bar i{background:var(--barra)}
+.hero .usado{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:600;color:var(--lila-t);margin-bottom:-2px}
+.hero .usado b{font-weight:800;color:#3A2A6E}
+.hero .libreFila{display:flex;align-items:baseline;justify-content:space-between;gap:12px;background:rgba(255,255,255,.7);border-radius:16px;padding:10px 14px}
+.hero .libreFila span{font-size:17px;font-weight:700;color:var(--lila-t)}
+.hero .libreFila b{font-size:24px;font-weight:800}
+/* guía gráfica */
+.gfrase{font-size:21px;font-weight:600;line-height:1.3;color:var(--ink)}
+.gfrase b{font-weight:800}
+.ilus{position:relative;background:#EFE9FC;border-radius:28px;padding:30px 16px 18px;margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ilus .div{font-size:14px;font-weight:700;color:var(--lila-t)}
+.ilus .monedas{display:flex;justify-content:space-around;gap:8px;width:100%}
+.ilus .etq{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--morado);color:#fff;border-radius:14px;padding:5px 14px;font-size:14px;font-weight:800;letter-spacing:.6px;white-space:nowrap}
+.moneda{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--lila-t)}
+.moneda i{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 4px 12px rgba(91,63,181,.15);font-style:normal}
+.moneda .ic{width:30px;height:30px}
+.gpasos3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
+.gpasos3 div{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:15px;font-weight:600;line-height:1.25;color:var(--ink2)}
+.gpasos3 i{position:relative;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--neutro);color:var(--ink);font-style:normal}
+.gpasos3 i .ic{width:26px;height:26px;stroke-width:2.4}
+.gpasos3 i small{position:absolute;top:-4px;left:-4px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.gpasos3 b{color:var(--ink);font-weight:800}
+.gpasos3 i.mor{background:var(--morado);color:#fff}
+.aviso{align-items:center;text-align:center;gap:14px;padding-top:14px}
+.aviso .logoBanco{width:72px;height:72px;margin-top:6px}
+.aviso .txt{font-size:18px;max-width:30ch}
+.aviso .txt b{color:var(--ink);font-weight:800}
+.ilus2{display:flex;flex-direction:column;align-items:stretch;gap:0;margin-top:6px}
+.ilus2 .zona{border-radius:24px;padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.ilus2 .zona .lbl2{font-size:13px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3)}
+.ilus2 .banco{background:var(--card);border:2px solid var(--line)}
+.ilus2 .pocket{display:flex;align-items:center;gap:12px;border-radius:18px;padding:12px 14px;font-size:20px;font-weight:800;letter-spacing:.5px}
+.ilus2 .pocket i{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.75);font-style:normal}
+.ilus2 .pocket .ic{width:24px;height:24px}
+.ilus2 .flecha{align-self:center;width:36px;height:36px;margin:-6px 0;z-index:1;border-radius:50%;background:var(--card);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.ilus2 .flecha .ic{width:20px;height:20px;transform:rotate(90deg);stroke-width:2.6}
+.ilus2 .mima{border:2px dashed}
+.ilus2 .monedas{display:flex;justify-content:space-around;gap:6px}
+.tres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tres div{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border-radius:20px;padding:14px 6px;font-size:14px;font-weight:600;line-height:1.25;color:var(--ink2)}
+.tres div b{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:.3px}
+.tres i{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.8);font-style:normal}
+.tres .ic{width:24px;height:24px}
+.colores{display:flex;flex-direction:column;gap:8px}
+.colores span{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600;color:var(--ink2)}
+.colores i{width:18px;height:18px;border-radius:6px;flex:none}
+.gtip b{color:var(--ink);font-weight:800}
+.gtip{display:flex;align-items:center;gap:10px;background:var(--neutro);border-radius:16px;padding:12px 14px;font-size:16px;font-weight:600;color:var(--ink2)}
+.gtip .ic{width:22px;height:22px;flex:none}
 .ayuda{display:flex;gap:12px;align-items:flex-start;background:var(--ahorro-card);border:1.5px solid var(--ahorro-line);border-radius:20px;padding:14px 16px}
 .ayuda .sq{width:40px;height:40px;border-radius:12px;background:var(--ahorro-bg);color:var(--ahorro-i)}
 .ayuda .mid{gap:6px}
@@ -180,9 +256,9 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 .ayuda b{color:var(--ink);font-weight:700}
 .ayuda .link{min-height:40px;font-size:16px;font-weight:700;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
 .nota{font-size:15px;font-weight:500;color:var(--ink2);line-height:1.4;margin-top:-4px}
-.invita{display:flex;flex-direction:column;gap:10px;background:var(--ahorro-card);border:1.5px solid var(--ahorro-line);border-radius:24px;padding:16px 18px}
+.invita{display:flex;flex-direction:column;gap:10px;background:#FBE3B5;border:2px solid #E9A93C;border-radius:24px;padding:16px 18px}
 .invita .fila{display:flex;align-items:center;gap:12px}
-.invita .sq{background:var(--ahorro-bg);color:var(--ahorro-i)}
+.invita .sq{background:#fff;color:#5C3A00}
 .invita .acc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .invita .btn,.invita .btn2{min-height:52px;font-size:17px;padding:0 12px}
 .glista li.rojo{background:var(--rojo-bg);border-color:transparent}
@@ -195,7 +271,7 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 .par .btn,.par .btn2{padding:0 12px}
 .glista li.notoca{background:transparent;border-style:dashed;border-color:#DCD6CF}
 .gpasos{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
-.gpasos i{display:block;height:8px;border-radius:4px;background:#E6E1DB}.gpasos i.on{background:var(--lila-b)}
+.gpasos i{display:block;height:8px;border-radius:4px;background:#E6E1DB}.gpasos i.on{background:var(--barra)}
 .gtexto{display:flex;flex-direction:column;gap:12px}
 .gtexto p{font-size:18px;line-height:1.45;color:var(--ink2)}
 .gtexto b{color:var(--ink);font-weight:700}
@@ -217,7 +293,7 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 
 <div id="app" aria-live="polite">
   <div class="top"><span class="mes" style="font-size:26px">mima</span></div>
-  <div class="empty"><p class="q">Cargando tus cuentas…</p><p class="small">En un momento ves tus cuentas y tus bolsillos.</p></div>
+  <div class="empty"><p class="q">Cargando tus facturas…</p><p class="small">En un momento ves tus facturas y tus bolsillos.</p></div>
 </div>
 <div id="layer"></div>
 
@@ -260,6 +336,14 @@ const clone = o => JSON.parse(JSON.stringify(o ?? null));
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+/* tamaño del texto: se guarda en este celular. Por defecto un poco más pequeño; "Más grande" es el tamaño original */
+const TAMANOS = [["normal","Normal",0.88],["grande","Grande",0.94],["mas","Más grande",1]];
+const TAM_KEY = "mima_tamano";
+const tamGuardado = () => { try { return localStorage.getItem(TAM_KEY) || "normal"; } catch(e){ return "normal"; } };
+function aplicarTamano(k){ const x = TAMANOS.find(z=>z[0]===k) || TAMANOS[0]; document.documentElement.style.zoom = x[2]; document.documentElement.style.setProperty("--z", x[2]); }
+aplicarTamano(tamGuardado());
+/* nombres de facturas, bolsillos e ingresos siempre con mayúscula inicial */
+const capNombres = o => { if(Array.isArray(o)) o.forEach(capNombres); else if(o && typeof o==="object") Object.keys(o).forEach(k=>{ if(k==="nombre" && typeof o[k]==="string"){ const s=o[k].trimStart(); o[k]=s.charAt(0).toUpperCase()+s.slice(1); } else capNombres(o[k]); }); return o; };
 const hoy = () => new Date();
 const ymd = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const mesKey = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
@@ -292,7 +376,7 @@ const P = {
   inicio:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
   cuentas:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
   ajustes:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
-  mas:'<path d="M12 5v14M5 12h14"/>', menos:'<path d="M5 12h14"/>',
+  mas:'<path d="M12 5v14M5 12h14"/>', texto:'<path d="M4 18 9 6l5 12M5.8 14h6.4M15 18l3-7 3 7M15.9 16h4.2"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>', menos:'<path d="M5 12h14"/>',
   atras:'<path d="m15 6-6 6 6 6"/>', sig:'<path d="m9 6 6 6-6 6"/>',
   pen:'<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
   check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
@@ -313,7 +397,7 @@ const P = {
   telefono:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
   carro:'<path d="M5 17V9.5L7 5h10l2 4.5V17"/><path d="M3 17h18v2H3zM5 10h14"/><circle cx="8" cy="13.5" r="1"/><circle cx="16" cy="13.5" r="1"/>'
 };
-const HEADER = `<div class="top"><img class="logo" src="logo.png" alt="mima"><img class="avatar" src="avatar.png" alt="Tu perfil"></div>`;
+const HEADER = `<div class="top"><button class="logoBtn" data-tab="inicio" aria-label="Ir a Inicio"><img class="logo" src="logo.png" alt="mima"></button><button class="logoBtn avatarBtn" data-tab="ajustes" aria-label="Ir a Ajustes"><img class="avatar" src="avatar.png" alt="Tu perfil"></button></div>`;
 const ic = (k, extra="") => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" ${extra}>${P[k]||P.bolsa}</svg>`;
 const COLORES = [["#FBE4EF","#B83280"],["#EFE6DA","#7A5A3A"],["#E1F3E7","#2E7D4F"],["#DDF2F1","#12807A"],["#E3EEFB","#2F6DB5"],["#FDEBDD","#A3521A"]];
 const IDEAS = [["Mascotas","mascotas"],["Salud","salud"],["Ropa","ropa"],["Salidas","salidas"],["Ahorro","ahorro"],["Hogar","hogar"],["Belleza","belleza"],["Estudio","estudio"]];
@@ -380,7 +464,7 @@ async function guardar(cambios, toastTxt){
   if(!S.db) return;
   const prev = cambios.map(c => ({ path:c.path, data: clone(c.prev) }));
   try {
-    await Promise.all(cambios.map(c => S.db.doc(c.path).set(c.data)));
+    await Promise.all(cambios.map(c => S.db.doc(c.path).set(capNombres(clone(c.data)))));
     if(toastTxt) mostrarToast(toastTxt, prev);
   } catch(e){ mostrarToast("No se pudo guardar. Revisa tu conexión e intenta otra vez."); }
 }
@@ -419,8 +503,8 @@ function teclado(){ return `<div class="keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<but
 function tecla(k){ let v = String(S.p.monto ?? 0); if(k==="del") v = v.slice(0,-1) || "0"; else { v = (v==="0"?"":v) + k; if(v.length>10) return; } S.p.monto = +v || 0; render(); }
 
 /* ---------- ayuda ---------- */
-const btnAyuda = `<button class="btnAyuda" data-act="guia" data-paso="0">${ic("ayuda")}¿Cómo funciona?</button>`;
-const HEADER_AYUDA = HEADER.replace('<img class="avatar"', '<span class="topder">'+btnAyuda+'<img class="avatar"').replace(/<\/div>$/, '</span></div>');
+const btnAyuda = (paso=0, solo=false) => `<button class="btnAyuda" data-act="guia" data-paso="${paso}" ${solo?'data-solo="1"':""}>${ic("ayuda")}¿Cómo funciona?</button>`;
+const HEADER_AYUDA = HEADER.replace('<button class="logoBtn avatarBtn"', '<span class="topder">'+btnAyuda(0)+'<button class="logoBtn avatarBtn"').replace(/<\/div>$/, '</span></div>');
 const ayuda = (texto, paso) => `<section class="ayuda" role="note"><span class="sq">${ic("ayuda")}</span><span class="mid"><p>${texto}</p>${paso!=null?`<button class="link" data-act="guia" data-paso="${paso}">Ver cómo funciona</button>`:""}</span></section>`;
 const GUIA_KEY = "mima_guia_vista";
 const guiaVista = () => { try { return localStorage.getItem(GUIA_KEY)==="1"; } catch(e){ return false; } };
@@ -428,15 +512,21 @@ const marcarGuia = () => { try { localStorage.setItem(GUIA_KEY,"1"); } catch(e){
 const invitaGuia = () => guiaVista() ? "" : `<section class="invita"><div class="fila"><span class="sq">${ic("ayuda")}</span><span class="mid"><span class="t">¿Primera vez en Mima?</span><span class="s">Te lo explicamos en 5 pasos.</span></span></div><div class="acc"><button class="btn2" data-act="noGuia">Ahora no</button><button class="btn" data-act="guia" data-paso="0">Ver guía</button></div></section>`;
 
 /* ---------- piezas comunes ---------- */
+const LOGO_BC = "data:image/png;base64,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";
+function hojaAviso(){ const a=S.aviso; return `<div class="overlay"><section class="sheet aviso" role="alertdialog" aria-labelledby="avT"><img class="logoBanco" src="${LOGO_BC}" alt="Bancolombia"><h1 id="avT" class="h2" style="font-size:24px">No olvides actualizar Bancolombia</h1><p class="txt num">${a.texto} Actualiza tu bolsillo <b>${a.bolsillo}</b>.</p><button class="btn" data-act="cerrarAviso" style="margin-top:4px">Entendido</button></section></div>`; }
+const btnGasto = `<button class="btnGasto" data-act="gastoDirecto">${ic("mas")}Anotar un gasto</button>`;
 const backBtn = (txt="Atrás") => `<button class="back" data-act="volver">${ic("atras")}${esc(txt)}</button>`;
 const cancelar = (act="volver") => `<button class="link" data-act="${act}">Cancelar</button>`;
-const navTabs = () => { const pend = cuentasMes().some(c=>["vencida","verificar"].includes(clasif(c))); const t=(v,txt,i)=>`<button class="tab ${S.view===v?"on":""}" data-tab="${v}" ${S.view===v?'aria-current="page"':""}><span style="position:relative;display:flex">${ic(i)}${v==="cuentas"&&pend?'<span class="dot" aria-label="Hay cuentas para atender"></span>':""}</span>${txt}</button>`; return `<nav class="tabs" aria-label="Secciones">${t("inicio","Inicio","inicio")}${t("cuentas","Cuentas","cuentas")}${t("bolsillos","Bolsillos","bolsa")}${t("ajustes","Ajustes","ajustes")}</nav>${S.view==="inicio"?`<button class="fab" data-act="menu">${ic("mas",'style="stroke-width:2.6"')}Agregar</button>`:S.view==="bolsillos"?`<button class="fab" data-act="gastoDirecto">${ic("mas",'style="stroke-width:2.6"')}Agregar gasto</button>`:""}`; };
+const navTabs = () => { const pend = cuentasMes().some(c=>["vencida","verificar"].includes(clasif(c))); const t=(v,txt,i)=>`<button class="tab ${S.view===v?"on":""}" data-tab="${v}" ${S.view===v?'aria-current="page"':""}><span style="position:relative;display:flex">${ic(i)}${v==="cuentas"&&pend?'<span class="dot" aria-label="Hay facturas para atender"></span>':""}</span>${txt}</button>`; return `<div class="navbar"><nav class="tabs" aria-label="Secciones">${t("inicio","Inicio","inicio")}${t("cuentas","Facturas","cuentas")}${t("bolsillos","Bolsillos","bolsa")}${t("ajustes","Ajustes","ajustes")}</nav><button class="fabNav" data-act="gastoDirecto" aria-label="Anotar un gasto">${ic("mas")}<span>Gasto</span></button></div>`; };
 const liBolsillo = (b) => { const fz = b.otros ? 0 : favorEn(b.id); if(fz>0 && quedan(b)<=0) return `<button class="item" data-act="verBolsillo" data-id="${b.id}">${sqB(b)}<span class="mid"><span class="t">${esc(b.nombre)}</span><span class="s" style="color:var(--ok);font-weight:600">Pagado</span></span><span class="rt"><span class="l" style="color:var(--ok)">A favor</span><span class="num v" style="color:var(--ok)">+${money(fz)}</span></span></button>`; if(b.aFavor) return `<button class="item" data-act="verBolsillo" data-id="${b.id}">${sqB(b)}<span class="mid"><span class="t">${esc(b.nombre)}</span><span class="s" style="color:var(--ok);font-weight:600">Saldo a favor</span></span><span class="rt"><span class="l" style="color:var(--ok)">A favor</span><span class="num v" style="color:var(--ok)">+${money(asignado(b))}</span></span></button>`; const e=estadoB(b); return `<button class="item" data-act="verBolsillo" data-id="${b.id}">${sqB(b,"",!!e)}<span class="mid"><span class="t">${esc(b.nombre)}</span>${e==="casi"?'<span class="s warn">Casi se acaba</span>':e==="acabo"?'<span class="s warn">Se acabó este mes</span>':b.otros?'<span class="s">Gastos sin bolsillo</span>':""}</span><span class="rt"><span class="l ${e?"warn":""}">${b.otros?"Libre":e==="casi"?"Solo quedan":"Quedan"}</span><span class="num v">${money(Math.max(0,quedan(b)))}</span></span></button>`; };
-const heroLibre = () => { const o = ordenados().find(b=>b.otros); const A0 = o ? asignado(o) : 0, Q = o ? quedan(o) : 0; const pct = A0>0 ? Math.max(0,Math.min(100,Math.round(Q/A0*100))) : 0; const falta = Math.max(0, diasMes(S.mesKey) - Math.max(diaHoy(),1)); return `<section class="hero lila"><span class="q" ${Q<0?'style="color:var(--rojo-t)"':""}>${Q<0?"Hace falta para cubrir tus bolsillos":"Te queda libre"}</span><div style="display:flex;flex-direction:column;gap:4px"><span class="num cifra" ${Q<0?'style="color:var(--rojo-t)"':""}>${money(Math.abs(Q))}</span><span style="font-size:16px;font-weight:600;color:#4A3A7A">${Q<0?"Separaste más de lo que tienes libre":"Sin contar cuentas ni bolsillos"}</span></div><div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div><span style="font-size:16px;font-weight:500;color:var(--lila-t)">${falta===1?"Falta 1 día":"Faltan "+falta+" días"} · recibiste ${money(recibido())}</span></section>`; };
+const separadoMes = () => apartado() + ordenados().filter(b=>!b.otros && !b.aFavor).reduce((s,b)=>s+asignado(b),0);
+const heroLibre = () => { const o = ordenados().find(b=>b.otros); const Q = o ? quedan(o) : 0; const sep = separadoMes(); const rec = recibido(); const falta = Math.max(0, diasMes(S.mesKey) - Math.max(diaHoy(),1));
+  const usado = cuentasMes().filter(c=>c.toca && c.pagada).reduce((s,c)=>s+c.valor,0) + ordenados().filter(b=>!b.otros && !b.aFavor).reduce((s,b)=>s+gastado(b.id),0); const pu = sep>0 ? Math.max(0,Math.min(100,Math.round(usado/sep*100))) : 0;
+  return `<section class="hero lila"><span class="q">Separado en Bancolombia</span><div style="display:flex;flex-direction:column;gap:2px"><span class="num cifra">${money(sep)}</span><span style="font-size:16px;font-weight:600;color:#4A3A7A">Tus bolsillos FACTURAS + BOLSILLOS</span></div><div class="usado num"><span>Ya pagaste <b>${money(usado)}</b></span><span>${pu}%</span></div><div class="bar" aria-label="Ya pagaste el ${pu}% de lo separado"><i style="width:${pu}%"></i></div><div class="libreFila"><span ${Q<0?'style="color:var(--rojo-t)"':""}>${Q<0?"Te falta para cubrir tus bolsillos":"Te queda libre"}</span><b class="num" ${Q<0?'style="color:var(--rojo-t)"':""}>${money(Math.abs(Q))}</b></div><span style="font-size:16px;font-weight:500;color:var(--lila-t)">${falta===1?"Falta 1 día":"Faltan "+falta+" días"} · recibiste ${money(rec)}</span></section>`; };
 function itemCuenta(c, conMarcar){
   const k = clasif(c);
   let bg="", sq="", sub="";
-  if(k==="vencida"){ bg='style="background:var(--rojo-bg);border-color:transparent"'; sq=`<span class="sq" style="background:var(--rojo-sq);color:var(--rojo)">${ic("alerta",'style="width:26px;height:26px"')}</span>`; sub=`<span class="s" style="color:var(--rojo-t);font-weight:600">Vencido el día ${c.dia}</span>`; }
+  if(k==="vencida"){ bg='style="background:var(--rojo-bg);border-color:transparent"'; sq=`<span class="sq" style="background:var(--rojo-sq);color:var(--rojo)">${ic("alerta",'style="width:26px;height:26px"')}</span>`; sub=`<span class="s" style="color:var(--rojo-t);font-weight:600">Venció el día ${c.dia}</span>`; }
   else if(k==="verificar"){ bg='style="background:var(--ver-bg);border-color:transparent"'; sq=`<span class="sq" style="background:var(--ver-sq);color:var(--ver-i)">${ic("recibo",'style="width:26px;height:26px"')}</span>`; sub=`<span class="s warn">Verifica el recibo · día ${c.dia}</span>`; }
   else if(k==="pagada"){ sq=`<span class="sq">${ic(iconoCuenta(c.nombre))}</span>`; sub=`<span class="s" style="color:var(--ok);font-weight:600">✓✓ Pagada${c.fechaPago?" el "+Number(c.fechaPago.slice(8)):""}</span>`; }
   else if(k==="notoca"){ bg='style="background:transparent;border-style:dashed;border-color:#DCD6CF"'; sq=`<span class="sq">${ic(iconoCuenta(c.nombre))}</span>`; sub=`<span class="s">Este mes no toca · apartando la mitad</span>`; }
@@ -450,7 +540,7 @@ function itemCuenta(c, conMarcar){
 function tarjetaProximo(){ if(!verProximo()) return ""; const k = sigKey(); const L = borrLibre();
   return `<div class="sec"><h2 class="h2">Lo que viene</h2>
   <button class="prox" data-act="proximo"><span class="prox-tag">${ic("calendario")}${cap(mesNombre(k))} · estimado</span>
-    <span class="prox-fila"><span class="q">Vas a apartar para cuentas</span><span class="num v">${money(borrApartar())}</span></span>
+    <span class="prox-fila"><span class="q">Vas a apartar para facturas</span><span class="num v">${money(borrApartar())}</span></span>
     <span class="prox-fila"><span class="q">Quedarían para tus bolsillos</span><span class="num v" ${L<0?'style="color:var(--rojo-t)"':""}>${money(L)}</span></span>
     <span class="prox-cta">Ver ${mesNombre(k)}${ic("sig")}</span></button></div>`; }
 function itemBorr(c){ const k = sigKey(); let cls="", sq=`<span class="sq">${ic(iconoCuenta(c.nombre))}</span>`, sub="", val=c.valor, tap=true;
@@ -458,7 +548,7 @@ function itemBorr(c){ const k = sigKey(); let cls="", sq=`<span class="sq">${ic(
   else if(c.pagada){ sub=`<span class="s" style="color:var(--ok);font-weight:600">✓✓ Ya la pagaste${c.fechaPago?" el "+Number(c.fechaPago.slice(8))+" "+fechaDe(c.fechaPago):""}</span>`; }
   else if(!c.cambiada){ cls="pre"; sq=`<span class="sq" style="background:var(--ver-sq);color:var(--ver-i)">${ic("recibo",'style="width:26px;height:26px"')}</span>`; sub=`<span class="s warn">Valor de ${mesNombre(S.mesKey)} · verifica el real</span>`; }
   else { sub=`<span class="s">Vence el ${c.dia} de ${mesNombre(k)}</span>`; }
-  const mark = c.toca ? `<button class="mark" role="checkbox" aria-checked="${c.pagada}" data-act="bPagar" data-id="${c.id}"><span class="box" ${c.pagada?'style="background:var(--ink)"':""}>${c.pagada?ic("check",'style="width:18px;height:18px;color:#fff;stroke-width:3"'):""}</span>${c.pagada?"Ya la pagué":"Ya la pagué por adelantado"}</button>` : "";
+  const mark = c.toca ? `<button class="mark" role="checkbox" aria-checked="${c.pagada}" data-act="bPagar" data-id="${c.id}"><span class="box" ${c.pagada?'style="background:var(--ink)"':""}>${c.pagada?ic("check",'style="width:18px;height:18px;color:#fff;stroke-width:3"'):""}</span>${c.pagada?"Ya la pagaste":"Ya la pagaste por adelantado"}</button>` : "";
   return `<div class="card ${cls}"><button class="row" ${tap?`data-act="bValor" data-id="${c.id}"`:'style="cursor:default"'}>${sq}<span class="mid"><span class="t">${esc(c.nombre)}</span>${sub}</span><span class="num v" ${c.pagada?'style="color:var(--ink2)"':""}>${money(val)}</span>${tap&&!c.pagada?ic("pen",'class="ic pen"'):""}</button>${mark}</div>`; }
 
 /* ---------- vistas ---------- */
@@ -470,23 +560,22 @@ V.proximo = () => { const k = sigKey(); const L = borrLibre(); const ing = borrI
   <div class="sec"><h2 class="h2">Lo que vas a recibir</h2>
     <div class="grp">${ing.map(i=>`<button class="li" data-act="${i.fijo?"bFijo":"bExtraEdit"}" data-id="${i.id}"><span class="sq s">${ic(i.fijo?"persona":"billete")}</span><span class="n"><b>${esc(i.nombre)}</b><small>${i.fijo?(i.variable && ((borr()||{}).fijos||{})[i.id]==null ? `<span class="warn">Valor de ${mesNombre(S.mesKey)} · verifica el real</span>` : (i.variable?"Todos los meses · el valor cambia":"Todos los meses")):"Solo en "+mesNombre(k)}</small></span><span class="num lv">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>
     <button class="link" data-act="bExtra" style="align-self:flex-start">${ic("mas",'style="stroke-width:2.4"')}Agregar otro ingreso</button></div>
-  <div class="sec"><h2 class="h2">Cuentas de ${mesNombre(k)}</h2>${cuentasBorr().map(itemBorr).join("")}</div>
+  <div class="sec"><h2 class="h2">Facturas de ${mesNombre(k)}</h2>${cuentasBorr().map(itemBorr).join("")}</div>
   <div class="sec"><h2 class="h2">Tu ahorro</h2><div class="item" style="background:var(--ahorro-card);border-color:var(--ahorro-line);cursor:default">${sqAhorro()}<span class="mid"><span class="t">Lo que te sobraría en ${actual}</span><span class="s">Estimado. Cambia cada vez que gastas, y se guarda en tu Ahorro cuando termine ${actual}.</span></span><span class="rt"><span class="l">Estimado</span><span class="num v">${money(ah)}</span></span></div></div>
   <button class="btn2" data-act="salirProximo">${ic("atras")}Volver a ${actual}</button>`; };
 V.inicio = () => {
   if(necesitaCierre()) return V.cierre();
   const cs = cuentasMes(); const atender = cs.filter(c=>["vencida","verificar"].includes(clasif(c))); const prox = cs.filter(c=>clasif(c)==="proxima");
-  const porPagar = [...atender, ...prox].slice(0,2); const pendientes = cs.filter(c=>!["pagada","notoca"].includes(clasif(c))).length;
+  const dh = diaHoy(); const porPagar = [...atender, ...prox].filter(c=>c.dia - dh <= 7); const pendientes = cs.filter(c=>!["pagada","notoca"].includes(clasif(c))).length;
   const bs = ordenados().filter(b=>!b.otros).slice(0,6);
   const d = hoy();
   return `${HEADER_AYUDA}
   <div><h1 class="mes">${cap(mesNombre(S.mesKey))}</h1><span class="sub">Hoy, ${DIAS[d.getDay()]} ${d.getDate()}</span></div>
   ${heroLibre()}
-  ${invitaGuia()}
-  <div class="sec"><h2 class="h2">Por pagar</h2><p class="nota">Su plata ya está separada.</p>
-    ${porPagar.length ? porPagar.map(c=>itemCuenta(c,false)).join("") : `<div class="empty"><p class="q">Ya pagaste todo este mes</p></div>`}
-    <button class="btn2" data-tab="cuentas">Ver todas las cuentas (${pendientes})${ic("sig")}</button></div>
-  <div class="sec"><h2 class="h2">Bolsillos</h2><p class="nota">Cada gasto se resta de su bolsillo.</p>
+  <div class="sec"><h2 class="h2">Facturas por pagar</h2><p class="recuerda">No olvides actualizar el bolsillo de Bancolombia <b>FACTURAS</b></p>
+    ${porPagar.length ? porPagar.map(c=>itemCuenta(c,false)).join("") : `<div class="empty"><p class="q">${pendientes?"No tienes facturas por vencer esta semana":"Ya pagaste todas las facturas de este mes"}</p></div>`}
+    <button class="btn2" data-tab="cuentas">Ver todas las facturas (${pendientes})${ic("sig")}</button></div>
+  <div class="sec"><h2 class="h2">Bolsillos</h2><p class="recuerda">No olvides actualizar el bolsillo de Bancolombia <b>BOLSILLOS</b></p>
     ${bs.map(liBolsillo).join("")}
     <button class="btn2" data-tab="bolsillos">Ver todos los bolsillos (${ordenados().length})${ic("sig")}</button></div>
   ${tarjetaProximo()}
@@ -496,41 +585,42 @@ V.cuentas = () => {
   const cs = cuentasMes(); const g = k => cs.filter(c=>clasif(c)===k);
   const atender=[...g("vencida"),...g("verificar")], prox=[...g("proxima"),...g("notoca")], pag=g("pagada");
   const total = cs.filter(c=>c.toca).length, pagadas = pag.length;
-  const falta = cs.filter(c=>c.toca && !c.pagada).reduce((s,c)=>s+c.valor,0);
+  const falta = cs.filter(c=>c.toca && !c.pagada).reduce((s,c)=>s+c.valor,0); const reserva = cs.filter(c=>!c.toca).reduce((s,c)=>s+c.apartado,0);
   const d = hoy();
-  return `<div><h1 class="mes">Cuentas</h1><span class="sub">${cap(mesNombre(S.mesKey))} · hoy, ${DIAS[d.getDay()]} ${d.getDate()}</span></div>
-  <section class="resumen" aria-label="Resumen de cuentas"><span class="r-lbl">Te falta por pagar</span><span class="num r-cifra">${money(falta)}</span>
+  return `<div class="titulo"><h1 class="mes">Facturas</h1>${btnAyuda(1,true)}</div>
+  <p class="nota" style="margin-top:-6px">Lo que pagas cada mes, con fecha de vencimiento.</p>
+  <section class="resumen" aria-label="Resumen de facturas"><span class="num r-cifra">${money(falta+reserva)}</span><span class="r-lbl">Debes tener en tu bolsillo de Bancolombia <b>FACTURAS</b></span>
     <div class="r-bar" aria-hidden="true"><i style="width:${total?Math.round(pagadas/total*100):0}%"></i></div>
-    <dl class="r-filas"><div><dt>Cuentas pagadas</dt><dd class="num">${pagadas} de ${total}</dd></div><div><dt>Total del mes</dt><dd class="num">${money(cs.filter(c=>c.toca).reduce((s,c)=>s+c.valor,0))}</dd></div></dl></section>
-  ${ayuda("<b>Lo que pagas cada mes.</b> Cuando pagues una, toca <b>Marcar pagado</b>.", 1)}
+    <dl class="r-filas"><div><dt>Facturas pagadas</dt><dd class="num">${pagadas} de ${total}</dd></div><div><dt>Te falta por pagar</dt><dd class="num">${money(falta)}</dd></div>${reserva?`<div><dt>Guardado para cada 2 meses</dt><dd class="num">${money(reserva)}</dd></div>`:""}<div><dt>Total del mes</dt><dd class="num">${money(cs.filter(c=>c.toca).reduce((s,c)=>s+c.valor,0))}</dd></div></dl></section>
   ${atender.length?`<div class="sec"><h2 class="h2">Para atender</h2><p class="nota">Rojo: ya venció. Amarillo: revisa el recibo.</p>${atender.map(c=>itemCuenta(c,true)).join("")}</div>`:""}
   ${prox.length?`<div class="sec"><h2 class="h2">Próximas</h2>${prox.map(c=>itemCuenta(c,true)).join("")}</div>`:""}
   ${pag.length?`<div class="sec"><h2 class="h2">Pagadas</h2>${pag.map(c=>itemCuenta(c,false)).join("")}</div>`:""}
+  <button class="btn2" data-act="editCuenta" data-id="">${ic("mas",'style="stroke-width:2.4"')}Agregar factura</button>
   ${navTabs()}`;
 };
-V.bolsillos = () => `<div><h1 class="mes">Bolsillos</h1><span class="sub">${cap(mesNombre(S.mesKey))} · hoy, ${DIAS[hoy().getDay()]} ${hoy().getDate()}</span></div>
+V.bolsillos = () => `<div class="titulo"><h1 class="mes">Bolsillos</h1>${btnAyuda(2,true)}</div>
+  <p class="nota" style="margin-top:-6px">Plata para gastos sin fecha de vencimiento.</p>
   ${(()=>{ const sep = ordenados().filter(b=>!b.otros && !b.aFavor).reduce((s,b)=>s+asignado(b),0); const fav = ordenados().filter(b=>b.aFavor).reduce((s,b)=>s+asignado(b),0); const o = ordenados().find(b=>b.otros); const L = o ? quedan(o) : 0;
     const gas = ordenados().filter(b=>!b.otros && !b.aFavor).reduce((s,b)=>s+gastado(b.id),0);
     const queda = sep - gas;
-    return `<section class="resumen" aria-label="Resumen de bolsillos"><span class="r-lbl">Total separado para bolsillos</span><span class="num r-cifra" ${queda<0?'style="color:var(--rojo-t)"':""}>${money(queda)}</span>
+    return `<section class="resumen" aria-label="Resumen de bolsillos"><span class="num r-cifra" ${queda<0?'style="color:var(--rojo-t)"':""}>${money(queda)}</span><span class="r-lbl">Debes tener en tu bolsillo de Bancolombia <b>BOLSILLOS</b></span>
     <div class="r-bar" aria-hidden="true"><i style="width:${sep>0?Math.max(0,Math.min(100,Math.round(queda/sep*100))):0}%"></i></div>
     <dl class="r-filas"><div><dt>Separaste este mes</dt><dd class="num">${money(sep)}</dd></div><div><dt>Ya gastaste de tus bolsillos</dt><dd class="num">${money(gas)}</dd></div>${fav>0?`<div><dt>Saldos a favor</dt><dd class="num" style="color:var(--ok)">+${money(fav)}</dd></div>`:""}${L<0?`<div><dt style="color:var(--rojo-t);font-weight:700">Hace falta para cubrir tus bolsillos</dt><dd class="num" style="color:var(--rojo-t)">${money(-L)}</dd></div>`:`<div><dt>Te queda libre</dt><dd class="num">${money(L)}</dd></div>`}</dl></section>`; })()}
-  ${ayuda("<b>Plata separada para cada cosa.</b> Cada gasto se resta de su bolsillo.", 2)}
   <div class="sec">${ordenados().map(liBolsillo).join("")}</div>
-  <button class="btn2" data-act="crear">${ic("mas",'style="stroke-width:2.4"')}Crear bolsillo</button>
+  <button class="btn2" data-act="crear">${ic("mas",'style="stroke-width:2.4"')}Agregar bolsillo</button>
   <div class="sec" style="margin-top:4px"><h2 class="h2">Tu ahorro</h2><div class="item" style="background:var(--ahorro-card);border-color:var(--ahorro-line);cursor:default">${sqAhorro()}<span class="mid"><span class="t">Ahorro</span><span class="s">Lo que te ha sobrado otros meses. Se suma solo cuando termina el mes.</span></span><span class="rt"><span class="l">Tienes</span><span class="num v">${money(S.ahorro?.saldo||0)}</span></span></div></div>
   ${(()=>{ const gs = gastos().map((g,ix)=>({...g,ix})).sort((a,b)=>b.fecha.localeCompare(a.fecha)||b.ix-a.ix); const tot = gs.reduce((s,g)=>s+(+g.valor||0)-(+g.favor||0),0);
     return `<div class="sec" style="margin-top:4px;gap:8px"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 class="h2">Todos tus gastos</h2>${gs.length?`<span class="num lv" style="color:var(--ink2)">${money(tot)}</span>`:""}</div>
-    ${gs.length?`<span class="small">Toca un gasto o el lápiz para cambiarlo.</span><div class="grp">${gs.map(g=>{ const b = bolsillos().find(x=>x.id===g.bolsillo) || {nombre:"Bolsillo borrado"};
+    ${gs.length?`<span class="small">Toca un gasto para cambiarlo.</span><div class="grp">${gs.map(g=>{ const b = bolsillos().find(x=>x.id===g.bolsillo) || {nombre:"Bolsillo borrado"};
       return `<button class="li" data-act="editarGasto" data-id="${g.id}" style="min-height:66px"><span class="n" style="gap:2px"><b ${g.nota?"":'style="color:var(--ink2)"'}>${g.nota?esc(g.nota):"Sin nombre"}</b><small>${fechaLarga(g.fecha)} ${fechaDe(g.fecha)}</small>${g.favor?`<small style="color:var(--ok);font-weight:600">+${money(g.favor)} a favor en Libre</small>`:""}${(()=>{ const [bg,fg] = colorDe(b); return `<span class="cat" style="background:${bg};color:${fg}">${ic(b.otros?"otros":(b.icono||iconoPara(b.nombre)))}${esc(b.nombre)}</span>`; })()}</span><span class="num lv">${money(g.valor)}</span>${ic("pen",'class="ic pen"')}</button>`; }).join("")}</div>`
     :`<div class="empty"><p class="small">Todavía no has anotado gastos este mes.</p></div>`}</div>`; })()}
   ${navTabs()}`;
 V.ajustes = () => { const ing = (S.cfg?.ingresosFijos||[]); const it=(act,i,t,s)=>`<button class="li" data-act="${act}" style="min-height:72px"><span class="sq">${ic(i)}</span><span class="n"><b>${t}</b><small>${s}</small></span>${ic("sig",'class="ic chev"')}</button>`;
   const av = S.cfg?.avisos||{};
-  return `<div><h1 class="mes">Ajustes</h1><p class="txt" style="font-size:17px">Aquí puedes cambiar todo. Si te equivocas, siempre puedes deshacer.</p></div>
-  <div class="grp">${it("guia0","ayuda","¿Cómo funciona Mima?","La guía en 5 pasos cortos")}</div>
-  <div class="grp">${it("recibo","billete","Lo que recibo cada mes", money(ing.reduce((s,i)=>s+i.valor,0))+(ing[0]?" · de "+esc(ing.map(i=>i.nombre).join(", ")):""))}${it("misCuentas","cuentas","Mis cuentas", cuentasCfg().length+" cuentas")}${`<button class="li" data-tab="bolsillos" style="min-height:72px"><span class="sq">${ic("bolsa")}</span><span class="n"><b>Mis bolsillos</b><small>${ordenados().length} bolsillos</small></span>${ic("sig",'class="ic chev"')}</button>`}</div>
-  <div class="grp">${it("avisos","correo","Avisos al correo", av.correo?"2 días antes de cada pago":"Escribe tu correo")}${it("misCuentas","archivo","Cuentas que ya no pagas", (S.cfg?.cuentas||[]).filter(c=>c.archivada).length+" guardadas")}${it("meses","calendario","Meses anteriores","Ver cómo te fue")}</div>
+  return `<div><h1 class="mes">Ajustes</h1><p class="txt" style="font-size:17px">Aquí puedes cambiar todo.</p></div>
+  <div class="grp">${it("guia0","ayuda","¿Cómo funciona Mima?","La guía en 4 pasos cortos")}</div>
+  <div class="grp">${it("recibo","billete","Ingresos","Lo que recibes cada mes")}${it("misCuentas","cuentas","Facturas", cuentasCfg().length+" facturas")}${`<button class="li" data-tab="bolsillos" style="min-height:72px"><span class="sq">${ic("bolsa")}</span><span class="n"><b>Bolsillos</b><small>${ordenados().length} bolsillos</small></span>${ic("sig",'class="ic chev"')}</button>`}</div>
+  <div class="grp">${it("texto","texto","Tamaño del texto", (TAMANOS.find(z=>z[0]===tamGuardado())||TAMANOS[0])[1])}${it("avisos","correo","Avisos al correo", av.correo?"2 días antes de cada pago":"Escribe tu correo")}${it("misCuentas","archivo","Facturas que ya no pagas", (S.cfg?.cuentas||[]).filter(c=>c.archivada).length+" guardadas")}${it("meses","calendario","Meses anteriores","Ver cómo te fue")}</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:6px"><span class="small">Entraste como ${esc(S.user?.email||"")}</span><button class="btn3" data-act="salir" style="width:auto;padding:0 12px">Salir</button></div>
   ${navTabs()}`; };
 
@@ -538,37 +628,37 @@ V.ajustes = () => { const ing = (S.cfg?.ingresosFijos||[]); const it=(act,i,t,s)
 const sinAcciones = html => html.replace(/ data-act="[^"]*"/g,"").replace(/ data-id="[^"]*"/g,"").replace(/<button /g,'<button tabindex="-1" ');
 const ejemplo = (html, etiqueta="Así se ve en Mima") => `<div class="ejemplo" aria-hidden="true"><span class="lbl">${etiqueta}</span>${sinAcciones(html)}</div>`;
 const gli = (icono, html, cls="") => `<li class="${cls}"><span class="sq">${ic(icono)}</span><span>${html}</span></li>`;
+const pocketBanco = (nombre, bg, fg, icono) => `<div class="zona banco"><span class="lbl2">En Bancolombia</span><div class="pocket" style="background:${bg};color:${fg}"><i>${ic(icono)}</i>${nombre}</div></div>`;
+const zonaMima = (borde, items) => `<span class="flecha" aria-hidden="true">${ic("sig")}</span><div class="zona mima" style="border-color:${borde}"><span class="lbl2">En Mima lo divides así</span><div class="monedas">${items.map(([n,i,bg,fg])=>`<span class="moneda"><i style="background:${bg};color:${fg}">${ic(i)}</i>${n}</span>`).join("")}</div></div>`;
 const GUIA = [
-  () => ({ titulo:"Tu plata se divide en tres", cuerpo:`<div class="gtexto"><p>Mima separa tu plata en tres partes.</p></div>
-    <div class="reparto"><div class="fila"><span class="sq">${ic("billete")}</span><span class="mid"><span class="t">Recibes</span><span class="s">La plata del mes</span></span><span class="num v">${money(recibido())}</span></div>
-    <div class="fila"><span class="sq" style="background:var(--amb);color:var(--amb-t)">${ic("cuentas")}</span><span class="mid"><span class="t">Cuentas</span><span class="s">Facturas. Van al bolsillo del banco.</span></span><span class="num v">${money(apartado())}</span></div>
-    <div class="fila"><span class="sq" style="background:var(--lila);color:var(--lila-t)">${ic("bolsa")}</span><span class="mid"><span class="t">Bolsillos</span><span class="s">Mercado, gasolina, gustos…</span></span><span class="num v">${money(bolsillos().filter(b=>!b.otros&&!b.borrado).reduce((s,b)=>s+(+b.asignado||0),0))}</span></div>
-    <div class="fila"><span class="sq">${ic("otros")}</span><span class="mid"><span class="t">Libre</span><span class="s">Lo que no separaste en ningún bolsillo.</span></span><span class="num v">${money((()=>{const o=bolsillos().find(b=>b.otros); return o?asignado(o):0;})())}</span></div></div>
-    <div class="gtexto"><p>Las cuentas se pagan completas. En los bolsillos, cada gasto se va restando de lo que separaste.</p></div>` }),
-  () => { const c = cuentasMes().find(x=>!["pagada","notoca"].includes(clasif(x))) || cuentasMes()[0];
-    return { titulo:"Cuentas: lo que tienes que pagar", cuerpo:`<div class="gtexto"><p>Luz, agua, celular… Su plata va a tu <b>bolsillo del banco</b>.</p></div>
-    ${c?ejemplo(itemCuenta(c,true)):""}
-    <ul class="glista">${gli("check","Cuando pagues, toca <b>Marcar pagado</b>.")}
-    ${gli("recibo","<b>Amarillo</b>: el valor cambia. Escribe el del recibo.","amar")}
-    ${gli("alerta","<b>Rojo</b>: ya pasó la fecha.","rojo")}
-    ${gli("gota","<b>Cada 2 meses</b>, como el agua: cada mes separas la mitad.","notoca")}</ul>` }; },
-  () => { const b = ordenados().find(x=>!x.otros); const o = ordenados().find(x=>x.otros);
-    return { titulo:"Bolsillos: plata separada para cada cosa", cuerpo:`<div class="gtexto"><p>Como los del banco: separas plata para algo, y cada gasto se resta de ahí.</p><p>El del banco es para las cuentas. Los de Mima, para lo demás.</p></div>
-    ${b||o?ejemplo([b,o].filter(Boolean).map(liBolsillo).join("")):""}
-    <ul class="glista">${gli("mas","Para anotar un gasto: <b>+ Agregar</b>, luego <b>Agregar gasto</b>.")}
-    ${gli("otros","<b>Libre</b>: para un gasto que no tiene bolsillo, como una serenata. Se resta de lo libre.")}
-    ${gli("bolsa","Si un bolsillo no alcanza, entra y toca <b>Pasar plata</b>.")}</ul>` }; },
-  () => ({ titulo:"Cuando termina el mes", cuerpo:`<ul class="glista">${gli("ahorro","Lo que sobre se guarda en tu <b>Ahorro</b>.")}
-    ${gli("calendario","El mes nuevo empieza con 3 pasos cortos.")}
-    ${gli("sig","Desde el día "+DIA_PROXIMO+" ves el mes siguiente en <b>Lo que viene</b>.")}</ul>` }),
-  () => ({ titulo:"Si te equivocas", cuerpo:`<ul class="glista">${gli("check","Después de cada cambio puedes tocar <b>Deshacer</b>.")}
-    ${gli("pen","Para cambiar algo, toca el lápiz.")}
-    ${gli("persona","Si algo no te cuadra, pregúntale a Daniela.")}
-    ${gli("ayuda","Esta guía está en <b>¿Cómo funciona?</b>, en Inicio y Ajustes.")}</ul>` })
+  () => ({ titulo:"Así se reparte tu plata", cuerpo:`<p class="gfrase">Cada mes, lo que recibes se divide en tres.</p>
+    <div class="tres">
+      <div style="background:#FBE3B5"><i style="color:#5C3A00">${ic("cuentas")}</i><b>FACTURAS</b>Con fecha de pago</div>
+      <div style="background:#EFE9FC"><i style="color:#5B3FB5">${ic("bolsa")}</i><b>BOLSILLOS</b>Sin fecha de pago</div>
+      <div style="background:var(--neutro)"><i>${ic("otros")}</i><b>Libre</b>Lo que queda</div>
+    </div>
+    <p class="gtip">${ic("ahorro")}Lo que sobra al final va a tu Ahorro.</p>` }),
+  () => ({ titulo:"Facturas", cuerpo:`<p class="gfrase">Lo que pagas cada mes, con fecha de vencimiento.</p>
+    <div class="ilus2">${pocketBanco("FACTURAS","#FBE3B5","#5C3A00","cuentas")}${zonaMima("#E9A93C",[["Luz","luz","#FFF3D6","#8A5A00"],["Agua","gota","#E3F0FB","#1D4466"],["Celular","telefono","#EFE9FC","#5B3FB5"]])}</div>
+    <div class="gpasos3"><div><i><small>1</small>${ic("recibo")}</i>Llega el recibo</div><div><i><small>2</small>${ic("billete")}</i>La pagas</div><div><i><small>3</small>${ic("check")}</i>Tocas <b>Marcar pagado</b></div></div>
+    <div class="colores"><span><i style="background:var(--rojo)"></i>Rojo: ya venció</span><span><i style="background:#F59E0B"></i>Amarillo: revisa el valor del recibo</span></div>` }),
+  () => { const bs = ordenados().filter(x=>!x.otros && !x.aFavor).slice(0,3); const ej = bs.length ? bs : [{nombre:"Mercado",icono:"mercado"},{nombre:"Transporte",icono:"transporte"},{nombre:"Belleza",icono:"belleza"}];
+    return { titulo:"Bolsillos", cuerpo:`<p class="gfrase">Plata para gastos sin fecha de vencimiento.</p>
+    <div class="ilus2">${pocketBanco("BOLSILLOS","#EFE9FC","#5B3FB5","bolsa")}${zonaMima("#C5B9E9", ej.map(b=>{ const [bg,fg]=colorDe(b); return [esc(b.nombre), b.icono||iconoPara(b.nombre), bg, fg]; }))}</div>
+    <div class="gpasos3"><div><i class="mor"><small>1</small>${ic("mas")}</i>Tocas <b>+ Gasto</b></div><div><i><small>2</small>${ic("menos")}</i>Se resta de su bolsillo</div><div><i><small>3</small>${ic("check")}</i>Actualizas <b>BOLSILLOS</b></div></div>
+    <p class="gtip">${ic("otros")}¿No tiene bolsillo? Usa Libre.</p>` }; },
+  () => ({ titulo:"Al terminar el mes", cuerpo:`<p class="gfrase">Mima te guía en 3 pasos cortos.</p>
+    <div class="gpasos3"><div><i><small>1</small>${ic("billete")}</i>Confirmas tu plata</div><div><i><small>2</small>${ic("cuentas")}</i>Apartas <b>FACTURAS</b></div><div><i><small>3</small>${ic("bolsa")}</i>Repartes <b>BOLSILLOS</b></div></div>
+    <p class="gtip">${ic("pen")}¿Te equivocaste? Toca el lápiz o <b>Deshacer</b>.</p>
+    <p class="gtip">${ic("persona")}¿Tienes dudas? Pregúntale a Daniela.</p>` })
 ];
-V.guia = () => { const n = Math.max(0, Math.min(GUIA.length-1, S.p.paso||0)); const g = GUIA[n](); const ult = n===GUIA.length-1;
-  return `<div class="top"><span class="lbl">Paso ${n+1} de ${GUIA.length}</span><button class="link" data-act="cerrarGuia">Cerrar</button></div>
-  <div class="gpasos" role="img" aria-label="Paso ${n+1} de ${GUIA.length}">${GUIA.map((_,i)=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div>
+V.guia = () => { const n = Math.max(0, Math.min(GUIA.length-1, S.p.paso||0)); const g = GUIA[n](); const solo = !!S.p.solo; const ult = solo || n===GUIA.length-1;
+  if(solo) return `<div class="top cab">${btnCerrar("cerrarGuia")}<span class="lbl">¿Cómo funciona?</span></div>
+  <h1 class="mes" style="font-size:30px;margin-top:4px">${g.titulo}</h1>
+  ${g.cuerpo}
+  <div class="bottom"><button class="btn" data-act="cerrarGuia">Entendido</button></div>`;
+  return `<div class="top cab">${btnCerrar("cerrarGuia")}<span class="lbl">Paso ${n+1} de ${GUIA.length}</span></div>
+  <div class="gpasos" style="grid-template-columns:repeat(${GUIA.length},minmax(0,1fr))" role="img" aria-label="Paso ${n+1} de ${GUIA.length}">${GUIA.map((_,i)=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div>
   <h1 class="mes" style="font-size:30px;margin-top:4px">${g.titulo}</h1>
   ${g.cuerpo}
   <div class="bottom"><div class="${n>0?"par":""}">${n>0?`<button class="btn2" data-act="guiaAnt">${ic("atras")}Anterior</button>`:""}<button class="btn" data-act="${ult?"cerrarGuia":"guiaSig"}">${ult?"Entendido":"Siguiente"+ic("sig",'style="stroke-width:2.4"')}</button></div></div>`; };
@@ -581,17 +671,28 @@ function hojaMenu(){ return `<div class="overlay" data-act="cerrarHoja"><section
   <button class="btn2" data-act="cerrarHoja" style="margin-top:6px">Cancelar</button></section></div>`; }
 
 /* agregar / cambiar gasto */
+/* ---------- formularios: agregar / cambiar (misma estructura en todos) ---------- */
+const campo = (label, html, id) => `<div class="campo">${id?`<label for="${id}" class="q">${label}</label>`:`<span class="q">${label}</span>`}${html}</div>`;
+const inpTexto = (id, field, val, ph, max=30) => `<input id="${id}" class="inp" type="text" autocomplete="off" maxlength="${max}" value="${esc(val||"")}" placeholder="${ph}" data-field="${field}">`;
+const ideas = (lista, field, actual) => lista.length?`<div class="sugs">${lista.map(s=>`<button class="sug ${actual===s?"on":""}" aria-pressed="${actual===s}" data-act="idea" data-f="${field}" data-v="${esc(s)}">${esc(s)}</button>`).join("")}</div>`:"";
+const cajaValor = (field, val, nota="") => `<section class="valor"><input class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${val?money(val):""}" placeholder="$0" data-field="${field}" data-money aria-label="Valor">${nota?`<span class="num small">${nota}</span>`:""}</section>`;
+const dosOpc = (cp, actual, ops) => `<div class="seg" role="radiogroup">${ops.map(([v,t])=>`<button class="opt ${actual===v?"on":""}" role="radio" aria-checked="${actual===v}" data-act="opc" data-c="${cp}" data-v="${esc(JSON.stringify(v))}"><span class="radio"></span>${t}</button>`).join("")}</div>`;
+const btnCerrar = (act="volver") => `<button class="cerrar" data-act="${act}" aria-label="Cerrar">${ic("x")}</button>`;
+const cabForm = t => `<div class="top cab">${btnCerrar()}<h1 class="h1">${t}</h1></div>`;
+const pieForm = (act, txt, ok, borrarAct, borrarTxt) => `<div class="bottom"><button class="btn" data-act="${act}" ${ok?"":"disabled"}>${txt}</button>${borrarAct?`<button class="btn3 rojo" data-act="${borrarAct}">${borrarTxt}</button>`:""}</div>`;
+const setP = (k,v) => { if(k.startsWith("f.")) S.p.f[k.slice(2)] = v; else S.p[k] = v; };
+const IDEAS_ING = ["Pensión","Daniela","Un regalo"];
+const IDEAS_F = ["Luz","Agua","Gas","Internet","Celular","Administración"];
+
+/* agregar / cambiar gasto */
 V.gasto = () => { const p=S.p; const bs=ordenados().filter(x=>!x.aFavor); const b = bs.find(x=>x.id===p.bolsillo); const edit = !!p.editId;
   const ant = edit ? gastos().find(g=>g.id===p.editId) : null;
   const q = b ? quedan(b) + (ant && ant.bolsillo===b.id ? +ant.valor : 0) : 0;
-  return `<div class="top"><h1 class="h1">${edit?"Cambiar gasto":"Agregar gasto"}</h1>${cancelar()}</div>
-  ${edit?`<span class="txt" style="margin-top:-8px">Lo agregaste el ${fechaLarga(ant.fecha).toLowerCase()} ${fechaDe(ant.fecha)}</span>`:""}
-  <div style="display:flex;flex-direction:column;gap:6px"><span class="q">¿De qué bolsillo?</span><p class="nota" style="margin-top:0">Se resta de lo que separaste ahí. Si no tiene bolsillo, usa Libre.</p></div>
-  <div class="chips" role="group" aria-label="Bolsillos">${bs.map(x=>{const e=estadoB(x);return `<button class="chip ${x.id===p.bolsillo?"on":""}" aria-pressed="${x.id===p.bolsillo}" data-act="chipB" data-id="${x.id}">${sqB(x,"",!!e)}<span>${esc(x.nombre)}</span></button>`}).join("")}</div>
-  ${b?`<div style="display:flex;flex-direction:column;gap:8px"><label for="nota" class="q">¿En qué fue? <span style="font-weight:500;color:var(--ink2)">(opcional)</span></label><input id="nota" class="inp" type="text" autocomplete="off" placeholder="${ideasGasto(b).length?"Toca una idea o escríbelo aquí":"Escríbelo aquí"}" value="${esc(p.nota||"")}" data-field="nota">${ideasGasto(b).length?`<div class="sugs">${ideasGasto(b).map(s=>`<button class="sug" data-act="sug" data-v="${s}">${s}</button>`).join("")}</div>`:""}</div>`:""}
-  <section class="valor" style="border:1.5px solid var(--line)"><span style="font-size:15px;font-weight:600;color:var(--ink2)">${edit?"¿Cuánto fue?":"¿Cuánto gastaste?"}</span><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor">${b?`<span class="num small">${edit&&ant?`Antes decía ${money(ant.valor)} · `:""}Te quedarán <b style="color:var(--ink)">${money(q-(p.monto||0))}</b> en ${esc(b.nombre)}</span>`:`<span class="small">Primero escoge el bolsillo</span>`}</section>
-  
-  <div class="bottom"><button class="btn" data-act="guardarGasto" ${!b||!(p.monto>0)?"disabled":""}>${edit?"Guardar":"Agregar"}</button>${edit?`<button class="btn3 rojo" data-act="borrarGasto">Borrar este gasto</button>`:""}</div>`; };
+  return `${cabForm(edit?"Cambiar gasto":"Anotar un gasto")}
+  ${campo("¿De qué bolsillo?", `<div class="chips" role="group" aria-label="Bolsillos">${bs.map(x=>{const e=estadoB(x);return `<button class="chip ${x.id===p.bolsillo?"on":""}" aria-pressed="${x.id===p.bolsillo}" data-act="chipB" data-id="${x.id}">${sqB(x,"",!!e)}<span>${esc(x.nombre)}</span></button>`}).join("")}</div><span class="small">Si no tiene bolsillo, usa Libre.</span>`)}
+  ${b?campo(`¿En qué fue? <span class="opc">(opcional)</span>`, inpTexto("nota","nota",p.nota,"Escríbelo aquí") + (edit?"":ideas(ideasGasto(b),"nota",p.nota)), "nota"):""}
+  ${campo("¿Cuánto gastaste?", cajaValor("monto", p.monto, b?`${edit&&ant?`Antes: ${money(ant.valor)} · `:""}Te quedarán <b>${money(q-(p.monto||0))}</b> en ${esc(b.nombre)}`:"Primero escoge el bolsillo"))}
+  ${pieForm("guardarGasto", edit?"Guardar":"Anotar gasto", b && p.monto>0, edit && "borrarGasto", "Borrar gasto")}`; };
 function hojaNoAlcanza(){ const p=S.p; const b=bolsillos().find(x=>x.id===p.bolsillo); const falta=p.falta; const opciones = ordenados().filter(x=>!x.aFavor && x.id!==b.id && quedan(x)>=falta).sort((a,c)=>(c.otros?1:0)-(a.otros?1:0)||quedan(c)-quedan(a)); const ah=(S.ahorro?.saldo||0)>=falta; if(p.origen==null) p.origen = opciones[0]?.id || (ah?"ahorro":null);
   const nom = p.origen==="ahorro"?"tu Ahorro":esc(bolsillos().find(x=>x.id===p.origen)?.nombre||"");
   return `<div class="overlay" data-act="cerrarHoja"><section class="sheet" role="dialog" aria-labelledby="na" data-stop><span class="grab" aria-hidden="true"></span>
@@ -600,17 +701,14 @@ function hojaNoAlcanza(){ const p=S.p; const b=bolsillos().find(x=>x.id===p.bols
   ${!p.origen?`<p class="small">No hay ningún bolsillo con ${money(falta)}. Cambia el valor del gasto o agrega un ingreso.</p>`:""}
   ${!b.otros?`<button class="opt" data-act="naCruce" style="min-height:72px;margin-top:4px"><span class="sq s" style="background:#DCFCE7;color:#15803D">${ic("check")}</span><span>Dejar el saldo a favor<small>${esc(b.nombre)} queda en $0 y los ${money(falta)} de más quedan a favor en Libre.</small></span></button>`:""}<div style="display:flex;flex-direction:column;gap:4px"><button class="btn" data-act="naConfirmar" ${p.origen?"":"disabled"}>${p.origen?"Sacar de "+nom:"Sacar de otro bolsillo"}</button><button class="btn3" data-act="cerrarHoja">Cambiar el valor del gasto</button></div></section></div>`; }
 
-/* ingreso */
-V.ingreso1 = () => `<div class="top"><h1 class="h1">Agregar ingreso</h1>${cancelar()}</div><span class="q" style="margin-top:4px">¿Cuánto recibiste?</span>
-  <section class="valor"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"><span class="small">Se suma a tu plata libre</span></section>
-  <div class="bottom"><button class="btn" data-act="ing2" ${S.p.monto>0?"":"disabled"}>Siguiente${ic("sig",'style="stroke-width:2.4"')}</button></div>`;
-V.ingreso2 = () => { const p=S.p; return `<div class="top">${backBtn()}${cancelar("cancelarFlujo")}</div>
-  <div><span class="txt">Recibiste</span><div class="num mes">${money(p.monto)}</div></div>
-  <h1 class="h2" style="margin-top:6px">¿Esta plata te llega todos los meses o solo esta vez?</h1>
-  <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${[["una","Solo esta vez","Se suma a tu plata libre este mes"],["fijo","Todos los meses","Se suma este mes y te la pedimos al empezar cada mes"]].map(([k,t,s])=>`<button class="opt ${p.tipo===k?"on":""}" role="radio" aria-checked="${p.tipo===k}" data-act="ingTipo" data-v="${k}" style="min-height:76px"><span class="radio"></span><span>${t}<small>${s}</small></span></button>`).join("")}</div>
-  ${p.tipo==="fijo"?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada mes?</span><div class="seg" role="radiogroup">${[[false,"No, es igual"],[true,"Sí, cambia"]].map(([v,t])=>`<button class="opt ${!!p.variable===v?"on":""}" role="radio" aria-checked="${!!p.variable===v}" data-act="ingVar" data-v="${v}"><span class="radio"></span>${t}</button>`).join("")}</div><span class="small">Si cambia, al empezar cada mes te pedimos que revises cuánto te llegó.</span></div>`:""}
-  <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px"><label for="quien" class="q">¿Quién te la dio? <span style="font-weight:500;color:var(--ink2)">(opcional)</span></label><input id="quien" class="inp" type="text" autocomplete="off" placeholder="Toca una idea o escríbelo aquí" value="${esc(p.quien||"")}" data-field="quien"><div class="sugs">${["Daniela","Mi otra hija","Un regalo"].map(s=>`<button class="sug" data-act="sugQuien" data-v="${s}">${s}</button>`).join("")}</div></div>
-  <div class="bottom"><button class="btn" data-act="guardarIngreso">Guardar</button></div>`; };
+/* agregar / cambiar ingreso (solo desde Ajustes > Ingresos) */
+V.ingreso = () => { const p=S.p; const edit=!!p.editId; const ok = !!String(p.nombre||"").trim() && p.monto>0;
+  return `${cabForm(edit?"Cambiar ingreso":"Agregar ingreso")}
+  ${campo("¿Cómo se llama?", inpTexto("ingNom","nombre",p.nombre,"Ej.: Pensión") + (edit?"":ideas(IDEAS_ING,"nombre",p.nombre)), "ingNom")}
+  ${campo("¿Cuánto recibes?", cajaValor("monto", p.monto))}
+  ${campo("¿Cada cuánto llega?", dosOpc("tipo", p.tipo, [["una","Solo este mes"],["fijo","Todos los meses"]]))}
+  ${p.tipo==="fijo"?campo("¿El valor cambia?", dosOpc("variable", !!p.variable, [[true,"Sí cambia"],[false,"No cambia"]])):""}
+  ${pieForm("guardarIngreso", edit?"Guardar":"Agregar ingreso", ok, edit && (p.origen==="fijo"?"borrarIngFijo":"borrarIngUna"), p.origen==="fijo"?"Ya no recibes este ingreso":"Borrar ingreso")}`; };
 
 /* valor de una cuenta (verificar recibo / cambiar valor del mes) */
 V.valorCuenta = () => { const c = cuentaMes(cuentasCfg().find(x=>x.id===S.p.id)); const k=clasif(c);
@@ -624,52 +722,46 @@ V.valorCuenta = () => { const c = cuentaMes(cuentasCfg().find(x=>x.id===S.p.id))
 
 /* detalle de bolsillo */
 V.bolsilloFavor = b => `<div class="top">${backBtn("Atrás")}</div>
-  <div class="top"><div style="display:flex;align-items:center;gap:12px;min-width:0"><span class="sq" style="width:56px;height:56px;border-radius:16px;background:#DCFCE7;color:#15803D">${ic(b.icono||iconoPara(b.nombre),'style="width:28px;height:28px"')}</span><h1 class="mes" style="overflow-wrap:anywhere">${esc(b.nombre)}</h1></div><button class="link" data-act="renombrar" aria-label="Cambiar el nombre" style="width:44px;justify-content:center;color:var(--ink3)">${ic("pen",'style="width:22px;height:22px"')}</button></div>
+  <div class="top"><div style="display:flex;align-items:center;gap:12px;min-width:0"><span class="sq" style="width:56px;height:56px;border-radius:16px;background:#DCFCE7;color:#15803D">${ic(b.icono||iconoPara(b.nombre),'style="width:28px;height:28px"')}</span><h1 class="mes" style="overflow-wrap:anywhere">${esc(b.nombre)}</h1></div><button class="link" data-act="renombrar" aria-label="Cambiar saldo a favor" style="width:44px;justify-content:center;color:var(--ink3)">${ic("pen",'style="width:22px;height:22px"')}</button></div>
   <section class="resumen"><span class="r-lbl">Saldo a favor</span><span class="num r-cifra" style="color:var(--ok)">+${money(asignado(b))}</span></section>
-  ${ayuda("<b>Esta plata se suma a tu plata libre.</b> No se gasta desde aquí: los gastos los anotas en tus otros bolsillos o en Libre.", null)}
-  <button class="btn2" data-act="favorValor">${ic("pen",'style="width:22px;height:22px"')}Cambiar el valor</button>
-  <div class="bottom"><button class="btn3 rojo" data-act="borrarB">Borrar saldo a favor</button></div>`;
+  <p class="small">Se suma a tu plata libre. No se gasta desde aquí.</p>`;
 V.bolsillo = () => { const b = bolsillos().find(x=>x.id===S.p.id); if(!b) return V.bolsillos(); if(b.aFavor) return V.bolsilloFavor(b); const e=estadoB(b); const a=asignado(b), g=gastado(b.id), q=a-g;
   const gs = gastos().filter(x=>x.bolsillo===b.id).sort((x,y)=>y.fecha.localeCompare(x.fecha));
   return `<div class="top">${backBtn("Atrás")}</div>
-  <div class="top">${`<div style="display:flex;align-items:center;gap:12px;min-width:0">${(()=>{const [bg,fg]=colorDe(b);return `<span class="sq" style="width:56px;height:56px;border-radius:16px;background:${bg};color:${fg}">${ic(b.otros?"otros":(b.icono||iconoPara(b.nombre)),'style="width:28px;height:28px"')}${e?'<span class="pt" style="width:16px;height:16px;border-color:var(--bg)"></span>':""}</span>`})()}<h1 class="mes" style="overflow-wrap:anywhere">${esc(b.nombre)}</h1></div>`}${b.otros?"":`<button class="link" data-act="renombrar" aria-label="Cambiar el nombre" style="width:44px;justify-content:center;color:var(--ink3)">${ic("pen",'style="width:22px;height:22px"')}</button>`}</div>
-  ${b.otros?`<p class="small" style="margin-top:-8px">Para un gasto que no tiene bolsillo, como una serenata. Se resta de tu plata libre.</p>`:""}
+  <div class="top">${`<div style="display:flex;align-items:center;gap:12px;min-width:0">${(()=>{const [bg,fg]=colorDe(b);return `<span class="sq" style="width:56px;height:56px;border-radius:16px;background:${bg};color:${fg}">${ic(b.otros?"otros":(b.icono||iconoPara(b.nombre)),'style="width:28px;height:28px"')}${e?'<span class="pt" style="width:16px;height:16px;border-color:var(--bg)"></span>':""}</span>`})()}<h1 class="mes" style="overflow-wrap:anywhere">${esc(b.nombre)}</h1></div>`}${b.otros?"":`<button class="link" data-act="renombrar" aria-label="Cambiar bolsillo" style="width:44px;justify-content:center;color:var(--ink3)">${ic("pen",'style="width:22px;height:22px"')}</button>`}</div>
+  ${b.otros?`<p class="small" style="margin-top:-8px">Para gastos que no tienen bolsillo.</p>`:""}
   <section style="background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:16px 22px;display:flex;flex-direction:column;gap:8px">${(()=>{ const fz = b.otros ? 0 : favorEn(b.id); return fz>0 && q<=0 ? `<span class="q" style="color:var(--ok)">A favor</span><span class="num cifra" style="color:var(--ok)">+${money(fz)}</span>` : `<span class="q ${e?"warn":""}">${b.otros?"Te queda libre":e==="casi"?"Solo quedan":"Quedan"}</span><span class="num cifra">${money(Math.max(0,q))}</span>`; })()}<div class="bar gris" aria-hidden="true"><i style="width:${a>0?Math.max(0,Math.min(100,Math.round(q/a*100))):0}%"></i></div><span class="num txt">Tenías ${money(a)} · Has gastado ${money(g)}</span></section>
   <button class="btn2" data-act="pasar">${ic("mas",'style="stroke-width:2.4"')}Pasar plata a este bolsillo</button>
-  <div class="sec" style="gap:8px"><h2 class="h2">Lo que gastaste</h2>${gs.length?`<span class="small">Si te equivocaste, toca el gasto o el lápiz para cambiarlo.</span><div class="grp">${gs.map(x=>`<button class="li" data-act="editarGasto" data-id="${x.id}"><span class="n"><b ${x.nota?"":'style="color:var(--ink2)"'}>${x.nota?esc(x.nota):"Sin nombre"}</b><small>${fechaLarga(x.fecha)} ${fechaDe(x.fecha)}</small>${x.favor?`<small style="color:var(--ok);font-weight:600">+${money(x.favor)} a favor en Libre</small>`:""}</span><span class="num lv">${money(x.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>`:`<div class="empty"><p class="small">Todavía no has gastado de este bolsillo este mes.</p></div>`}</div>
-  <div class="bottom"><button class="btn" data-act="gastoEn">Agregar gasto en ${esc(b.nombre)}</button>${b.otros?"":`<button class="btn3 rojo" data-act="borrarB">Borrar bolsillo</button>`}</div>`; };
+  <div class="sec" style="gap:8px"><h2 class="h2">Lo que gastaste</h2>${gs.length?`<span class="small">Toca un gasto para cambiarlo.</span><div class="grp">${gs.map(x=>`<button class="li" data-act="editarGasto" data-id="${x.id}"><span class="n"><b ${x.nota?"":'style="color:var(--ink2)"'}>${x.nota?esc(x.nota):"Sin nombre"}</b><small>${fechaLarga(x.fecha)} ${fechaDe(x.fecha)}</small>${x.favor?`<small style="color:var(--ok);font-weight:600">+${money(x.favor)} a favor en Libre</small>`:""}</span><span class="num lv">${money(x.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>`:`<div class="empty"><p class="small">Todavía no has gastado de este bolsillo este mes.</p></div>`}</div>
+  <div class="bottom"><button class="btn" data-act="gastoEn">Anotar gasto en ${esc(b.nombre)}</button><button class="btn2" data-tab="bolsillos">Ver todos los bolsillos</button></div>`; };
 function hojaBorrar(){ const b=bolsillos().find(x=>x.id===S.p.id); const q=Math.max(0,quedan(b)); return `<div class="overlay" data-act="cerrarHoja"><section class="sheet" role="alertdialog" aria-labelledby="bt" data-stop><span class="grab" aria-hidden="true"></span><span class="sq" style="width:52px;height:52px;border-radius:16px;background:rgba(220,38,38,.12);color:var(--rojo);margin-top:6px">${ic("caneca",'style="width:28px;height:28px"')}</span><h1 id="bt" class="h2" style="font-size:24px">¿Seguro que quieres borrar ${esc(b.nombre)}?</h1><p class="txt" style="font-size:17px">${b.aFavor?`Tu plata libre baja <b class="num" style="color:var(--ink);font-weight:600">${money(asignado(b))}</b>.`:`Los <b class="num" style="color:var(--ink);font-weight:600">${money(q)}</b> que quedan pasan a Libre. Lo que ya gastaste queda guardado en este mes.`}</p><div style="display:flex;flex-direction:column;gap:12px;margin-top:6px"><button class="btn rojo" data-act="confirmarBorrar">Sí, borrar bolsillo</button><button class="btn2" data-act="cerrarHoja">No, dejarlo</button></div></section></div>`; }
 
 /* pasar plata */
 function origenes(destId){ return ordenados().filter(x=>!x.aFavor && x.id!==destId); }
 V.pasar = () => { const p=S.p; const d=bolsillos().find(x=>x.id===p.destino); if(p.origen==null){ const os=origenes(d.id).filter(x=>quedan(x)>0).sort((a,c)=>(c.otros?1:0)-(a.otros?1:0)||quedan(c)-quedan(a)); p.origen = os[0]?.id || ((S.ahorro?.saldo||0)>0?"ahorro":null); }
   const o = p.origen==="ahorro"?{nombre:"Ahorro",ahorro:true}:bolsillos().find(x=>x.id===p.origen); const disp = o? (o.ahorro?(S.ahorro?.saldo||0):quedan(o)) : 0; const m=p.monto||0;
-  return `<div class="top">${backBtn()}${cancelar()}</div><h1 class="h1">Pasar plata a ${esc(d.nombre)}</h1>
+  return `<div class="top cab">${btnCerrar()}<h1 class="h1">Pasar plata a ${esc(d.nombre)}</h1></div>
   <div style="display:flex;flex-direction:column;gap:8px"><span class="q">Sale de</span>${o?`<button class="item" data-act="escogerOrigen" style="min-height:64px">${o.ahorro?sqAhorro("s"):sqB(o,"s")}<span class="mid"><span class="t" style="font-size:17px">${esc(o.nombre)}</span><span class="num s">${o.ahorro?"Tienes":"Quedan"} ${money(disp)}</span></span><span style="font-size:16px;font-weight:600;text-decoration:underline;text-underline-offset:3px">Cambiar</span></button>`:`<div class="empty"><p class="small">Ningún bolsillo tiene plata para pasar.</p></div>`}</div>
   <section class="valor" style="gap:12px"><div><span style="font-size:15px;font-weight:600;color:var(--ink2)">¿Cuánto pasas?</span><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"></div>${o?`<div style="display:flex;flex-direction:column;gap:8px;border-top:1.5px solid var(--line);padding-top:12px;width:100%;text-align:left">${[[o, disp-m],[d, quedan(d)+m]].map(([x,v])=>`<span style="display:flex;align-items:center;gap:10px;font-size:16px">${x.ahorro?sqAhorro("xs"):sqB(x,"xs")}<span class="grow">${esc(x.nombre)} quedará con</span><b class="num" style="font-weight:600;${v<0?"color:var(--rojo-t)":""}">${money(v)}</b></span>`).join("")}</div>`:""}</section>
   ${m>disp&&o?`<p class="small" style="color:var(--rojo-t);font-weight:600;text-align:center">${esc(o.nombre)} solo tiene ${money(disp)}.</p>`:""}
   <div class="bottom"><button class="btn" data-act="confirmarPasar" ${o&&m>0&&m<=disp?"":"disabled"}>Pasar la plata</button></div>`; };
-V.pasarOrigen = () => { const p=S.p; return `<div class="top">${backBtn()}${cancelar()}</div><h1 class="h1">¿De dónde sacas la plata?</h1>
+V.pasarOrigen = () => { const p=S.p; return `<div class="top">${backBtn()}</div><h1 class="h1">¿De dónde sacas la plata?</h1>
   <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${origenes(p.destino).map(x=>{const q=quedan(x);return `<button class="opt ${p.origen===x.id?"on":""}" role="radio" aria-checked="${p.origen===x.id}" data-act="setOrigen" data-id="${x.id}" ${q>0?"":"disabled"}><span class="radio"></span>${sqB(x,"s")}<span class="grow">${esc(x.nombre)}</span><span class="rt"><span class="l">${q>0?"Quedan":"No tiene"}</span><span class="num" style="font-size:18px;font-weight:600">${money(Math.max(0,q))}</span></span></button>`}).join("")}
   <button class="opt ${p.origen==="ahorro"?"on":""}" role="radio" aria-checked="${p.origen==="ahorro"}" data-act="setOrigen" data-id="ahorro" ${(S.ahorro?.saldo||0)>0?"":"disabled"}><span class="radio"></span>${sqAhorro("s")}<span class="grow">Ahorro</span><span class="rt"><span class="l">Tienes</span><span class="num" style="font-size:18px;font-weight:600">${money(S.ahorro?.saldo||0)}</span></span></button></div>
   <div class="bottom"><button class="btn" data-act="volver">Listo</button></div>`; };
 
-/* crear / renombrar bolsillo */
-V.crear1 = () => { const p=S.p; const ren = !!p.renombrar; const b = ren ? bolsillos().find(x=>x.id===p.renombrar) : null; const nombre=p.nombre??(b?.nombre||"");
-  const prev = {nombre:nombre||"Tu bolsillo", icono:iconoPara(nombre), color: ren? b.color : nextColor()};
-  return `<div class="top"><h1 class="h1">${ren?"Cambiar nombre":"Crear bolsillo"}</h1>${cancelar()}</div>
-  <div style="display:flex;flex-direction:column;gap:8px"><label for="nombreB" class="q">¿Cómo se llama?</label><input id="nombreB" class="inp" type="text" autocomplete="off" maxlength="22" value="${esc(nombre)}" placeholder="Escribe el nombre" data-field="nombre" style="border:2px solid var(--ink)"></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Ideas</span><div class="chips">${IDEAS.map(([n,i])=>`<button class="chip ${nombre===n?"on":""}" aria-pressed="${nombre===n}" data-act="idea" data-v="${n}"><span class="sq" style="background:var(--neutro)">${ic(i)}</span><span>${n}</span></button>`).join("")}</div></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Así se verá</span><div class="item" id="prevB" style="cursor:default">${sqB(prev)}<span class="mid"><span class="t" id="prevN">${esc(prev.nombre)}</span></span><span class="rt"><span class="l">Quedan</span><span class="num v">${money(ren?Math.max(0,quedan(b)):0)}</span></span></div>
-  <span class="small">${ren?"Solo cambia el nombre. La plata y los gastos se quedan igual.":"En la siguiente pantalla le pones la plata."}</span></div>
-  <div class="bottom"><button class="btn" data-act="${ren?"guardarNombre":"crear2"}" ${nombre.trim()?"":"disabled"} id="btnNombre">${ren?"Guardar":"Siguiente"+ic("sig",'style="stroke-width:2.4"')}</button></div>`; };
+/* agregar / cambiar bolsillo */
+V.bolsilloForm = () => { const p=S.p; const edit=!!p.editId; const b = edit ? bolsillos().find(x=>x.id===p.editId) : null; if(edit && !b) return V.bolsillos();
+  const otros = bolsillos().find(x=>x.otros); const fv = edit ? !!b.aFavor : !!p.aFavor; const m=p.monto||0; const antes = edit ? (+b.asignado||0) : 0;
+  const disp = (otros?quedan(otros):0) + (fv?-antes:antes);
+  const nota = fv ? `Tendrás <b>${money(disp+m)}</b> libres` : (disp-m>=0 ? `${edit&&gastado(b.id)>0?`Ya gastaste ${money(gastado(b.id))} · `:""}Te quedarán <b>${money(disp-m)}</b> libres` : `<span style="color:var(--rojo-t);font-weight:600">Te faltan ${money(m-disp)} para cubrir tus bolsillos</span>`);
+  const ok = !!String(p.nombre||"").trim() && (!fv || m>0);
+  return `${cabForm(edit?(fv?"Cambiar saldo a favor":"Cambiar bolsillo"):"Agregar bolsillo")}
+  ${campo("¿Cómo se llama?", inpTexto("nombreB","nombre",p.nombre,"Ej.: Mercado",22) + (edit?"":ideas(IDEAS.map(x=>x[0]),"nombre",p.nombre)), "nombreB")}
+  ${campo(fv?"¿De cuánto es el saldo a favor?":"¿Cuánto le pones este mes?", cajaValor("monto", m, nota))}
+  ${edit?"":`<button class="opt ${fv?"on":""}" role="checkbox" aria-checked="${fv}" data-act="tipoB" style="min-height:56px"><span class="box" ${fv?'style="background:var(--ink)"':""}>${fv?ic("check",'style="width:18px;height:18px;color:#fff;stroke-width:3"'):""}</span><span>Es saldo a favor</span></button>`}
+  ${pieForm("guardarB", edit?"Guardar":"Agregar bolsillo", ok, edit && "borrarB", fv?"Borrar saldo a favor":"Borrar bolsillo")}`; };
 const nextColor = () => { const usados = bolsillos().filter(b=>!b.otros&&!b.borrado).map(b=>(b.color||0)%6); const cnt=[0,1,2,3,4,5].map(c=>usados.filter(u=>u===c).length); const min=Math.min(...cnt); const ult=usados[usados.length-1]; const op=[0,1,2,3,4,5].filter(c=>cnt[c]===min); return op.find(c=>c!==ult) ?? op[0]; };
-V.crear2 = () => { const p=S.p; const otros = bolsillos().find(b=>b.otros); const disp = otros?quedan(otros):0; const m=p.monto||0; const fv=!!p.aFavor; const prev={nombre:p.nombre,icono:iconoPara(p.nombre),color:p.color,aFavor:fv};
-  return `<div class="top">${backBtn()}${cancelar("cancelarFlujo")}</div><div style="display:flex;align-items:center;gap:12px">${sqB(prev)}<h1 class="h1">${esc(p.nombre)}</h1></div>
-  <div style="display:flex;flex-direction:column;gap:4px;margin-top:4px"><span class="q">${fv?"¿De cuánto es el saldo a favor?":"¿Cuánta plata le pones este mes?"}</span><p class="nota" style="margin-top:0">Tienes <b class="num" style="color:var(--ink)">${money(disp)}</b> libres.</p></div>
-  <section class="valor" style="border:1.5px solid var(--line)"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor"><span class="small">${fv?`Se suma a tu plata libre. Tendrás <b class="num" style="color:var(--ink)">${money(disp+m)}</b> libres.`:m<=disp?`Esta plata sale de tu plata libre. Te quedarán <b class="num" style="color:var(--ink)">${money(disp-m)}</b> libres.`:`<span style="color:var(--rojo-t);font-weight:600">Te faltarán <b class="num">${money(m-disp)}</b> para cubrir tus bolsillos.</span>`}</span></section>
-  <button class="opt ${fv?"on":""}" role="checkbox" aria-checked="${fv}" data-act="tipoB" style="min-height:56px"><span class="box" ${fv?'style="background:var(--ink)"':""}>${fv?ic("check",'style="width:18px;height:18px;color:#fff;stroke-width:3"'):""}</span><span>Es saldo a favor</span></button>
-  <div class="bottom"><button class="btn" data-act="guardarCrear" ${fv&&!(m>0)?"disabled":""}>${fv?"Crear saldo a favor":"Crear bolsillo"}</button>${fv?"":`<button class="btn3" data-act="guardarCrear0">Dejar en $0 por ahora</button>`}</div>`; };
 
 /* cierre e inicio de mes */
 function resumenMes(){ const sob = totalQuedan(); return { recibido: recibido(), sobrante: sob }; }
@@ -677,7 +769,7 @@ V.cierre = () => { const r = resumenMes(); const sob=r.sobrante; const nuevo = (
   return `${HEADER}<div><h1 class="mes">${cap(mesNombre(mesKey(d)))}</h1><span class="sub">Hoy, ${DIAS[d.getDay()]} ${d.getDate()}</span></div>
   <section class="hero lila" style="gap:14px;padding:20px 22px"><div style="display:flex;flex-direction:column;gap:4px"><span class="h2">${cap(mesNombre(S.mesKey))} terminó</span><span style="font-size:17px;color:var(--lila-t)">${sob>=0?"Te sobraron":"Te faltaron"}</span><span class="num cifra">${money(Math.abs(sob))}</span></div>
   <div style="background:rgba(255,255,255,.75);border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px">${sqAhorro("s")}<span class="num" style="flex:1;font-size:16px;line-height:1.35">${sob>=0?`Los guardamos en tu Ahorro. Ahora tienes <b style="font-weight:600">${money(nuevo)}</b>.`:`Los sacamos de tu Ahorro. Ahora tienes <b style="font-weight:600">${money(Math.max(0,nuevo))}</b>.`}</span></div></section>
-  <section style="background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:18px 20px;display:flex;flex-direction:column;gap:12px"><span class="h2">Empieza ${mesNombre(sig)}</span><span class="txt" style="font-size:17px">Son 3 pasos cortos: confirmar tu plata, apartar las cuentas y repartir el resto en tus bolsillos.</span><button class="btn" data-act="empezarMes">Empezar ${mesNombre(sig)}</button></section>`; };
+  <section style="background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:18px 20px;display:flex;flex-direction:column;gap:12px"><span class="h2">Empieza ${mesNombre(sig)}</span><span class="txt" style="font-size:17px">Son 3 pasos cortos: tu plata, tus facturas y tus bolsillos.</span><button class="btn" data-act="empezarMes">Empezar ${mesNombre(sig)}</button></section>`; };
 const pasos = n => `<div class="steps" role="img" aria-label="Paso ${n} de 3">${[1,2,3].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div><span class="lbl">Paso ${n} de 3</span>`;
 V.paso1 = () => { const D=S.draft; const tot = D.ingresos.reduce((s,i)=>s+i.valor,0); const pend = D.ingresos.filter(i=>i.variable && !i.verificado);
   return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn("Volver al inicio")}${pasos(1)}</div>
@@ -685,15 +777,15 @@ V.paso1 = () => { const D=S.draft; const tot = D.ingresos.reduce((s,i)=>s+i.valo
   <section style="background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:20px 22px;display:flex;flex-direction:column;gap:16px"><span class="num cifra">${money(tot)}</span>${D.ingresos.map((i,ix)=>{ const pe = i.variable && !i.verificado; return `<button class="row" data-act="p1valor" data-ix="${ix}" style="border-top:1.5px solid var(--line);padding-top:14px${pe?";background:var(--ver-bg);border-radius:16px;padding:12px 10px;border-top-color:transparent":""}">${pe?`<span class="sq" style="background:var(--ver-sq);color:var(--ver-i)">${ic("recibo")}</span>`:`<span class="sq">${ic("persona")}</span>`}<span class="mid"><span class="t">${esc(i.nombre)}</span>${pe?`<span class="s warn">Verifica cuánto te llegó</span>`:`<span class="s">${i.variable?"Todos los meses · el valor cambia":"Todos los meses"}</span>`}</span><span class="num v">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`; }).join("")}${D.extra.map(i=>`<div class="row" style="border-top:1.5px solid var(--line);padding-top:14px;cursor:default"><span class="sq">${ic("billete")}</span><span class="mid"><span class="t">${esc(i.nombre||"Otro ingreso")}</span><span class="s">Solo este mes</span></span><span class="num v">${money(i.valor)}</span></div>`).join("")}</section>
   <button class="link" data-act="p1extra" style="align-self:flex-start">${ic("mas",'style="stroke-width:2.4"')}Agregar otro ingreso</button>
   <div class="bottom">${pend.length?`<span class="small" style="text-align:center">Toca ${esc(pend[0].nombre)} para escribir cuánto te llegó este mes. El mes pasado fue ${money(pend[0].valor)}.</span>`:""}<button class="btn" data-act="p2" ${pend.length?"disabled":""}>Es correcto</button><button class="btn2" data-act="p1valor" data-ix="0">Cambiar el valor</button></div>`; };
-V.p1valor = () => `<div class="top">${backBtn()}</div><div><h1 class="h1">${esc(S.p.titulo)}</h1><span class="txt">${esc(S.p.sub||"")}</span></div>${S.p.tipo==="ingFijo"||S.p.tipo==="ingUna"?`<div style="display:flex;flex-direction:column;gap:8px"><label for="ingNom" class="q">¿Cómo se llama?</label><input id="ingNom" class="inp" type="text" autocomplete="off" maxlength="30" value="${esc(S.p.nombreIng ?? S.p.titulo)}" placeholder="Ej.: Mi trabajo" data-field="nombreIng"></div>`:""}<span class="q" style="margin-top:4px">${esc(S.p.pregunta)}</span>
+V.p1valor = () => `<div class="top">${backBtn()}</div><div><h1 class="h1">${esc(S.p.titulo)}</h1><span class="txt">${esc(S.p.sub||"")}</span></div>${S.p.tipo==="ingFijo"||S.p.tipo==="ingUna"?`<div style="display:flex;flex-direction:column;gap:8px"><label for="ingNom" class="q">¿Cómo se llama?</label><input id="ingNom" class="inp" type="text" autocomplete="off" maxlength="30" value="${esc(S.p.nombreIng ?? S.p.titulo)}" placeholder="Ej.: Pensión" data-field="nombreIng"></div>`:""}<span class="q" style="margin-top:4px">${esc(S.p.pregunta)}</span>
   <section class="valor"><input id="monto" class="num cifra montoInp" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" enterkeyhint="done" value="${S.p.monto?money(S.p.monto):""}" placeholder="$0" data-field="monto" data-money aria-label="Valor">${S.p.antes!=null?`<span class="num small">El mes pasado fue ${money(S.p.antes)}</span>`:""}</section>${S.p.tipo==="ingFijo"?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada mes?</span><div class="seg" role="radiogroup">${[[false,"No, es igual"],[true,"Sí, cambia"]].map(([v,t])=>`<button class="opt ${!!S.p.variable===v?"on":""}" role="radio" aria-checked="${!!S.p.variable===v}" data-act="ingVar" data-v="${v}"><span class="radio"></span>${t}</button>`).join("")}</div><span class="small">Si cambia, al empezar cada mes te pedimos que revises cuánto te llegó.</span></div>`:""}
-  <div class="bottom">${S.p.nota?`<span class="small" style="text-align:center">${esc(S.p.nota)}</span>`:""}<button class="btn" data-act="p1valorOk" ${S.p.monto>0||S.p.permitir0?"":"disabled"}>Guardar</button>${S.p.tipo==="ingFijo"?`<button class="btn3 rojo" data-act="borrarIngFijo">Ya no recibo este ingreso</button>`:S.p.tipo==="ingUna"?`<button class="btn3 rojo" data-act="borrarIngUna">Borrar este ingreso</button>`:""}</div>`;
+  <div class="bottom">${S.p.nota?`<span class="small" style="text-align:center">${esc(S.p.nota)}</span>`:""}<button class="btn" data-act="p1valorOk" ${S.p.monto>0||S.p.permitir0?"":"disabled"}>Guardar</button>${S.p.tipo==="ingFijo"?`<button class="btn3 rojo" data-act="borrarIngFijo">Ya no recibes este ingreso</button>`:S.p.tipo==="ingUna"?`<button class="btn3 rojo" data-act="borrarIngUna">Borrar este ingreso</button>`:""}</div>`;
 V.paso2 = () => { const D=S.draft; const cs = cuentasCfg().map(c=>({...c, valor: D.cuentas[c.id].valor, toca:D.cuentas[c.id].toca})); const ap = c => c.cada===2?Math.round(c.valor/2):c.valor; const tot = cs.reduce((s,c)=>s+ap(c),0);
-  return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn()}${pasos(2)}</div><h1 class="mes" style="margin-top:6px">Aparta para tus cuentas</h1>
-  <section class="hero amb" style="gap:6px;padding:16px 22px"><span class="q">Pásala a tu bolsillo del banco</span><span class="num cifra">${money(tot)}</span><span style="font-size:16px;color:var(--amb-t)">Solo para facturas.</span></section>
-  <span class="small" style="margin-bottom:-6px">Si un valor cambió este mes, toca la cuenta o el lápiz para cambiarlo.</span>
+  return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn()}${pasos(2)}</div><h1 class="mes" style="margin-top:6px">Aparta para tus facturas</h1>
+  <section class="hero amb" style="gap:6px;padding:16px 22px"><span class="q">Pásala al bolsillo FACTURAS de Bancolombia</span><span class="num cifra">${money(tot)}</span></section>
+  <span class="small" style="margin-bottom:-6px">Si un valor cambió, tócalo para cambiarlo.</span>
   <div class="grp">${cs.sort((a,b)=>a.dia-b.dia).map(c=>`<button class="li" data-act="p2valor" data-id="${c.id}" style="min-height:56px"><span class="n"><b>${esc(c.nombre)}${c.cada===2?" · la mitad":""}</b><small ${c.variable&&!D.cuentas[c.id].cambiada?'style="color:var(--ver-t);font-weight:600"':""}>${D.cuentas[c.id].pagada?"Ya la pagaste por adelantado · ":""}${c.cada===2?(c.toca?"Este mes toca pagar "+money(c.valor):"Este mes no toca · día "+c.dia):"Día "+c.dia+(c.variable&&!D.cuentas[c.id].cambiada?" · valor del mes pasado":"")}</small></span><span class="num lv">${money(ap(c))}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>
-  <div class="bottom"><button class="btn" data-act="p3">Ya lo aparté</button></div>`; };
+  <div class="bottom"><button class="btn" data-act="p3">Listo, ya está apartado</button></div>`; };
 function draftLibre(){ const D=S.draft; const ing = D.ingresos.reduce((s,i)=>s+i.valor,0)+D.extra.reduce((s,i)=>s+i.valor,0); const ap = cuentasCfg().reduce((s,c)=>{const v=D.cuentas[c.id].valor; return s+(c.cada===2?Math.round(v/2):v);},0); return ing-ap; }
 const draftOtros = () => draftLibre() - S.draft.bolsillos.filter(b=>!b.otros).reduce((s,b)=>s+(b.aFavor?-1:1)*b.asignado,0);
 V.paso3 = () => { const D=S.draft; const L=draftLibre(); const o=draftOtros(); const sobra = o>=0;
@@ -702,39 +794,39 @@ V.paso3 = () => { const D=S.draft; const L=draftLibre(); const o=draftOtros(); c
   <p class="nota" style="margin-top:0">Lo que no pongas en ningún bolsillo queda libre.</p>
   ${sobra?`<h2 class="h2" style="margin-top:4px">¿Repartimos igual que ${mesNombre(S.mesKey)}?</h2>
   <div class="grp">${D.bolsillos.filter(b=>!b.otros).map(b=>`<div class="li static" style="min-height:54px;gap:12px">${sqB(b,"xs")}<span class="n"><b>${esc(b.nombre)}</b>${b.aFavor?`<small style="color:var(--ok);font-weight:600">Saldo a favor</small>`:""}</span><span class="num lv" ${b.aFavor?'style="color:var(--ok)"':""}>${b.aFavor?"+":""}${money(b.asignado)}</span></div>`).join("")}<div class="li static" style="min-height:54px;gap:12px">${sqB({otros:true},"xs")}<span class="n"><b>Libre</b><small>Para gastos sin bolsillo</small></span><span class="num lv">${money(o)}</span></div></div>
-  <div class="bottom"><button class="btn" data-act="empezar">Sí, igual que ${mesNombre(S.mesKey)}</button><button class="btn2" data-act="p3cambiar">Quiero cambiar algo</button></div>`
+  <div class="bottom"><button class="btn" data-act="empezar">Sí, igual que ${mesNombre(S.mesKey)}</button><button class="btn2" data-act="p3cambiar">Cambiar algo</button></div>`
   :`<section class="alerta"><div style="display:flex;align-items:center;gap:10px"><span class="sq s" style="background:var(--rojo-sq);color:var(--rojo)">${ic("alerta")}</span><span class="q" style="color:var(--rojo-t)">No alcanza para repartir igual</span></div><span style="display:flex;align-items:baseline;gap:10px"><span style="font-size:20px;font-weight:600">Faltan</span><span class="num cifra">${money(-o)}</span></span><span class="txt">Tienes ${money(L)} para repartir y el reparto de ${mesNombre(S.mesKey)} suma ${money(L-o)}.</span></section>
   <div class="bottom"><button class="btn" data-act="p3cambiar">Escoger qué bolsillo bajar</button><button class="btn2" data-act="p1extra">Agregar un ingreso</button></div>`}`; };
 V.paso3cambiar = () => { const D=S.draft; const L=draftLibre(); const o=draftOtros();
   return `<div style="display:flex;flex-direction:column;gap:10px">${backBtn()}${pasos(3)}</div><h1 class="mes" style="margin-top:6px">Cambia lo que quieras</h1>
-  <section class="hero lila" style="gap:6px;padding:16px 22px"><span class="q">Para repartir</span><span class="num cifra">${money(L)}</span><span style="font-size:16px;color:var(--lila-t)">Toca un valor para escribirlo, o usa + y −. Lo que no separes queda en Libre.</span></section>
+  <section class="hero lila" style="gap:6px;padding:16px 22px"><span class="q">Para repartir</span><span class="num cifra">${money(L)}</span><span style="font-size:16px;color:var(--lila-t)">Toca un valor o usa + y −. Lo que no separes queda en Libre.</span></section>
   <div class="sec">${D.bolsillos.filter(b=>!b.otros).map(b=>`<div class="item" style="cursor:default;padding:10px 12px 10px 14px">${sqB(b)}<button class="mid" data-act="p3valor" data-id="${b.id}" style="background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit" aria-label="Escribir el valor de ${esc(b.nombre)}"><span class="t" style="font-size:17px">${esc(b.nombre)}</span><span class="num v" style="display:flex;align-items:center;gap:6px">${money(b.asignado)}${ic("pen",'class="ic pen"')}</span></button><button class="st" aria-label="Bajar ${esc(b.nombre)}" data-act="step" data-id="${b.id}" data-d="-1">${ic("menos")}</button><button class="st" aria-label="Subir ${esc(b.nombre)}" data-act="step" data-id="${b.id}" data-d="1">${ic("mas")}</button></div>`).join("")}
   <div class="item" style="background:var(--neutro);border-color:transparent;cursor:default">${(()=>`<span class="sq" style="background:#fff">${ic("otros")}</span>`)()}<span class="mid"><span class="t" style="font-size:17px">Libre</span><span class="s" style="font-size:14px">Para gastos sin bolsillo</span></span><span class="num v" ${o<0?'style="color:var(--rojo-t)"':""}>${money(o)}</span></div></div>
   ${o<0?`<p class="q" style="color:var(--rojo-t);text-align:center">Todavía faltan ${money(-o)}. Baja algún bolsillo.</p>`:""}
   <div class="bottom"><button class="btn" data-act="empezar" ${o<0?"disabled":""}>Listo, empezar el mes</button></div>`; };
 
 /* ajustes: recibo, cuentas, avisos, meses */
-V.recibo = () => `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Lo que recibo cada mes</h1><span class="txt">Te lo preguntamos al empezar cada mes.</span></div>
-  ${(S.cfg?.ingresosFijos||[]).map(i=>`<button class="item" data-act="editIngFijo" data-id="${i.id}"><span class="sq">${ic("persona")}</span><span class="mid"><span class="t">${esc(i.nombre)}</span><span class="s">${i.variable?"Todos los meses · el valor cambia":"Todos los meses"}</span></span><span class="num v">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}
-  ${ingresosUna().map(i=>`<button class="item" data-act="editIngUna" data-id="${i.id}"><span class="sq">${ic("billete")}</span><span class="mid"><span class="t">${esc(i.nombre)}</span><span class="s">Una vez · ${mesNombre(S.mesKey)}</span></span><span class="num v">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}
-  <button class="btn2" data-act="ingRecibo">${ic("mas",'style="stroke-width:2.4"')}Agregar ingreso</button>
-  <span class="small">La plata que te llega una sola vez se agrega en Inicio, con el botón + Agregar, y aparece aquí solo durante ese mes.</span>`;
+V.recibo = () => { const fs=(S.cfg?.ingresosFijos||[]), us=ingresosUna();
+  return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Ingresos</h1><span class="txt">Lo que recibes cada mes</span></div>
+  ${fs.length||us.length?`<div class="grp">${fs.map(i=>`<button class="li" data-act="editIngFijo" data-id="${i.id}"><span class="n"><b>${esc(i.nombre)}</b><small>${i.variable?"Todos los meses · cambia":"Todos los meses"}</small></span><span class="num lv">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}${us.map(i=>`<button class="li" data-act="editIngUna" data-id="${i.id}"><span class="n"><b>${esc(i.nombre)}</b><small>Solo en ${mesNombre(S.mesKey)}</small></span><span class="num lv">${money(i.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>`:`<div class="empty"><p class="small">Todavía no tienes ingresos.</p></div>`}
+  <button class="btn2" data-act="ingRecibo">${ic("mas",'style="stroke-width:2.4"')}Agregar ingreso</button>`; };
 V.misCuentas = () => { const act = cuentasCfg().sort((a,b)=>a.dia-b.dia), arch=(S.cfg?.cuentas||[]).filter(c=>c.archivada);
-  return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Mis cuentas</h1><span class="txt">Toca una cuenta o el lápiz para cambiarla.</span></div>
+  return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Facturas</h1><span class="txt">Las que pagas cada mes</span></div>
   <div class="grp">${act.map(c=>`<button class="li" data-act="editCuenta" data-id="${c.id}"><span class="n"><b>${esc(c.nombre)}</b><small>Día ${c.dia} · ${c.cada===2?"cada dos meses":c.variable?"el valor cambia":"cada mes"}</small></span><span class="num lv">${money(c.valor)}</span>${ic("pen",'class="ic pen"')}</button>`).join("")}</div>
-  <button class="btn2" data-act="editCuenta" data-id="">${ic("mas",'style="stroke-width:2.4"')}Crear cuenta</button>
-  ${arch.length?`<div class="sec" style="gap:8px;margin-top:6px"><h2 class="h2" style="font-size:20px">Cuentas que ya no pagas</h2><div class="grp">${arch.map(c=>`<div class="li static"><span class="n"><b style="color:var(--ink2)">${esc(c.nombre)}</b><small>${money(c.valor)} · día ${c.dia}</small></span><button class="link u" style="font-size:16px" data-act="desarchivar" data-id="${c.id}">Volver a pagar</button></div>`).join("")}</div></div>`:""}`; };
-V.cuenta = () => { const p=S.p; const f=p.f; const r=(campo,a,b,ta,tb)=>`<div class="seg" role="radiogroup">${[[a,ta],[b,tb]].map(([v,t])=>`<button class="opt ${f[campo]===v?"on":""}" role="radio" aria-checked="${f[campo]===v}" data-act="campoCuenta" data-c="${campo}" data-v="${JSON.stringify(v).replace(/"/g,"&quot;")}"><span class="radio"></span>${t}</button>`).join("")}</div>`;
-  return `<div class="top">${backBtn("Mis cuentas")}</div><h1 class="h1">${p.id?esc(f.nombre||"Cuenta"):"Crear cuenta"}</h1>
-  <div style="display:flex;flex-direction:column;gap:8px"><label for="cnom" class="q">¿Cómo se llama?</label><input id="cnom" class="inp" type="text" autocomplete="off" value="${esc(f.nombre||"")}" placeholder="Ej.: Luz" data-field="f.nombre"></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><label for="cval" class="q">¿Cuánto vale?</label><input id="cval" class="inp num" type="text" inputmode="numeric" autocomplete="off" value="${f.valor?money(f.valor):""}" placeholder="$0" data-field="f.valor" data-money></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><label for="cdia" class="q">¿Qué día se paga?</label><input id="cdia" class="inp num" type="number" inputmode="numeric" min="1" max="31" value="${f.dia||""}" placeholder="Del 1 al 31" data-field="f.dia"></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿El valor cambia cada vez?</span>${r("variable",true,false,"Sí, cambia","No, es igual")}<span class="small">Si cambia, te pedimos que revises el recibo.</span></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿Cada cuánto llega?</span>${r("cada",1,2,"Cada mes","Cada 2 meses")}</div>
-  ${f.cada===2?`<div style="display:flex;flex-direction:column;gap:8px"><span class="q">¿Este mes toca pagarla?</span>${r("toca",true,false,"Sí","No")}<span class="num small">Cada mes apartas la mitad: ${money(Math.round((f.valor||0)/2))}.</span></div>`:""}
-  ${p.error?`<p class="q" style="color:var(--rojo-t)">${esc(p.error)}</p>`:""}
-  <div class="bottom"><button class="btn" data-act="guardarCuenta">Guardar</button>${p.id?`<button class="btn3" data-act="archivar">Ya no pago esta cuenta</button>`:""}</div>`; };
-V.avisos = () => { const av=S.p.f; return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Avisos al correo</h1><span class="txt">Te escribimos <b style="color:var(--ink);font-weight:600">2 días antes</b> de cada pago, para que no se te pase ninguno. Un solo correo por día, aunque venzan varias cuentas.</span></div>
+  <button class="btn2" data-act="editCuenta" data-id="">${ic("mas",'style="stroke-width:2.4"')}Agregar factura</button>
+  ${arch.length?`<div class="sec" style="gap:8px;margin-top:6px"><h2 class="h2" style="font-size:20px">Facturas que ya no pagas</h2><div class="grp">${arch.map(c=>`<div class="li static"><span class="n"><b style="color:var(--ink2)">${esc(c.nombre)}</b><small>${money(c.valor)} · día ${c.dia}</small></span><button class="link u" style="font-size:16px" data-act="desarchivar" data-id="${c.id}">Volver a pagar</button></div>`).join("")}</div></div>`:""}`; };
+V.cuenta = () => { const p=S.p; const f=p.f; const edit=!!p.id; const dia=parseInt(f.dia,10); const diaOk = dia>=1 && dia<=31; const ok = !!String(f.nombre||"").trim() && f.valor>0 && diaOk;
+  return `${cabForm(edit?"Cambiar factura":"Agregar factura")}
+  ${campo("¿Cómo se llama?", inpTexto("cnom","f.nombre",f.nombre,"Ej.: Luz") + (edit?"":ideas(IDEAS_F,"f.nombre",f.nombre)), "cnom")}
+  ${campo("¿Cuánto vale?", cajaValor("f.valor", f.valor, f.cada===2&&f.valor?`Cada mes apartas la mitad: <b>${money(Math.round(f.valor/2))}</b>`:""))}
+  ${campo("¿Qué día vence?", `<input id="cdia" class="inp num" type="number" inputmode="numeric" min="1" max="31" value="${f.dia||""}" placeholder="Del 1 al 31" data-field="f.dia">${f.dia&&!diaOk?`<span class="small" style="color:var(--rojo-t);font-weight:600">Escribe un día del 1 al 31</span>`:""}`, "cdia")}
+  ${campo("¿El valor cambia?", dosOpc("f.variable", !!f.variable, [[true,"Sí cambia"],[false,"No cambia"]]))}
+  ${campo("¿Cada cuánto llega?", dosOpc("f.cada", f.cada, [[1,"Cada mes"],[2,"Cada 2 meses"]]))}
+  ${f.cada===2?campo("¿Toca pagarla este mes?", dosOpc("f.toca", !!f.toca, [[true,"Sí"],[false,"No"]])):""}
+  ${pieForm("guardarCuenta", edit?"Guardar":"Agregar factura", ok, edit && "archivar", "Ya no pagas esta factura")}`; };
+V.texto = () => { const k = tamGuardado(); return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Tamaño del texto</h1><span class="txt">Escoge el que leas mejor.</span></div>
+  <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${TAMANOS.map(([v,txt,z])=>`<button class="opt ${k===v?"on":""}" role="radio" aria-checked="${k===v}" data-act="setTamano" data-v="${v}" style="min-height:72px"><span class="radio"></span><span class="grow">${txt}</span><span style="font-size:${Math.round(22*z/0.88)}px;font-weight:800">Aa</span></button>`).join("")}</div>`; };
+V.avisos = () => { const av=S.p.f; return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Avisos al correo</h1><span class="txt">Te escribimos <b style="color:var(--ink);font-weight:600">2 días antes</b> de cada pago.</span></div>
   <div style="display:flex;flex-direction:column;gap:8px"><label for="correo" class="q">¿A qué correo te escribimos?</label><input id="correo" class="inp" type="email" autocomplete="email" placeholder="Escribe tu correo aquí" value="${esc(av.correo||"")}" data-field="f.correo"></div>
   <div class="bottom"><button class="btn" data-act="guardarAvisos">Guardar</button></div>`; };
 V.meses = () => { const ms=S.meses; return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Meses anteriores</h1><span class="txt">Toca un mes para ver cómo te fue.</span></div>
@@ -744,7 +836,7 @@ V.mes = () => { const m = (S.meses||[]).find(x=>x.key===S.p.id); if(!m) return V
   const cs=(r.cuentas||[]); const otrosB = bs.find(b=>b.otros); const notas = otrosB?(m.gastos||[]).filter(g=>g.bolsillo===otrosB.id):[];
   return `<div class="top">${backBtn("Meses anteriores")}</div><div><h1 class="mes">${cap(mesNombre(m.key))}</h1><span class="txt">Este mes ya terminó. Aquí solo lo puedes mirar.</span></div>
   <section class="hero lila" style="gap:6px;padding:16px 22px"><span class="q">${sob>=0?"Te sobraron":"Te faltaron"}</span><span class="num cifra">${money(Math.abs(sob))}</span><span style="font-size:16px;font-weight:600;color:var(--lila-t)">${sob>=0?"Se guardaron en tu Ahorro":"Salieron de tu Ahorro"}</span><span class="num" style="font-size:16px;color:var(--lila-t)">Recibiste ${money(r.recibido||0)}</span></section>
-  ${cs.length?`<div class="sec"><h2 class="h2">Cuentas <span style="font-size:16px;font-weight:500;color:var(--ink2)">· pagaste ${cs.filter(c=>c.pagada).length} de ${cs.filter(c=>c.toca).length}</span></h2><div class="grp">${cs.map(c=>`<div class="li static" style="min-height:56px"><span class="n"><b>${esc(c.nombre)}</b><small style="${c.pagada?"color:var(--ok);font-weight:600":""}">${!c.toca?"No tocaba · apartaste la mitad":c.pagada?"✓✓ Pagada"+(c.fechaPago?" el "+Number(c.fechaPago.slice(8)):""):"No se marcó como pagada"}</small></span><span class="num lv">${money(c.toca?c.valor:c.apartado)}</span></div>`).join("")}</div></div>`:""}
+  ${cs.length?`<div class="sec"><h2 class="h2">Facturas <span style="font-size:16px;font-weight:500;color:var(--ink2)">· pagaste ${cs.filter(c=>c.pagada).length} de ${cs.filter(c=>c.toca).length}</span></h2><div class="grp">${cs.map(c=>`<div class="li static" style="min-height:56px"><span class="n"><b>${esc(c.nombre)}</b><small style="${c.pagada?"color:var(--ok);font-weight:600":""}">${!c.toca?"No tocaba · apartaste la mitad":c.pagada?"✓✓ Pagada"+(c.fechaPago?" el "+Number(c.fechaPago.slice(8)):""):"No se marcó como pagada"}</small></span><span class="num lv">${money(c.toca?c.valor:c.apartado)}</span></div>`).join("")}</div></div>`:""}
   <div class="sec"><h2 class="h2">Bolsillos</h2><div class="grp">${bs.map(b=>`<div class="li static" style="gap:12px">${sqB(b,"s")}<span class="n"><b>${esc(b.nombre)}</b><small class="num">Tenías ${money(b.asignadoFinal??b.asignado)}</small></span><span class="num lv">Gastaste ${money(gas(b.id))}</span></div>`).join("")}</div></div>
   ${notas.length?`<div class="sec"><h2 class="h2">Libre <span style="font-size:16px;font-weight:500;color:var(--ink2)">· gastos sin bolsillo</span></h2><div class="grp">${notas.map(g=>`<div class="li static"><span class="n"><b ${g.nota?"":'style="color:var(--ink2);font-weight:500"'}>${g.nota?esc(g.nota):"Sin nombre"}</b><small>${Number(g.fecha.slice(8))} ${fechaDe(g.fecha)}</small></span><span class="num lv">${money(g.valor)}</span></div>`).join("")}</div></div>`:""}`; };
 
@@ -767,7 +859,7 @@ function render(){
   const app = $("#app"), layer = $("#layer");
   if(!S.ok || S.cargar){ return; }
   if(S.mesKey && !S.mesListo){ return; }
-  if(!S.mes){ app.className=""; app.innerHTML = `${HEADER}<div class="empty"><p class="q">Todavía no hay un mes cargado</p><p class="small">Daniela está preparando tus cuentas y bolsillos. Cuando estén listos, aquí vas a ver tus cuentas y tus bolsillos.</p></div>`; layer.innerHTML=""; return; }
+  if(!S.mes){ app.className=""; app.innerHTML = `${HEADER}<div class="empty"><p class="q">Todavía no hay un mes cargado</p><p class="small">Daniela está preparando tus facturas y bolsillos. Cuando estén listos, aquí vas a ver tus facturas y tus bolsillos.</p></div>`; layer.innerHTML=""; return; }
   const needL = bs => (bs||[]).some(b=>b && b.otros && b.nombre!=="Libre"); const fixL = bs => (bs||[]).forEach(b=>{ if(b && b.otros) b.nombre="Libre"; });
   if(needL(S.mes.bolsillos)){ S.mes = clone(S.mes); fixL(S.mes.bolsillos); }
   if(S.meses && S.meses.some(m=>needL(m.bolsillos))) S.meses = S.meses.map(m=>{ if(!needL(m.bolsillos)) return m; const c = clone(m); fixL(c.bolsillos); return c; });
@@ -775,7 +867,7 @@ function render(){
   let v = S.view; let hoja = "";
   if(v==="menu"){ hoja = hojaMenu(); v = S.p.base||"inicio"; }
   if(v==="noAlcanza"){ hoja = hojaNoAlcanza(); v="gasto"; }
-  if(v==="borrar"){ hoja = hojaBorrar(); v="bolsillo"; }
+  if(v==="borrar"){ hoja = hojaBorrar(); v=S.p.vistaBase||"bolsillo"; }
   if(v==="inicio" && necesitaCierre()) v = "cierre";
   const fn = V[v] || V.inicio;
   app.className = (TABS.includes(v)) ? "" : "flow";
@@ -783,6 +875,7 @@ function render(){
   if(act && act.tagName==="INPUT" && app.contains(act) && app.dataset.v===v){ const t=document.createElement("div"); t.innerHTML=html; morphKids(app,t); }
   else { app.innerHTML = html; const f = app.querySelector("[autofocus]"); if(f) f.focus(); }
   app.dataset.v = v;
+  if(!hoja && S.aviso) hoja = hojaAviso();
   layer.innerHTML = hoja;
   renderToast();
   ajustarBottom();
@@ -794,9 +887,10 @@ window.addEventListener("scroll", ajustarBottom, {passive:true}); window.addEven
 const A = {};
 A.volver = volver;
 A.menu = () => ir("menu",{base:S.view},true);
-A.cerrarHoja = () => { if(S.view==="menu"){ S.view=S.p.base; S.p={}; } else if(S.view==="noAlcanza"){ S.view="gasto"; } else if(S.view==="borrar"){ S.view="bolsillo"; } render(); };
+A.cerrarAviso = () => { S.aviso = null; render(); };
+A.cerrarHoja = () => { if(S.view==="menu"){ S.view=S.p.base; S.p={}; } else if(S.view==="noAlcanza"){ S.view="gasto"; } else if(S.view==="borrar"){ S.view=S.p.vistaBase||"bolsillo"; } render(); };
 A.deshacer = deshacer;
-A.guia = el => { marcarGuia(); ir("guia",{paso:+(el?.dataset?.paso||0)}); };
+A.guia = el => { marcarGuia(); ir("guia",{paso:+(el?.dataset?.paso||0), solo:!!el?.dataset?.solo}); };
 A.guia0 = () => A.guia();
 A.guiaSig = () => { S.p.paso=(S.p.paso||0)+1; render(); window.scrollTo(0,0); };
 A.guiaAnt = () => { S.p.paso=Math.max(0,(S.p.paso||0)-1); render(); window.scrollTo(0,0); };
@@ -805,21 +899,19 @@ A.noGuia = () => { marcarGuia(); render(); };
 A.cancelarFlujo = () => { const base = S.stack[0]; S.stack=[]; S.view = base?.view||"inicio"; S.p = base?.p||{}; render(); };
 A.nuevoGasto = () => { const base=S.p.base; S.view=base; S.p={}; ir("gasto",{bolsillo:null,monto:0}); };
 A.gastoDirecto = () => ir("gasto",{bolsillo:null,monto:0});
-A.ingRecibo = () => ir("ingreso1",{monto:0, setup:true, volverA:"recibo"});
-A.nuevoIngreso = () => { const base=S.p.base; S.view=base; S.p={}; ir("ingreso1",{monto:0}); };
+A.ingRecibo = () => ir("ingreso",{nombre:"", monto:0, tipo:"una", variable:false});
 A.chipB = el => { S.p.bolsillo = el.dataset.id; render(); };
-A.sug = el => { S.p.nota = el.dataset.v; render(); };
-A.sugQuien = el => { S.p.quien = el.dataset.v; render(); };
 A.guardarGasto = () => { const p=S.p; const b=bolsillos().find(x=>x.id===p.bolsillo); const ant = p.editId?gastos().find(g=>g.id===p.editId):null;
   const disp = quedan(b) + (ant && ant.bolsillo===b.id ? +ant.valor : 0);
   if(p.monto > disp && !p.cubierto && !p.cruce && ant && ant.favor && !b.otros) p.cruce = true;
   if(p.monto > disp && !p.cubierto && !p.cruce){ S.p.falta = p.monto - Math.max(0,disp); S.p.quedaba = disp; S.p.origen = null; S.view="noAlcanza"; render(); return; }
   const favor = p.cruce ? Math.max(0, p.monto - Math.max(0,disp)) : 0;
   const nota = (p.nota||"").trim();
-  const id = p.editId || uid(); const fecha = ant?.fecha || ymd(hoy());
-  cambioMes(m => { m.gastos = (m.gastos||[]).filter(g=>g.id!==id); m.gastos.push({id, bolsillo:b.id, valor:p.monto, fecha, nota, ...(favor?{favor}:{})}); if(p.cubierto && p.cubierto!=="ahorro"){ const o=m.bolsillos.find(x=>x.id===p.cubierto); const d=m.bolsillos.find(x=>x.id===b.id); if(!o.otros) o.asignado -= p.falta; if(!d.otros) d.asignado += p.falta; } }, favor ? (p.editId?"Gasto cambiado. ":"Gasto agregado. ")+money(favor)+" quedaron a favor en Libre." : (p.editId?"Gasto cambiado":"Gasto agregado en "+b.nombre));
+  const avisar = !p.editId && !b.otros; const id = p.editId || uid(); const fecha = ant?.fecha || ymd(hoy());
+  cambioMes(m => { m.gastos = (m.gastos||[]).filter(g=>g.id!==id); m.gastos.push({id, bolsillo:b.id, valor:p.monto, fecha, nota, ...(favor?{favor}:{})}); if(p.cubierto && p.cubierto!=="ahorro"){ const o=m.bolsillos.find(x=>x.id===p.cubierto); const d=m.bolsillos.find(x=>x.id===b.id); if(!o.otros) o.asignado -= p.falta; if(!d.otros) d.asignado += p.falta; } }, avisar ? null : (favor ? (p.editId?"Gasto cambiado. ":"Gasto agregado. ")+money(favor)+" quedaron a favor en Libre." : (p.editId?"Gasto cambiado":"Gasto agregado en "+b.nombre)));
   if(p.cubierto==="ahorro"){ moverDesdeAhorro(b.id, p.falta); }
   volver();
+  if(avisar){ S.aviso = {texto:`Anotaste <b>${money(p.monto - favor)}</b> en ${esc(b.nombre)}.`, bolsillo:"BOLSILLOS"}; render(); }
 };
 A.naOrigen = el => { S.p.origen = el.dataset.id; render(); };
 A.naCruce = () => { S.p.cruce = true; S.view="gasto"; A.guardarGasto(); };
@@ -827,27 +919,34 @@ A.naConfirmar = () => { S.p.cubierto = S.p.origen; S.view="gasto"; A.guardarGast
 A.borrarGasto = () => { const id=S.p.editId; volver(); cambioMes(m=>{ m.gastos=(m.gastos||[]).filter(g=>g.id!==id); }, "Gasto borrado"); };
 A.editarGasto = el => { const g=gastos().find(x=>x.id===el.dataset.id); ir("gasto",{bolsillo:g.bolsillo, monto:g.valor, nota:g.nota||"", editId:g.id}); };
 A.gastoEn = () => ir("gasto",{bolsillo:S.p.id, monto:0});
-A.ing2 = () => ir("ingreso2",{monto:S.p.monto, tipo:S.p.setup?"fijo":"una", quien:"", volverA:S.p.volverA});
-A.ingTipo = el => { S.p.tipo = el.dataset.v; render(); };
 const ingDelMes = (m, f) => (m.ingresos||[]).find(x=>x.fijoId===f.id) || (m.ingresos||[]).find(x=>x.fijo && !x.fijoId && x.nombre===f.nombre);
 const ingresosUna = () => { const fs=(S.cfg?.ingresosFijos||[]); return (S.mes?.ingresos||[]).filter(i=>!i.fijo || !fs.some(f=> i.fijoId ? i.fijoId===f.id : i.nombre===f.nombre)); };
 A.borrarIngFijo = () => { const id=S.p.id; volver(); const prevC=clone(S.cfg), c=clone(S.cfg); const f=c.ingresosFijos.find(x=>x.id===id)||{}; const n=f.nombre||"el ingreso"; c.ingresosFijos=c.ingresosFijos.filter(x=>x.id!==id);
   const prevM=clone(S.mes), m=clone(S.mes); const e=ingDelMes(m,f); if(e) m.ingresos=m.ingresos.filter(x=>x!==e);
   S.cfg=c; S.mes=m; render(); guardar([{path:"config/main",data:c,prev:prevC},{path:"meses/"+S.mesKey,data:m,prev:prevM}], "Borraste "+n); };
-A.editIngUna = el => { const i=ingresosUna().find(x=>x.id===el.dataset.id); if(!i) return; ir("p1valor",{tipo:"ingUna",id:i.id,titulo:i.nombre,sub:"Solo en "+mesNombre(S.mesKey),pregunta:"¿Cuánto recibiste?",monto:i.valor}); };
+A.editIngUna = el => { const i=ingresosUna().find(x=>x.id===el.dataset.id); if(!i) return; ir("ingreso",{editId:i.id, id:i.id, origen:"una", nombre:i.nombre, monto:i.valor, tipo:"una", variable:false}); };
 A.borrarIngUna = () => { const id=S.p.id; const n=(ingresosUna().find(x=>x.id===id)||{}).nombre||"el ingreso"; volver(); cambioMes(m=>{ m.ingresos=(m.ingresos||[]).filter(x=>x.id!==id); }, "Borraste "+n); };
 A.ingVar = el => { S.p.variable = el.dataset.v==="true"; render(); };
-A.guardarIngreso = async () => { const p=S.p; const nombre=(p.quien||"").trim();
-  const fid=uid(); if(p.tipo==="fijo"){ const prevC=clone(S.cfg); const c=clone(S.cfg); c.ingresosFijos=[...(c.ingresosFijos||[]),{id:fid,nombre:nombre||"Ingreso de cada mes",valor:p.monto, ...(p.variable?{variable:true}:{})}]; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}]); }
-  cambioMes(m=>{ m.ingresos=[...(m.ingresos||[]),{id:uid(),nombre:nombre||"Ingreso",valor:p.monto,fecha:ymd(hoy()),fijo:p.tipo==="fijo", ...(p.tipo==="fijo"?{fijoId:fid}:{})}]; }, "Ingreso agregado a tu plata libre.");
-  (p.volverA ? volverA(p.volverA) : A.cancelarFlujo()); };
+A.guardarIngreso = () => { const p=S.p; const nombre=cap(String(p.nombre||"").trim()); if(!nombre || !(p.monto>0)) return;
+  const prevC=clone(S.cfg), c=clone(S.cfg); c.ingresosFijos=c.ingresosFijos||[];
+  const prevM=clone(S.mes), m=clone(S.mes); m.ingresos=m.ingresos||[];
+  let e=null, fid=null;
+  if(p.origen==="fijo"){ const f=c.ingresosFijos.find(x=>x.id===p.id); e = f ? ingDelMes(m,f) : null; fid=p.id; if(p.tipo!=="fijo"){ c.ingresosFijos=c.ingresosFijos.filter(x=>x.id!==p.id); fid=null; } }
+  else if(p.origen==="una"){ e = m.ingresos.find(x=>x.id===p.id) || null; }
+  if(p.tipo==="fijo"){ if(!fid) fid=uid(); const ix=c.ingresosFijos.findIndex(x=>x.id===fid); const datos={...(ix>=0?c.ingresosFijos[ix]:{}), id:fid, nombre, valor:p.monto}; delete datos.variable; if(p.variable) datos.variable=true; if(ix>=0) c.ingresosFijos[ix]=datos; else c.ingresosFijos.push(datos); }
+  if(!e){ e={id:uid(), fecha:ymd(hoy())}; m.ingresos.push(e); }
+  e.nombre=nombre; e.valor=p.monto; if(p.tipo==="fijo"){ e.fijo=true; e.fijoId=fid; } else { e.fijo=false; delete e.fijoId; }
+  S.cfg=c; S.mes=m; render();
+  guardar([{path:"config/main",data:c,prev:prevC},{path:"meses/"+S.mesKey,data:m,prev:prevM}], p.editId?"Ingreso guardado":"Agregaste "+nombre);
+  volver(); };
 A.verCuenta = el => { const c=cuentaMes(cuentasCfg().find(x=>x.id===el.dataset.id)); if(c.pagada || !c.toca){ return; } ir("valorCuenta",{id:c.id, monto:c.valor}); };
 A.guardarValorCuenta = (pagar) => { const id=S.p.id, v=S.p.monto; const cfgPrev=clone(S.cfg); const cfg=clone(S.cfg); const cc=cfg.cuentas.find(x=>x.id===id); cc.valor=v; S.cfg=cfg;
   const prevM=clone(S.mes); const m=clone(S.mes); m.cuentas=m.cuentas||{}; m.cuentas[id]={...(m.cuentas[id]||{}), valor:v, verificada:true, ...(pagar===true?{pagada:true,fechaPago:ymd(hoy())}:{})}; S.mes=m;
-  guardar([{path:"meses/"+S.mesKey,data:m,prev:prevM},{path:"config/main",data:cfg,prev:cfgPrev}], pagar===true? cc.nombre+" quedó pagada" : "Valor guardado"); volver(); };
+  guardar([{path:"meses/"+S.mesKey,data:m,prev:prevM},{path:"config/main",data:cfg,prev:cfgPrev}], pagar===true? null : "Valor guardado"); volver(); if(pagar===true){ S.aviso = {texto:`Pagaste ${esc(cc.nombre)}: <b>${money(v)}</b>.`, bolsillo:"FACTURAS"}; render(); } };
 A.pagarDesdeValor = () => A.guardarValorCuenta(true);
 A.pagar = el => { const id=el.dataset.id; const c=cuentasCfg().find(x=>x.id===id); el.setAttribute("aria-checked","true"); el.querySelector(".box").innerHTML = ic("check",'style="width:18px;height:18px;color:#fff;stroke-width:3"'); el.querySelector(".box").style.background="var(--ink)";
-  setTimeout(()=>cambioMes(m=>{ m.cuentas=m.cuentas||{}; m.cuentas[id]={...(m.cuentas[id]||{}), pagada:true, fechaPago:ymd(hoy())}; }, c.nombre+" quedó pagada. Se pasa a Pagadas."), 350); };
+  const val = cuentaMes(c).valor;
+  setTimeout(()=>{ cambioMes(m=>{ m.cuentas=m.cuentas||{}; m.cuentas[id]={...(m.cuentas[id]||{}), pagada:true, fechaPago:ymd(hoy())}; }, null); S.aviso = {texto:`Pagaste ${esc(c.nombre)}: <b>${money(val)}</b>.`, bolsillo:"FACTURAS"}; render(); }, 350); };
 A.verBolsillo = el => ir("bolsillo",{id:el.dataset.id});
 A.pasar = () => ir("pasar",{destino:S.p.id, origen:null, monto:0});
 A.escogerOrigen = () => { const p=S.p; ir("pasarOrigen",{destino:p.destino, origen:p.origen, _ref:p}); };
@@ -859,30 +958,42 @@ A.confirmarPasar = () => { const {destino, origen, monto} = S.p; const d=bolsill
 function moverDesdeAhorro(destId, monto){ const prevA=clone(S.ahorro), a=clone(S.ahorro); a.saldo=(a.saldo||0)-monto; a.movimientos=[...(a.movimientos||[]),{fecha:ymd(hoy()),valor:-monto,motivo:"Pasaste plata a un bolsillo"}].slice(-60); S.ahorro=a;
   const prevM=clone(S.mes), m=clone(S.mes); m.desdeAhorro=(m.desdeAhorro||0)+monto; const d=m.bolsillos.find(x=>x.id===destId); if(!d.otros) d.asignado+=monto; S.mes=m; render();
   guardar([{path:"ahorro/main",data:a,prev:prevA},{path:"meses/"+S.mesKey,data:m,prev:prevM}], "Sacaste "+money(monto)+" de tu Ahorro"); }
-A.crear = () => ir("crear1",{nombre:""});
-A.renombrar = () => ir("crear1",{renombrar:S.p.id});
-A.idea = el => { S.p.nombre = el.dataset.v; render(); };
-A.crear2 = () => { const n=(S.p.nombre||"").trim(); if(!n) return; ir("crear2",{nombre:n, color:nextColor(), monto:0}); };
-function crearB(monto){ const p=S.p; const b={id:uid(), nombre:p.nombre, icono:iconoPara(p.nombre), color:p.color, asignado:monto, ...(p.aFavor?{aFavor:true}:{})};
-  cambioMes(m=>{ const o = m.bolsillos.filter(x=>!x.otros); const ot = m.bolsillos.filter(x=>x.otros); m.bolsillos=[...o,b,...ot]; }, (p.aFavor?"Creaste el saldo a favor ":"Creaste el bolsillo ")+p.nombre); A.cancelarFlujo(); }
+A.crear = () => ir("bolsilloForm",{nombre:"", monto:0, aFavor:false, color:nextColor()});
+A.renombrar = () => { const b=bolsillos().find(x=>x.id===S.p.id); if(!b) return; ir("bolsilloForm",{editId:b.id, id:b.id, nombre:b.nombre, monto:+b.asignado||0}); };
+A.idea = el => { setP(el.dataset.f||"nombre", el.dataset.v); render(); };
+A.opc = el => { setP(el.dataset.c, JSON.parse(el.dataset.v)); render(); };
+A.guardarB = () => { const p=S.p; const n=cap(String(p.nombre||"").trim()); if(!n) return;
+  if(p.editId){ const id=p.editId; cambioMes(m=>{ const b=m.bolsillos.find(x=>x.id===id); if(!b) return; b.nombre=n; b.icono=iconoPara(n); if(!b.otros) b.asignado=p.monto||0; }, "Cambios guardados"); volver(); return; }
+  const b={id:uid(), nombre:n, icono:iconoPara(n), color:p.color, asignado:p.monto||0, ...(p.aFavor?{aFavor:true}:{})};
+  const avisar = !p.aFavor && (p.monto||0) > 0;
+  cambioMes(m=>{ const o=m.bolsillos.filter(x=>!x.otros), ot=m.bolsillos.filter(x=>x.otros); m.bolsillos=[...o,b,...ot]; }, avisar ? null : (p.aFavor?"Agregaste el saldo a favor ":"Agregaste el bolsillo ")+n); volver();
+  if(avisar){ S.aviso = {texto:`Agregaste el bolsillo ${esc(n)} con <b>${money(p.monto)}</b>.`, bolsillo:"BOLSILLOS"}; render(); } };
 A.tipoB = () => { S.p.aFavor = !S.p.aFavor; render(); };
 A.favorValor = () => { const b=bolsillos().find(x=>x.id===S.p.id); if(!b) return; ir("p1valor",{tipo:"favor",id:b.id,titulo:b.nombre,sub:"Saldo a favor",pregunta:"¿De cuánto es el saldo a favor?",monto:+b.asignado||0}); };
-A.guardarCrear = () => crearB(S.p.monto||0);
-A.guardarCrear0 = () => crearB(0);
-A.guardarNombre = () => { const n=(S.p.nombre||"").trim(); if(!n) return; const id=S.p.renombrar; cambioMes(m=>{ const b=m.bolsillos.find(x=>x.id===id); b.nombre=n; b.icono=iconoPara(n); }, "Nombre cambiado"); volver(); };
-A.borrarB = () => { S.view="borrar"; render(); };
+A.borrarB = () => { S.p.vistaBase = S.view; S.view="borrar"; render(); };
 A.confirmarBorrar = () => { const id=S.p.id; const b=bolsillos().find(x=>x.id===id); const g=gastado(id);
   S.stack=[]; S.view="bolsillos"; S.p={};
   cambioMes(m=>{ const x=m.bolsillos.find(y=>y.id===id); if(g>0){ x.asignado=g; x.borrado=true; } else m.bolsillos=m.bolsillos.filter(y=>y.id!==id); }, "Borraste "+b.nombre+(b.aFavor?".":". Lo que quedaba pasó a tu plata libre.")); };
 
 /* próximo mes */
 const enProximo = () => S.view==="proximo" || S.stack.some(x=>x.view==="proximo");
-A.proximo = () => { ir("proximo"); try{ history.pushState({mima:"proximo"},""); }catch(e){} };
-A.salirProximo = () => { let st=null; try{ st=history.state; }catch(e){} if(st && st.mima==="proximo") history.back(); else tab("inicio"); };
-window.addEventListener("popstate", () => { // botón o gesto "atrás" del celular
-  if(S.view==="proximo"){ tab("inicio"); }
-  else if(enProximo()){ volver(); try{ history.pushState({mima:"proximo"},""); }catch(e){} }
+A.proximo = () => ir("proximo");
+A.salirProximo = () => tab("inicio");
+/* botón o gesto "atrás" del celular (Android): vuelve un paso dentro de Mima.
+   Siempre dejamos una entrada de historial "de guardia"; al volver atrás se consume, la reponemos y hacemos el paso atrás de la app.
+   Solo en Inicio, sin nada abierto, el botón atrás sale de la app. */
+let saliendo = false;
+const guardia = () => { try{ history.pushState({mima:"guardia"}, ""); }catch(e){} };
+window.addEventListener("popstate", () => {
+  if(saliendo) return;
+  if(S.aviso){ guardia(); A.cerrarAviso(); return; }
+  if(["menu","noAlcanza","borrar"].includes(S.view)){ guardia(); A.cerrarHoja(); return; }
+  if(S.view==="proximo"){ guardia(); tab("inicio"); return; }
+  if(S.stack.length){ guardia(); volver(); return; }
+  if(S.view!=="inicio"){ guardia(); tab("inicio"); return; }
+  saliendo = true; try{ history.back(); }catch(e){}
 });
+guardia();
 A.bValor = el => { const c = cuentaBorr(cuentasCfg().find(x=>x.id===el.dataset.id)); if(c.pagada) return; const k=sigKey();
   ir("p1valor",{tipo:"bcuenta", id:c.id, titulo:c.nombre, sub:"Se paga el "+c.dia+" de "+mesNombre(k), pregunta:"¿Cuánto llega el recibo de "+mesNombre(k)+"?", monto:c.valor, antes:c.valor, nota:"Este valor es para "+mesNombre(k)+"."}); };
 A.bPagar = el => { const id=el.dataset.id; const c=cuentasCfg().find(x=>x.id===id); const ya=!!(((borr()||{}).cuentas||{})[id]||{}).pagada;
@@ -928,27 +1039,38 @@ A.empezar = async () => { const D=S.draft; const r=resumenMes();
 
 /* ajustes */
 A.recibo = () => ir("recibo"); A.misCuentas = () => ir("misCuentas"); A.meses = () => { ir("meses"); cargarMeses(); };
-A.editIngFijo = el => { const i=S.cfg.ingresosFijos.find(x=>x.id===el.dataset.id); ir("p1valor",{tipo:"ingFijo",id:i.id,titulo:i.nombre,sub:"Todos los meses",pregunta:"¿Cuánto te da cada mes?",monto:i.valor,variable:!!i.variable}); };
+A.editIngFijo = el => { const i=S.cfg.ingresosFijos.find(x=>x.id===el.dataset.id); if(!i) return; ir("ingreso",{editId:i.id, id:i.id, origen:"fijo", nombre:i.nombre, monto:i.valor, tipo:"fijo", variable:!!i.variable}); };
 A.editCuenta = el => { const id=el.dataset.id; const c=id?S.cfg.cuentas.find(x=>x.id===id):null; const toca = c ? !!((S.mes.cuentas||{})[c.id]||{}).toca : false;
   ir("cuenta",{id, f: c?{nombre:c.nombre,valor:c.valor,dia:c.dia,variable:!!c.variable,cada:c.cada||1,toca}:{nombre:"",valor:0,dia:"",variable:false,cada:1,toca:true}}); };
 A.campoCuenta = el => { S.p.f[el.dataset.c] = JSON.parse(el.dataset.v); render(); };
 A.guardarCuenta = () => { const p=S.p, f=p.f; const dia=parseInt(f.dia,10);
-  if(!String(f.nombre||"").trim()){ p.error="Escribe el nombre de la cuenta."; return render(); } if(!(f.valor>0)){ p.error="Escribe cuánto vale."; return render(); } if(!(dia>=1&&dia<=31)){ p.error="Escribe un día del 1 al 31."; return render(); }
-  const prevC=clone(S.cfg), c=clone(S.cfg); const id=p.id||uid(); const datos={id,nombre:f.nombre.trim(),valor:f.valor,dia,variable:!!f.variable,cada:f.cada};
+  if(!String(f.nombre||"").trim() || !(f.valor>0) || !(dia>=1&&dia<=31)) return;
+  const prevC=clone(S.cfg), c=clone(S.cfg); const id=p.id||uid(); const datos={id,nombre:cap(f.nombre.trim()),valor:f.valor,dia,variable:!!f.variable,cada:f.cada};
   const ix=c.cuentas.findIndex(x=>x.id===id); if(ix>=0) c.cuentas[ix]={...c.cuentas[ix],...datos}; else c.cuentas.push(datos); S.cfg=c;
   const prevM=clone(S.mes), m=clone(S.mes); m.cuentas=m.cuentas||{}; m.cuentas[id]={...(m.cuentas[id]||{}), valor:f.valor, toca: f.cada===2?!!f.toca:true}; S.mes=m;
-  guardar([{path:"config/main",data:c,prev:prevC},{path:"meses/"+S.mesKey,data:m,prev:prevM}], p.id?"Cuenta guardada":"Creaste la cuenta "+datos.nombre); volver(); };
-A.archivar = () => { const id=S.p.id; const prevC=clone(S.cfg), c=clone(S.cfg); c.cuentas.find(x=>x.id===id).archivada=true; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Cuenta guardada en Cuentas que ya no pagas"); volver(); };
-A.desarchivar = el => { const id=el.dataset.id; const prevC=clone(S.cfg), c=clone(S.cfg); delete c.cuentas.find(x=>x.id===id).archivada; S.cfg=c; render(); guardar([{path:"config/main",data:c,prev:prevC}],"La cuenta volvió a Mis cuentas"); };
+  guardar([{path:"config/main",data:c,prev:prevC},{path:"meses/"+S.mesKey,data:m,prev:prevM}], p.id?"Cambios guardados":null); volver(); if(!p.id){ const ap = datos.cada===2 ? Math.round(datos.valor/2) : datos.valor; S.aviso = {texto:`Agregaste la factura ${esc(datos.nombre)}. Cada mes apartas <b>${money(ap)}</b>.`, bolsillo:"FACTURAS"}; render(); } };
+A.archivar = () => { const id=S.p.id; const prevC=clone(S.cfg), c=clone(S.cfg); c.cuentas.find(x=>x.id===id).archivada=true; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Factura guardada en Facturas que ya no pagas"); volver(); };
+A.desarchivar = el => { const id=el.dataset.id; const prevC=clone(S.cfg), c=clone(S.cfg); delete c.cuentas.find(x=>x.id===id).archivada; S.cfg=c; render(); guardar([{path:"config/main",data:c,prev:prevC}],"La factura volvió a tus facturas"); };
+A.texto = () => ir("texto");
+A.setTamano = el => { const v=el.dataset.v; try { localStorage.setItem(TAM_KEY, v); } catch(e){} aplicarTamano(v); render(); };
 A.avisos = () => ir("avisos",{f:{correo:S.cfg?.avisos?.correo||""}});
 A.avisoCuando = el => { S.p.f.cuando=el.dataset.v; render(); };
 A.guardarAvisos = () => { const prevC=clone(S.cfg), c=clone(S.cfg); c.avisos={...(c.avisos||{}), correo:(S.p.f.correo||"").trim()}; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Avisos guardados"); volver(); };
 A.verMes = el => ir("mes",{id:el.dataset.id});
-async function cargarMeses(){ try{ const snap=await S.db.collection("meses").get(); S.meses = snap.docs.map(d=>({key:d.id,...d.data()})).filter(m=>m.cerrado).sort((a,b)=>b.key.localeCompare(a.key)); }catch(e){ S.meses=[]; } if(S.view==="meses") render(); }
+async function cargarMeses(){ try{ const snap=await S.db.collection("meses").get(); S.meses = snap.docs.map(d=>({key:d.id,...capNombres(clone(d.data()))})).filter(m=>m.cerrado).sort((a,b)=>b.key.localeCompare(a.key)); }catch(e){ S.meses=[]; } if(S.view==="meses") render(); }
 
 /* ---------- eventos ---------- */
 document.addEventListener("keydown", e => { const t=e.target; if(t && t.tagName==="INPUT" && (e.key==="Enter" || e.keyCode===13)){ e.preventDefault(); t.blur(); } });
-document.addEventListener("pointerdown", e => { const a=document.activeElement; if(a && a.tagName==="INPUT" && !e.target.closest("input, .valor")) a.blur(); }, true);
+/* Teclado: tocar afuera lo cierra. En iPhone, al cerrarse el teclado la pantalla se mueve y el toque
+   puede caer sobre otro elemento (por ejemplo la caja del valor, que lo volvía a abrir). Por eso,
+   si el toque cerró el teclado, se ignora el clic que llega después. */
+const ACCIONABLE = "[data-act],[data-tab],[data-key],button,input,label,.valor";
+let toqueCerroTeclado = false, toqueObjetivo = null, toqueHora = 0, toqueCierre = -1;
+document.addEventListener("pointerdown", e => { const a=document.activeElement; toqueObjetivo = e.target.closest(ACCIONABLE); toqueHora = Date.now(); toqueCerroTeclado = false;
+  if(a && a.tagName==="INPUT" && !e.target.closest("input, .valor")){ toqueCerroTeclado = true; toqueCierre = toqueHora; a.blur(); } }, true);
+document.addEventListener("focusin", e => { const el=e.target; if(el && el.tagName==="INPUT" && Date.now()-toqueHora < 1000 && toqueCierre===toqueHora && el.closest(ACCIONABLE)!==toqueObjetivo && el!==toqueObjetivo){ el.blur(); } }, true);
+document.addEventListener("click", e => { if(!toqueCerroTeclado) return; toqueCerroTeclado = false;
+  const obj = e.target.closest(ACCIONABLE); if(Date.now()-toqueHora < 1500 && obj !== toqueObjetivo){ e.preventDefault(); e.stopPropagation(); } }, true);
 document.addEventListener("click", e => { const v=e.target.closest(".valor"); if(v && !e.target.closest("input")){ const i=v.querySelector("input"); if(i) i.focus(); } });
 document.addEventListener("click", e => {
   const stop = e.target.closest("[data-stop]"); const el = e.target.closest("[data-act],[data-tab],[data-key]");
@@ -961,15 +1083,14 @@ document.addEventListener("click", e => {
 document.addEventListener("input", e => { const el=e.target; const k=el.dataset.field; if(!k) return; let v=el.value;
   if(el.hasAttribute("data-money")){ const n=+(v.replace(/\D/g,"").slice(0,10)||0); v=n; el.value = n?money(n):""; }
   if(k.startsWith("f.")) S.p.f[k.slice(2)] = v; else S.p[k]=v;
-  if(k==="monto") render();
-  if(k==="nombre"){ const pn=$("#prevN"); if(pn) pn.textContent = v.trim()||"Tu bolsillo"; const pb=$("#prevB .sq"); if(pb){ const ico=iconoPara(v); pb.innerHTML=ic(ico); } const bt=$("#btnNombre"); if(bt) bt.disabled=!v.trim(); document.querySelectorAll('.chip[data-act="idea"]').forEach(c=>{ const on=c.dataset.v===v; c.classList.toggle("on",on); c.setAttribute("aria-pressed",on); }); }
+  render();
 });
 
 /* ---------- conexión ---------- */
 const caja = (titulo, texto, extra="") => `<div style="display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding-top:28px"><img src="logo.png" alt="mima" style="height:30px"><img src="icon-512.png" alt="" style="width:150px;height:150px;border-radius:36px"><h1 class="h1">${titulo}</h1><p class="txt" style="font-size:17px;max-width:30ch">${texto}</p>${extra}</div>`;
 function pantallaEntrar(error){
   $("#app").className="flow"; $("#layer").innerHTML="";
-  $("#app").innerHTML = caja("Hola, bienvenida a Mima", "Entra con tu cuenta de Google para ver tus cuentas y tus bolsillos.",
+  $("#app").innerHTML = caja("Hola, bienvenida a Mima", "Entra con tu cuenta de Google para ver tus facturas y tus bolsillos.",
     `<button class="btn" id="entrar" style="max-width:340px;margin-top:6px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#fff" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#fff" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" opacity=".8"/><path fill="#fff" d="M6.4 14a6 6 0 0 1 0-3.9V7.5H3.1a10 10 0 0 0 0 9z" opacity=".6"/><path fill="#fff" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5L6.4 10C7.2 7.8 9.4 6 12 6z" opacity=".7"/></svg>Entrar con Google</button>${error?`<p class="q" style="color:var(--rojo-t)">${esc(error)}</p>`:""}`);
   $("#entrar").onclick = async () => { const pr = new GoogleAuthProvider(); pr.setCustomParameters({prompt:"select_account"});
     try { await signInWithPopup(auth, pr); } catch(e){ if(e && (e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment")) { signInWithRedirect(auth, pr); } else if(e && e.code!=="auth/popup-closed-by-user" && e.code!=="auth/cancelled-popup-request"){ pantallaEntrar("No se pudo entrar. Intenta otra vez."); } } };
@@ -995,23 +1116,22 @@ function pantallaCargarDatos(){
 let subs = [];
 function conectar(user){
   subs.forEach(u=>u()); subs=[]; if(unsubMes){ unsubMes(); unsubMes=null; } if(unsubBorr){ unsubBorr(); unsubBorr=null; }
-  S.db = FDB; S.user = user; S.ok = true;
+  S.db = { doc: p => { const r = FDB.doc(p); return { ...r, set: d => r.set(capNombres(clone(d))) }; }, collection: FDB.collection }; S.user = user; S.ok = true;
   const err = e => { S.ok=false; subs.forEach(u=>u()); subs=[]; if(unsubMes){ unsubMes(); unsubMes=null; }
     if(e && e.code==="permission-denied") return pantallaNoPermitido(user.email||"");
-    $("#app").className="flow"; $("#app").innerHTML = caja("No se pudieron abrir tus cuentas", "Revisa tu conexión a internet y vuelve a abrir Mima."); };
-  subs.push(FDB.doc("config/main").onSnapshot(s=>{ S.cfg = s.exists ? s.data() : {cuentas:[],ingresosFijos:[]}; render(); }, err));
+    $("#app").className="flow"; $("#app").innerHTML = caja("No se pudieron abrir tus facturas", "Revisa tu conexión a internet y vuelve a abrir Mima."); };
+  subs.push(FDB.doc("config/main").onSnapshot(s=>{ S.cfg = s.exists ? capNombres(clone(s.data())) : {cuentas:[],ingresosFijos:[]}; render(); }, err));
   subs.push(FDB.doc("ahorro/main").onSnapshot(s=>{ S.ahorro = s.exists ? s.data() : {saldo:0,movimientos:[]}; render(); }, err));
   subs.push(FDB.doc("estado/main").onSnapshot(s=>{ const k = s.exists ? s.data().mesActual : null;
     if(!k){ S.mesKey=null; S.mes=null; S.cargar=true; pantallaCargarDatos(); return; }
     S.cargar=false;
-    if(k!==S.mesKey){ S.mesKey=k; if(unsubMes) unsubMes(); S.mes=null; S.mesListo=false; unsubMes = FDB.doc("meses/"+k).onSnapshot(ms=>{ S.mes = ms.exists ? ms.data() : null; S.mesListo=true; if(!S.cfg) return; render(); }, err); if(unsubBorr) unsubBorr(); S.borr=null; unsubBorr = FDB.doc("borrador/"+mesSig(k)).onSnapshot(bs=>{ S.borr = bs.exists ? bs.data() : null; if(S.cfg && S.mesListo) render(); }, ()=>{}); } }, err));
+    if(k!==S.mesKey){ S.mesKey=k; if(unsubMes) unsubMes(); S.mes=null; S.mesListo=false; unsubMes = FDB.doc("meses/"+k).onSnapshot(ms=>{ S.mes = ms.exists ? capNombres(clone(ms.data())) : null; S.mesListo=true; if(!S.cfg) return; render(); }, err); if(unsubBorr) unsubBorr(); S.borr=null; unsubBorr = FDB.doc("borrador/"+mesSig(k)).onSnapshot(bs=>{ S.borr = bs.exists ? capNombres(clone(bs.data())) : null; if(S.cfg && S.mesListo) render(); }, ()=>{}); } }, err));
 }
 onAuthStateChanged(auth, user => {
   if(!user){ subs.forEach(u=>u()); subs=[]; S.ok=false; pantallaEntrar(); return; }
   conectar(user);
 });
 A.salir = () => signOut(auth);
-
 })();
 </script>
 </body>
