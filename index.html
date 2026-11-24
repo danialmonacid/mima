@@ -300,6 +300,7 @@ nav.tabs{position:fixed;left:50%;transform:translateX(-50%);width:min(452px,calc
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getMessaging, getToken, deleteToken, isSupported as fcmSoporta } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 import { getFirestore, doc as fsDoc, collection as fsCol, onSnapshot as fsSnap, setDoc, deleteDoc, getDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -324,6 +325,21 @@ const FDB = {
   collection: p => ({ get: async () => { const q = await getDocs(fsCol(fs,p)); return { docs:q.docs.map(wrap) }; } })
 };
 if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+// Avisos en el celular (Firebase Cloud Messaging). La clave pública sale de Firebase → Configuración del proyecto → Cloud Messaging.
+const VAPID = "BOxwQRaCnfJSb9o30OSAE8fLbGsKIuEdqsuR6J0TSwoEM9lF5HAPfEhkiwRgt-WdwSOddLug2oDtElvUQtssmh4";
+const regSW = async () => (await navigator.serviceWorker.getRegistration()) || (await navigator.serviceWorker.register("sw.js"));
+window.AVISOS = {
+  async soporta(){ try { return ("Notification" in window) && ("serviceWorker" in navigator) && ("PushManager" in window) && await fcmSoporta(); } catch(e){ return false; } },
+  permiso: () => ("Notification" in window) ? Notification.permission : "default",
+  async token(pedir){ // pedir=true: pide el permiso (debe llamarse justo al tocar el botón)
+    if(pedir && Notification.permission !== "granted"){ const p = await Notification.requestPermission(); if(p !== "granted") return null; }
+    if(Notification.permission !== "granted") return null;
+    const reg = await regSW(); await navigator.serviceWorker.ready;
+    return await getToken(getMessaging(fbApp), { vapidKey: VAPID, serviceWorkerRegistration: reg });
+  },
+  async borrar(){ try { await deleteToken(getMessaging(fbApp)); } catch(e){} },
+  async probar(titulo, cuerpo){ const reg = await navigator.serviceWorker.ready; await reg.showNotification(titulo, { body: cuerpo, icon: "icon-192.png", badge: "badge.png", tag: "prueba", lang: "es" }); }
+};
 
 (function(){
 "use strict";
@@ -387,6 +403,7 @@ const P = {
   caneca:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>',
   persona:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
   billete:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v.01M17.5 14.5v.01"/>',
+  campana:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
   correo:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
   archivo:'<rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M10 13h4"/>',
   calendario:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
@@ -622,7 +639,7 @@ V.ajustes = () => { const ing = (S.cfg?.ingresosFijos||[]); const it=(act,i,t,s)
   return `<div><h1 class="mes">Ajustes</h1><p class="txt" style="font-size:17px">Aquí puedes cambiar todo.</p></div>
   <div class="grp">${it("guia0","ayuda","¿Cómo funciona Mima?","La guía en 4 pasos cortos")}</div>
   <div class="grp">${it("recibo","billete","Ingresos","Lo que recibes cada mes")}${it("misCuentas","cuentas","Facturas", cuentasCfg().length+" facturas")}${`<button class="li" data-tab="bolsillos" style="min-height:72px"><span class="sq">${ic("bolsa")}</span><span class="n"><b>Bolsillos</b><small>${ordenados().length} bolsillos</small></span>${ic("sig",'class="ic chev"')}</button>`}</div>
-  <div class="grp">${it("texto","texto","Tamaño del texto", (TAMANOS.find(z=>z[0]===tamGuardado())||TAMANOS[0])[1])}${it("avisos","correo","Avisos al correo", av.correo?"2 días antes de cada pago":"Escribe tu correo")}${it("misCuentas","archivo","Facturas que ya no pagas", (S.cfg?.cuentas||[]).filter(c=>c.archivada).length+" guardadas")}${it("meses","calendario","Meses anteriores","Ver cómo te fue")}</div>
+  <div class="grp">${it("texto","texto","Tamaño del texto", (TAMANOS.find(z=>z[0]===tamGuardado())||TAMANOS[0])[1])}${it("avisos","campana","Avisos en el celular", avisoActivoAqui()?"Activos en este celular":"Toca para activarlos")}${it("misCuentas","archivo","Facturas que ya no pagas", (S.cfg?.cuentas||[]).filter(c=>c.archivada).length+" guardadas")}${it("meses","calendario","Meses anteriores","Ver cómo te fue")}</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:6px"><span class="small">Entraste como ${esc(S.user?.email||"")}</span><button class="btn3" data-act="salir" style="width:auto;padding:0 12px">Salir</button></div>
   ${navTabs()}`; };
 
@@ -828,9 +845,17 @@ V.cuenta = () => { const p=S.p; const f=p.f; const edit=!!p.id; const dia=parseI
   ${pieForm("guardarCuenta", edit?"Guardar":"Agregar factura", ok, edit && "archivar", "Ya no pagas esta factura")}`; };
 V.texto = () => { const k = tamGuardado(); return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Tamaño del texto</h1><span class="txt">Escoge el que leas mejor.</span></div>
   <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${TAMANOS.map(([v,txt,z])=>`<button class="opt ${k===v?"on":""}" role="radio" aria-checked="${k===v}" data-act="setTamano" data-v="${v}" style="min-height:72px"><span class="radio"></span><span class="grow">${txt}</span><span style="font-size:${Math.round(22*z/0.88)}px;font-weight:800">Aa</span></button>`).join("")}</div>`; };
-V.avisos = () => { const av=S.p.f; return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Avisos al correo</h1><span class="txt">Te escribimos <b style="color:var(--ink);font-weight:600">2 días antes</b> de cada pago.</span></div>
-  <div style="display:flex;flex-direction:column;gap:8px"><label for="correo" class="q">¿A qué correo te escribimos?</label><input id="correo" class="inp" type="email" autocomplete="email" placeholder="Escribe tu correo aquí" value="${esc(av.correo||"")}" data-field="f.correo"></div>
-  <div class="bottom"><button class="btn" data-act="guardarAvisos">Guardar</button></div>`; };
+V.avisos = () => { const e = S.p.estado;
+  const ejemplo = `<div aria-hidden="true" style="display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px 16px;box-shadow:var(--sombra)"><img src="icon-192.png" alt="" style="width:40px;height:40px;border-radius:10px;flex:none"><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="small" style="font-size:14px">Mima · 8:00 a. m.</span><b style="font-size:17px">Hoy vence: Luz</b><span style="font-size:16px;color:var(--ink2)">$240.000 · Cuando la pagues, márcala en Mima.</span></span></div>`;
+  let cuerpo = "", pie = "";
+  if(e==="cargando") cuerpo = `<p class="small">Revisando este celular…</p>`;
+  else if(e==="noSoporta") cuerpo = `<section class="empty" style="text-align:left;border-style:solid"><p class="q" style="margin:0 0 4px">Así no se pueden activar</p><p class="txt" style="margin:0">Abre Mima desde el ícono de tu pantalla de inicio y vuelve a entrar aquí.</p></section>`;
+  else if(e==="bloqueado") cuerpo = `<section class="empty" style="text-align:left;border-style:solid;background:var(--ver-bg)"><p class="q" style="margin:0 0 4px">Los avisos están bloqueados</p><p class="txt" style="margin:0">Actívalos en los ajustes de tu celular: <b>Notificaciones → Mima</b>.</p></section>`;
+  else if(e==="activo"){ cuerpo = `<p class="q" style="color:var(--ok);display:flex;align-items:center;gap:8px;margin:0">${ic("check",'style="width:24px;height:24px;stroke-width:3"')}Este celular recibe los avisos</p>`;
+    pie = `<div class="bottom" style="display:flex;flex-direction:column;gap:4px"><button class="btn2" data-act="probarAviso">Ver un aviso de prueba</button><button class="btn3" data-act="apagarAvisos">Dejar de recibir avisos</button></div>`; }
+  else pie = `<div class="bottom">${S.p.error?`<p class="small" style="color:var(--rojo-t);font-weight:600;text-align:center;margin:0 0 8px">No se pudieron activar. Revisa tu internet e intenta otra vez.</p>`:""}<button class="btn" data-act="activarAvisos" ${e==="activando"?"disabled":""}>${e==="activando"?"Activando…":"Activar avisos"}</button></div>`;
+  return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Avisos en el celular</h1><span class="txt">Te avisamos <b style="color:var(--ink);font-weight:600">2 días antes</b> de cada pago y <b style="color:var(--ink);font-weight:600">cada día</b> desde que vence hasta que lo marques pagado. A las 8 a. m.</span></div>
+  ${ejemplo}${cuerpo}${pie}`; };
 V.meses = () => { const ms=S.meses; return `<div class="top">${backBtn("Ajustes")}</div><div><h1 class="h1">Meses anteriores</h1><span class="txt">Toca un mes para ver cómo te fue.</span></div>
   ${ms==null?`<div class="empty"><p class="small">Cargando…</p></div>`:ms.length?`<div class="sec">${ms.map(m=>`<button class="item" data-act="verMes" data-id="${m.key}" style="padding:12px 14px 12px 18px;min-height:80px"><span class="mid" style="gap:3px"><span class="t" style="font-size:20px">${cap(mesNombre(m.key))}</span><span class="num s">Recibiste ${money(m.resumen?.recibido||0)}</span><span class="num" style="font-size:15px;font-weight:600;color:${(m.resumen?.sobrante||0)>=0?"var(--ok)":"var(--rojo-t)"}">${(m.resumen?.sobrante||0)>=0?"Te sobraron":"Te faltaron"} ${money(Math.abs(m.resumen?.sobrante||0))}</span></span>${ic("sig",'class="ic chev"')}</button>`).join("")}</div>`:`<div class="empty"><p class="q">Todavía no hay meses terminados</p><p class="small">Cuando termine este mes, aquí vas a ver cómo te fue.</p></div>`}`; };
 V.mes = () => { const m = (S.meses||[]).find(x=>x.key===S.p.id); if(!m) return V.meses(); const r=m.resumen||{}; const sob=r.sobrante||0;
@@ -1055,9 +1080,34 @@ A.archivar = () => { const id=S.p.id; const prevC=clone(S.cfg), c=clone(S.cfg); 
 A.desarchivar = el => { const id=el.dataset.id; const prevC=clone(S.cfg), c=clone(S.cfg); delete c.cuentas.find(x=>x.id===id).archivada; S.cfg=c; render(); guardar([{path:"config/main",data:c,prev:prevC}],"La factura volvió a tus facturas"); };
 A.texto = () => ir("texto");
 A.setTamano = el => { const v=el.dataset.v; try { localStorage.setItem(TAM_KEY, v); } catch(e){} aplicarTamano(v); render(); };
-A.avisos = () => ir("avisos",{f:{correo:S.cfg?.avisos?.correo||""}});
-A.avisoCuando = el => { S.p.f.cuando=el.dataset.v; render(); };
-A.guardarAvisos = () => { const prevC=clone(S.cfg), c=clone(S.cfg); c.avisos={...(c.avisos||{}), correo:(S.p.f.correo||"").trim()}; S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}],"Avisos guardados"); volver(); };
+const AV_LS = "mimaAvisoToken";
+const tokLocal = () => { try { return localStorage.getItem(AV_LS) || ""; } catch(e){ return ""; } };
+const setTokLocal = t => { try { t ? localStorage.setItem(AV_LS, t) : localStorage.removeItem(AV_LS); } catch(e){} };
+const celulares = () => (S.cfg?.avisos?.celulares || []);
+const avisoActivoAqui = () => !!tokLocal() && !!window.AVISOS && AVISOS.permiso()==="granted" && celulares().some(c=>c.token===tokLocal());
+async function estadoAvisos(){ if(!window.AVISOS || !(await AVISOS.soporta())) return "noSoporta"; if(AVISOS.permiso()==="denied") return "bloqueado"; return avisoActivoAqui() ? "activo" : "apagado"; }
+function guardarCelular(nuevo, viejo){ // pone (o quita, si nuevo es null) el token de este celular en config/main
+  const prevC = clone(S.cfg), c = clone(S.cfg); c.avisos = { ...(c.avisos||{}) };
+  const l = (c.avisos.celulares||[]).filter(x => x.token!==viejo && x.token!==nuevo);
+  if(nuevo) l.push({ token:nuevo, equipo: /iPhone|iPad/.test(navigator.userAgent) ? "iPhone" : "Android", desde: ymd(hoy()), ultimaVez: ymd(hoy()) });
+  c.avisos.celulares = l; S.cfg = c; setTokLocal(nuevo); return guardar([{ path:"config/main", data:c, prev:prevC }], null);
+}
+A.avisos = () => { ir("avisos", { estado:"cargando" }); estadoAvisos().then(e => { if(S.view==="avisos"){ S.p.estado = e; render(); } }); };
+A.activarAvisos = () => { if(S.p.estado==="activando") return; const pedido = AVISOS.token(true); S.p.estado = "activando"; S.p.error = false; render();
+  pedido.then(async tok => {
+    if(!tok){ S.p.estado = AVISOS.permiso()==="denied" ? "bloqueado" : "apagado"; render(); return; }
+    await guardarCelular(tok, tokLocal()); S.p.estado = "activo"; render(); mostrarToast("Listo. Te vamos a avisar en este celular.");
+  }).catch(() => { S.p.estado = "apagado"; S.p.error = true; render(); }); };
+A.probarAviso = () => { AVISOS.probar("Hoy vence: Luz", "$240.000 · Así se verán tus avisos.").catch(() => mostrarToast("No se pudo mostrar el aviso de prueba.")); };
+A.apagarAvisos = async () => { const t = tokLocal(); await AVISOS.borrar(); await guardarCelular(null, t); S.p.estado = "apagado"; render(); mostrarToast("Ya no te llegarán avisos en este celular."); };
+let avisoRevisado = false; // al abrir la app: renueva el token si cambió y anota que este celular abrió hoy
+function revisarAvisos(){ if(avisoRevisado || !S.cfg || !tokLocal() || !window.AVISOS || AVISOS.permiso()!=="granted") return; avisoRevisado = true;
+  AVISOS.token(false).then(t => { if(!t) return; const yo = celulares().find(c=>c.token===t);
+    if(t!==tokLocal() || !yo) return guardarCelular(t, tokLocal());
+    if(yo.ultimaVez!==ymd(hoy())){ const prevC=clone(S.cfg), c=clone(S.cfg); c.avisos.celulares = c.avisos.celulares.map(x=>x.token===t?{...x, ultimaVez:ymd(hoy())}:x); S.cfg=c; guardar([{path:"config/main",data:c,prev:prevC}], null); }
+  }).catch(()=>{}); }
+// si la persona va a los ajustes del celular y vuelve, la pantalla de avisos se actualiza sola
+document.addEventListener("visibilitychange", () => { if(document.visibilityState==="visible"){ avisoRevisado=false; revisarAvisos(); if(S.view==="avisos" && S.p.estado!=="activando") estadoAvisos().then(e=>{ if(S.view==="avisos" && e!==S.p.estado){ S.p.estado=e; render(); } }); } });
 A.verMes = el => ir("mes",{id:el.dataset.id});
 async function cargarMeses(){ try{ const snap=await S.db.collection("meses").get(); S.meses = snap.docs.map(d=>({key:d.id,...capNombres(clone(d.data()))})).filter(m=>m.cerrado).sort((a,b)=>b.key.localeCompare(a.key)); }catch(e){ S.meses=[]; } if(S.view==="meses") render(); }
 
@@ -1122,7 +1172,7 @@ function conectar(user){
   const err = e => { S.ok=false; subs.forEach(u=>u()); subs=[]; if(unsubMes){ unsubMes(); unsubMes=null; }
     if(e && e.code==="permission-denied") return pantallaNoPermitido(user.email||"");
     $("#app").className="flow"; $("#app").innerHTML = caja("No se pudieron abrir tus facturas", "Revisa tu conexión a internet y vuelve a abrir Mima."); };
-  subs.push(FDB.doc("config/main").onSnapshot(s=>{ S.cfg = s.exists ? capNombres(clone(s.data())) : {cuentas:[],ingresosFijos:[]}; render(); }, err));
+  subs.push(FDB.doc("config/main").onSnapshot(s=>{ S.cfg = s.exists ? capNombres(clone(s.data())) : {cuentas:[],ingresosFijos:[]}; render(); revisarAvisos(); }, err));
   subs.push(FDB.doc("ahorro/main").onSnapshot(s=>{ S.ahorro = s.exists ? s.data() : {saldo:0,movimientos:[]}; render(); }, err));
   subs.push(FDB.doc("estado/main").onSnapshot(s=>{ const k = s.exists ? s.data().mesActual : null;
     if(!k){ S.mesKey=null; S.mes=null; S.cargar=true; pantallaCargarDatos(); return; }
