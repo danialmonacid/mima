@@ -1,0 +1,27 @@
+# Avisos de Mima: todos los días a las 8 a. m. de Colombia revisa las facturas y manda los avisos al celular.
+name: Avisos de Mima
+
+on:
+  schedule:
+    - cron: "50 12 * * *"   # 7:50 a. m. en Colombia; GitHub suele tardar unos minutos en arrancar
+  workflow_dispatch:
+    inputs:
+      prueba:
+        description: "Mandar un aviso de prueba a todos los celulares"
+        type: boolean
+        default: true
+
+jobs:
+  avisos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --prefix avisos --no-audit --no-fund
+      - run: node avisos/enviar.mjs
+        env:
+          APP: mima
+          PRUEBA: ${{ github.event_name == 'workflow_dispatch' && inputs.prueba }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
